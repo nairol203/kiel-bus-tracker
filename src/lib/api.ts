@@ -19,10 +19,13 @@ export async function getRoutes() {
 
 export async function getStops(stop: string, routeId: string, direction?: string) {
 	try {
-		const { data } = await axios(`${process.env.VERCEL_URL ?? 'http://localhost:3000'}/api/stop?stop=${stop}&routeId=${routeId}&direction=${direction}`, {
-			method: 'GET',
-			headers: { 'Content-Type': 'application/json' },
-		});
+		const { data } = await axios(
+			`${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'}/api/stop?stop=${stop}&routeId=${routeId}&direction=${direction}`,
+			{
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' },
+			}
+		);
 
 		return data as KVGStops;
 	} catch (error) {
