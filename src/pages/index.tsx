@@ -20,7 +20,7 @@ export default function Home({ initialHomeData, initialSchoolData }: { initialHo
 			const { home, school } = await fetchData();
 			home && setHomeData(home);
 			school && setSchoolData(school);
-		}, 30000);
+		}, 5000);
 
 		return () => clearInterval(interval);
 	}, []);
