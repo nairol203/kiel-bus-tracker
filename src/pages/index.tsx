@@ -50,12 +50,18 @@ function KVGTable({ data }: { data: KVGStops }) {
 			</thead>
 			<tbody>
 				{data.actual?.map(a => (
-					<tr>
+					<tr key={a.actualRelativeTime}>
 						<td>{a.patternText}</td>
 						<td>{a.direction}</td>
 						<td>{a.actualRelativeTime ? `${a.actualRelativeTime > 60 ? `${Math.round(a.actualRelativeTime / 60)} Minuten` : 'Sofort'} ` : `${a.plannedTime} Uhr`}</td>
 					</tr>
-				))}
+				)) ?? (
+					<tr>
+						<td>Nichts in nächster Zeit</td>
+						<td></td>
+						<td></td>
+					</tr>
+				)}
 			</tbody>
 		</Table>
 	);
