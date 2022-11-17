@@ -44,7 +44,7 @@ export default function NavBar() {
 			<Link href='/'>
 				<Image src='/logo.png' alt='Logo von Nairol Bus Check' width={40} height={40} />
 			</Link>
-			<h1>Nairol Bus Check</h1>
+			<h1>Nairol Bus Tracker</h1>
 			<div />
 		</StyledNavBar>
 	);
