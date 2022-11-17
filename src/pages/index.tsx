@@ -1,4 +1,4 @@
-import { Container, Table, Title } from '@mantine/core';
+import { Container, Table, Text, Title } from '@mantine/core';
 import { Group, Placeholder } from '@components/styles/Core.styled';
 import { getStops } from '@lib/api';
 import { useEffect, useState } from 'react';
@@ -32,8 +32,9 @@ export default function Home({ initialHomeData, initialSchoolData }: { initialHo
 				<KVGTable data={homeData} />
 				<Title order={3}>Nach Hause</Title>
 				<KVGTable data={schoolData} />
-				<Placeholder height='70vh' />
+				<Text>Letztes Update: {new Date().toLocaleTimeString()}</Text>
 			</Group>
+			<Placeholder height='70vh' />
 		</Container>
 	);
 }
