@@ -1,26 +1,12 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import { ThemeProvider } from 'styled-components';
-import Footer from '../components/Footer';
-import NavBar from '../components/NavBar';
-import GlobalStyles from '../lib/global';
-import { darkMode, lightMode } from '../lib/themes';
 import { trpc } from '@lib/trpc';
+import { MantineProvider } from '@mantine/core';
+import { useColorScheme } from '@mantine/hooks';
 
 function App({ Component, pageProps }: AppProps) {
-	const [theme, setTheme] = useState<'dark' | 'light' | null>(null);
-
-	useEffect(() => {
-		const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-		setTheme(darkModeQuery.matches ? 'dark' : 'light');
-		darkModeQuery.addEventListener('change', event => {
-			setTheme(event.matches ? 'dark' : 'light');
-		});
-	}, [theme]);
-
 	return (
-		<ThemeProvider theme={theme === 'light' ? lightMode : darkMode}>
+		<>
 			<Head>
 				<title>Nairol Bus Tracker</title>
 				{/* <meta name='description' content='' /> */}
@@ -40,15 +26,16 @@ function App({ Component, pageProps }: AppProps) {
 				<meta name='twitter:creator' content='@nairol203' />
 				<meta name='twitter:card' content='summary' />
 			</Head>
-			<GlobalStyles />
-			{theme && (
-				<>
-					<NavBar />
-					<Component {...pageProps} />
-					<Footer />
-				</>
-			)}
-		</ThemeProvider>
+			<MantineProvider
+				withGlobalStyles
+				withNormalizeCSS
+				theme={{
+					colorScheme: useColorScheme(),
+				}}
+			>
+				<Component {...pageProps} />
+			</MantineProvider>
+		</>
 	);
 }
 

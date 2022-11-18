@@ -1,6 +1,6 @@
-import { Placeholder } from '@components/styles/Core.styled';
 import { trpc } from '@lib/trpc';
 import { KVGStops } from 'src/types/stops';
+import { Container, Group, Table, Text, Title } from '@mantine/core';
 
 export default function Home() {
 	const homeStops = trpc.stop.useQuery(
@@ -24,30 +24,34 @@ export default function Home() {
 		}
 	);
 
-	if (!homeStops.data || !schoolStops.data) {
-		return (
-			<>
-				<h2>Loading...</h2>
-				<Placeholder height='90vh' />
-			</>
-		);
-	}
+	// if (!homeStops.data || !schoolStops.data) {
+	// 	return (
+	// 		<Container mt='lg'>
+	// 			<Title order={1}>Nairol Bus Check</Title>
+	// 			<Title order={2} mt='lg'>
+	// 				Loading...
+	// 			</Title>
+	// 		</Container>
+	// 	);
+	// }
 
 	return (
-		<>
-			<h2>Zur Schule</h2>
-			<KVGTable data={schoolStops.data} />
-			<h2>Nach Hause</h2>
-			<KVGTable data={homeStops.data} />
-			<span>Letztes Update: {new Date().toLocaleTimeString()}</span>
-			<Placeholder height='80vh' />
-		</>
+		<Container mt='lg'>
+			<Title order={1}>Nairol Bus Tracker</Title>
+			<Group mt='lg'>
+				<Title order={2}>Zur Schule</Title>
+				{schoolStops.data && <KVGTable data={schoolStops.data} />}
+				<Title order={2}>Nach Hause</Title>
+				{homeStops.data && <KVGTable data={homeStops.data} />}
+				<Text>Letztes Update: {new Date().toLocaleTimeString()}</Text>
+			</Group>
+		</Container>
 	);
 }
 
 function KVGTable({ data }: { data: KVGStops }) {
 	return (
-		<table>
+		<Table>
 			<thead>
 				<tr>
 					<th>Linie</th>
@@ -60,10 +64,18 @@ function KVGTable({ data }: { data: KVGStops }) {
 					<tr key={a.actualRelativeTime}>
 						<td>{a.patternText}</td>
 						<td>{a.direction}</td>
-						<td>{a.actualRelativeTime ? `${a.actualRelativeTime > 60 ? `${Math.round(a.actualRelativeTime / 60)} Minuten` : 'Sofort'} ` : `${a.plannedTime} Uhr`}</td>
+						<td>
+							{a.actualRelativeTime
+								? `${
+										a.actualRelativeTime > 60
+											? `${Math.round(a.actualRelativeTime / 60)} Minute${Math.round(a.actualRelativeTime / 60) !== 1 && 'n'}`
+											: 'Sofort'
+								  } `
+								: `${a.plannedTime} Uhr`}
+						</td>
 					</tr>
 				))}
 			</tbody>
-		</table>
+		</Table>
 	);
 }
