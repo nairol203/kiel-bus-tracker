@@ -3,16 +3,26 @@ import { trpc } from '@lib/trpc';
 import { KVGStops } from 'src/types/stops';
 
 export default function Home() {
-	const homeStops = trpc.stop.useQuery({
-		stop: '1312',
-		routeId: '60835712076873740',
-		direction: 'Albert-Schweitzer-Straße',
-	});
-	const schoolStops = trpc.stop.useQuery({
-		stop: '1624',
-		routeId: '60835712076873740',
-		direction: 'Kroog%2C%20Am%20Wellsee',
-	});
+	const homeStops = trpc.stop.useQuery(
+		{
+			stop: '1312',
+			routeId: '60835712076873740',
+			direction: 'Albert-Schweitzer-Straße',
+		},
+		{
+			refetchInterval: 10000,
+		}
+	);
+	const schoolStops = trpc.stop.useQuery(
+		{
+			stop: '1624',
+			routeId: '60835712076873740',
+			direction: 'Kroog%2C%20Am%20Wellsee',
+		},
+		{
+			refetchInterval: 10000,
+		}
+	);
 
 	if (!homeStops.data || !schoolStops.data) {
 		return (
