@@ -1,25 +1,25 @@
 export interface KVGStops {
-	actual?: KVGStop[] | null;
-	directions?: null[] | null;
+	actual: Actual[];
+	directions: any[];
 	firstPassageTime: number;
-	generalAlerts?: GeneralAlert[] | null;
+	generalAlerts: GeneralAlert[];
 	lastPassageTime: number;
-	old?: Omit<KVGStop, 'actualTime'>[] | null;
-	routes?: Route[] | null;
+	old: Actual[];
+	routes: Route[];
 	stopName: string;
 	stopShortName: string;
 }
 
-export interface KVGStop {
+export interface Actual {
 	actualRelativeTime: number;
-	actualTime: string;
+	actualTime?: string;
 	direction: string;
 	mixedTime: string;
 	passageid: string;
 	patternText: string;
 	plannedTime: string;
 	routeId: string;
-	status: 'PREDICTED' | 'DEPARTED';
+	status: string;
 	tripId: string;
 	vehicleId: string;
 }
@@ -29,9 +29,9 @@ export interface GeneralAlert {
 }
 
 export interface Route {
-	alerts?: null[] | null;
+	alerts: any[];
 	authority: string;
-	directions?: string[] | null;
+	directions: string[];
 	id: string;
 	name: string;
 	routeType: string;
