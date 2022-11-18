@@ -6,9 +6,9 @@ import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 import GlobalStyles from '../lib/global';
 import { darkMode, lightMode } from '../lib/themes';
-import { MantineProvider } from '@mantine/core';
+import { trpc } from '@lib/trpc';
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
 	const [theme, setTheme] = useState<'dark' | 'light' | null>(null);
 
 	useEffect(() => {
@@ -41,11 +41,15 @@ export default function App({ Component, pageProps }: AppProps) {
 				<meta name='twitter:card' content='summary' />
 			</Head>
 			<GlobalStyles />
-			<MantineProvider theme={{ colorScheme: theme || 'light' }}>
-				<NavBar />
-				<Component {...pageProps} />
-				<Footer />
-			</MantineProvider>
+			{theme && (
+				<>
+					<NavBar />
+					<Component {...pageProps} />
+					<Footer />
+				</>
+			)}
 		</ThemeProvider>
 	);
 }
+
+export default trpc.withTRPC(App);
