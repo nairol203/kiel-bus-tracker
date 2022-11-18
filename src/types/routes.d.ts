@@ -1,5 +1,5 @@
 export interface KVGRoutes {
-	routes: Route[];
+	routes: KVGRoute[];
 }
 
 export interface KVGRoute {
@@ -11,7 +11,7 @@ export interface KVGRoute {
 	shortName: string;
 }
 
-export enum Authority {
+enum Authority {
 	DatendrehscheibeLvs = 'DATENDREHSCHEIBE LVS',
 	Kvg = 'KVG',
 }

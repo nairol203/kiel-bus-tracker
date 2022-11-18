@@ -5,19 +5,19 @@ export interface KVGTripPassages {
 	routeName: string;
 }
 
-export interface Actual {
+interface Actual {
 	actualTime: string;
 	status: Status;
 	stop: Stop;
 	stop_seq_num: string;
 }
 
-export enum Status {
+enum Status {
 	Departed = 'DEPARTED',
 	Predicted = 'PREDICTED',
 }
 
-export interface Stop {
+interface Stop {
 	id: string;
 	name: string;
 	shortName: string;

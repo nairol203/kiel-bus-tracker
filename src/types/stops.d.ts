@@ -10,7 +10,7 @@ export interface KVGStops {
 	stopShortName: string;
 }
 
-export interface Actual {
+interface Actual {
 	actualRelativeTime: number;
 	actualTime?: string;
 	direction: string;
@@ -24,11 +24,11 @@ export interface Actual {
 	vehicleId: string;
 }
 
-export interface GeneralAlert {
+interface GeneralAlert {
 	title: string;
 }
 
-export interface Route {
+interface Route {
 	alerts: any[];
 	authority: string;
 	directions: string[];

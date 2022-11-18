@@ -1,6 +1,6 @@
 import { trpc } from '@lib/trpc';
-import { KVGStops } from 'src/types/stops';
 import { Container, Group, Table, Text, Title } from '@mantine/core';
+import { KVGStops } from 'src/types/stops';
 
 export default function Home() {
 	const homeStops = trpc.stop.useQuery(
@@ -23,17 +23,6 @@ export default function Home() {
 			refetchInterval: 10000,
 		}
 	);
-
-	// if (!homeStops.data || !schoolStops.data) {
-	// 	return (
-	// 		<Container mt='lg'>
-	// 			<Title order={1}>Nairol Bus Check</Title>
-	// 			<Title order={2} mt='lg'>
-	// 				Loading...
-	// 			</Title>
-	// 		</Container>
-	// 	);
-	// }
 
 	return (
 		<Container mt='lg'>
@@ -61,14 +50,14 @@ function KVGTable({ data }: { data: KVGStops }) {
 			</thead>
 			<tbody>
 				{data.actual?.map(a => (
-					<tr key={a.actualRelativeTime}>
+					<tr key={a.vehicleId}>
 						<td>{a.patternText}</td>
 						<td>{a.direction}</td>
 						<td>
 							{a.actualRelativeTime
 								? `${
 										a.actualRelativeTime > 60
-											? `${Math.round(a.actualRelativeTime / 60)} Minute${Math.round(a.actualRelativeTime / 60) !== 1 && 'n'}`
+											? `${Math.round(a.actualRelativeTime / 60)} Minute${Math.round(a.actualRelativeTime / 60) !== 1 ? 'n' : ''} `
 											: 'Sofort'
 								  } `
 								: `${a.plannedTime} Uhr`}

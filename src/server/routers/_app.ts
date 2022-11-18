@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { DetailedHTMLProps, HTMLAttributes } from 'react';
+import { KVGFullText } from 'src/types/fulltext';
 import { KVGTripPassages } from 'src/types/passages';
 import { KVGRoutes } from 'src/types/routes';
 import { KVGStops } from 'src/types/stops';
@@ -55,13 +55,27 @@ export const appRouter = router({
 				query: z.string(),
 			})
 		)
-		.query(async ({ input }) => {
+		.mutation(async ({ input }) => {
 			const { data } = await axios(`${API_ENDPOINT}/lookup/autocomplete?query=${input.query}&language=de`, {
 				method: 'GET',
 				headers: { 'Content-Type': 'application/json' },
 			});
 
-			return data as DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement>;
+			return data as string;
+		}),
+	textSearch: procedure
+		.input(
+			z.object({
+				search: z.string(),
+			})
+		)
+		.mutation(async ({ input }) => {
+			const { data } = await axios(`${API_ENDPOINT}/lookup/fulltext?search=${input.search}`, {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' },
+			});
+
+			return data as KVGFullText;
 		}),
 });
 
