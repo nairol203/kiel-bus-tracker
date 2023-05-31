@@ -1,4 +1,4 @@
-export interface KVGStops {
+interface KVGStops {
 	actual: Actual[];
 	directions: any[];
 	firstPassageTime: number;

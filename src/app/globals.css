@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		color-scheme: light dark;
+	}
+
+	h1,
+	.h1 {
+		@apply text-2xl font-medium;
+	}
+
+	h2,
+	.h2 {
+		@apply text-xl font-medium;
+	}
+
+	h3,
+	.h3 {
+		@apply text-lg;
+	}
+
+	h4,
+	.h4 {
+		@apply text-base;
+	}
+}
+
+@layer components {
+	.skeleton {
+		@apply relative animate-pulse before:absolute p-0.5 before:inset-0 before:rounded-md before:bg-gray-300 dark:before:bg-gray-500;
+	}
+}
