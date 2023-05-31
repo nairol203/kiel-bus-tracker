@@ -24,6 +24,10 @@ async function getStopData({ stop, routeId, direction }: { stop: string; routeId
 	return data as KVGStops;
 }
 
+function concatStops(stops: Actual[]) {
+	return stops.sort((a, b) => a.actualRelativeTime - b.actualRelativeTime);
+}
+
 export default async function Page() {
 	const rathausKronshagen = await getStopData({
 		stop: '1624',
@@ -59,28 +63,21 @@ export default async function Page() {
 		<div className='grid gap-4 m-4'>
 			<h1>Nairol Bus Tracker</h1>
 			<div className='grid gap-2'>
-				<h2>Zur Schule</h2>
-				<h3>Rathaus Kronshagen</h3>
-				<KVGTable data={rathausKronshagen} />
-				<h3>Heischberg</h3>
-				<KVGTable data={heischberg} />
-			</div>
-			<div className='grid gap-2'>
-				<h2>Nach Hause</h2>
-				<h3>Am Langsee</h3>
-				<KVGTable data={amLangsee} />
-				<h3>Preetzer Straße/Ostring</h3>
-				<div>
-					<KVGTable data={preetzerStraße71} />
-					<KVGTable data={preetzerStraße72} withHead={false} />
-				</div>
+				<h2>Rathaus Kronshagen</h2>
+				<KVGTable data={rathausKronshagen.actual} />
+				<h2>Heischberg</h2>
+				<KVGTable data={heischberg.actual} />
+				<h2>Am Langsee</h2>
+				<KVGTable data={amLangsee.actual} />
+				<h2>Preetzer Straße/Ostring</h2>
+				<KVGTable data={concatStops([...preetzerStraße71.actual, ...preetzerStraße72.actual])} />
 			</div>
 			<span className='text-sm opacity-70'>Letztes Update: {new Date().toLocaleTimeString()}</span>
 		</div>
 	);
 }
 
-function KVGTable({ data, withHead = true }: { data: KVGStops; withHead?: boolean }) {
+function KVGTable({ data }: { data: Actual[] }) {
 	function formatDepartureTime(a: Actual) {
 		return a.actualRelativeTime
 			? `${a.actualRelativeTime > 60 ? `${Math.round(a.actualRelativeTime / 60)} Minute${Math.round(a.actualRelativeTime / 60) !== 1 ? 'n' : ''} ` : 'Sofort'}`
@@ -89,23 +86,29 @@ function KVGTable({ data, withHead = true }: { data: KVGStops; withHead?: boolea
 
 	return (
 		<table className='table-fixed w-full'>
-			{withHead && (
-				<thead>
-					<tr>
-						<th className='border-b border-black/25 dark:border-white/25 p-2 text-left'>Linie</th>
-						<th className='border-b border-black/25 dark:border-white/25 p-2 text-left'>Richtung</th>
-						<th className='border-b border-black/25 dark:border-white/25 p-2 text-left'>Abfahrt</th>
-					</tr>
-				</thead>
-			)}
+			<thead>
+				<tr className='border-b border-black/25 dark:border-white/25 text-left'>
+					<th className='p-2'>Linie</th>
+					<th className='p-2'>Richtung</th>
+					<th className='p-2'>Abfahrt</th>
+				</tr>
+			</thead>
 			<tbody>
-				{data.actual.map(a => (
-					<tr key={a.tripId}>
-						<td className='border-b border-black/25 dark:border-white/25 p-2'>{a.patternText}</td>
-						<td className='border-b border-black/25 dark:border-white/25 p-2'>{a.direction}</td>
-						<td className='border-b border-black/25 dark:border-white/25 p-2'>{formatDepartureTime(a)}</td>
+				{data.length ? (
+					data.map(a => (
+						<tr className='border-b border-black/25 dark:border-white/25' key={a.tripId}>
+							<td className='p-2'>{a.patternText}</td>
+							<td className='p-2'>{a.direction}</td>
+							<td className='p-2'>{formatDepartureTime(a)}</td>
+						</tr>
+					))
+				) : (
+					<tr className='border-b border-black/25 dark:border-white/25'>
+						<td className='p-2'>Keine Daten</td>
+						<td className='p-2'></td>
+						<td className='p-2'></td>
 					</tr>
-				))}
+				)}
 			</tbody>
 		</table>
 	);
