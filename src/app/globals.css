@@ -30,6 +30,6 @@
 
 @layer components {
 	.skeleton {
-		@apply relative animate-pulse before:absolute before:inset-0 before:rounded-md before:before:bg-gray-200 dark:before:bg-gray-500;
+		@apply relative animate-pulse before:absolute before:inset-0 before:rounded-md before:bg-gray-300 dark:before:bg-gray-500;
 	}
 }
