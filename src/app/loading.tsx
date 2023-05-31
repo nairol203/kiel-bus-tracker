@@ -44,19 +44,6 @@ function SkeletonTable() {
 						<span className='skeleton'>X Minuten</span>
 					</td>
 				</tr>
-				{Math.random() > 0.5 && (
-					<tr className='border-b border-black/25 dark:border-white/25 text-left'>
-						<td className='p-2'>
-							<span className='skeleton'>XX</span>
-						</td>
-						<td className='p-2'>
-							<span className='skeleton'>Loremipsum.</span>
-						</td>
-						<td className='p-2'>
-							<span className='skeleton'>X Minuten</span>
-						</td>
-					</tr>
-				)}
 			</tbody>
 		</table>
 	);
