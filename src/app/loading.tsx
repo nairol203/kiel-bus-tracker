@@ -16,7 +16,7 @@ export default function Loading() {
 				<div className='px-2.5 py-1.5 rounded skeleton'>Reload</div>
 			</div>
 			<div>
-				<span className='text-sm skeleton'>Letztes Update: 00:00:00</span>
+				<span className='text-sm skeleton'>Letztes Update: XX:XX:XX</span>
 			</div>
 		</div>
 	);
@@ -35,25 +35,25 @@ function SkeletonTable() {
 			<tbody>
 				<tr className='border-b border-black/25 dark:border-white/25 text-left'>
 					<td className='p-2'>
-						<span className='skeleton'>00</span>
+						<span className='skeleton'>XX</span>
 					</td>
 					<td className='p-2'>
 						<span className='skeleton'>Loremipsum.</span>
 					</td>
 					<td className='p-2'>
-						<span className='skeleton'>0 Minuten</span>
+						<span className='skeleton'>X Minuten</span>
 					</td>
 				</tr>
 				{Math.random() > 0.5 && (
 					<tr className='border-b border-black/25 dark:border-white/25 text-left'>
 						<td className='p-2'>
-							<span className='skeleton'>00</span>
+							<span className='skeleton'>XX</span>
 						</td>
 						<td className='p-2'>
 							<span className='skeleton'>Loremipsum.</span>
 						</td>
 						<td className='p-2'>
-							<span className='skeleton'>0 Minuten</span>
+							<span className='skeleton'>X Minuten</span>
 						</td>
 					</tr>
 				)}
