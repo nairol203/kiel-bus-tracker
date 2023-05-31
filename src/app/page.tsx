@@ -70,7 +70,7 @@ export default async function Page() {
 				<h2>Preetzer Straße/Ostring</h2>
 				<KVGTable data={concatStops([...preetzerStraße71.actual, ...preetzerStraße72.actual])} />
 			</div>
-			<span className='text-sm opacity-70'>Letztes Update: {new Date().toLocaleTimeString()}</span>
+			<span className='text-sm opacity-70'>Letztes Update: {new Date().toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin' })}</span>
 		</div>
 	);
 }
