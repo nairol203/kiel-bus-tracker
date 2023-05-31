@@ -12,7 +12,12 @@ export default function Loading() {
 				<h2>Preetzer Straße/Ostring</h2>
 				<SkeletonTable />
 			</div>
-			<span className='text-sm opacity-70'>Letztes Update: {new Date().toLocaleTimeString()}</span>
+			<div className='flex'>
+				<div className='px-2.5 py-1.5 rounded skeleton'>Reload</div>
+			</div>
+			<div>
+				<span className='text-sm skeleton'>Letztes Update: XX:XX:XX</span>
+			</div>
 		</div>
 	);
 }
@@ -39,17 +44,19 @@ function SkeletonTable() {
 						<span className='skeleton'>Lorem, ipsum.</span>
 					</td>
 				</tr>
-				<tr className='border-b border-black/25 dark:border-white/25 text-left'>
-					<td className='p-2'>
-						<span className='skeleton'>Lorem.</span>
-					</td>
-					<td className='p-2'>
-						<span className='skeleton'>Lorem, ipsum dolor.</span>
-					</td>
-					<td className='p-2'>
-						<span className='skeleton'>Lorem, ipsum.</span>
-					</td>
-				</tr>
+				{Math.random() > 0.5 && (
+					<tr className='border-b border-black/25 dark:border-white/25 text-left'>
+						<td className='p-2'>
+							<span className='skeleton'>Lorem.</span>
+						</td>
+						<td className='p-2'>
+							<span className='skeleton'>Lorem, ipsum dolor.</span>
+						</td>
+						<td className='p-2'>
+							<span className='skeleton'>Lorem, ipsum.</span>
+						</td>
+					</tr>
+				)}
 			</tbody>
 		</table>
 	);
