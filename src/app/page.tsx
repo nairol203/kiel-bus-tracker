@@ -1,5 +1,7 @@
 import { Actual, KVGStops } from 'src/types/stops';
 
+export const revalidate = 0;
+
 async function getStopData({ stop, routeId, direction }: { stop: string; routeId: string; direction?: string }) {
 	const endpoint = new URL('https://www.kvg-kiel.de/internetservice/services/passageInfo/stopPassages/stop');
 
