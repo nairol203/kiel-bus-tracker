@@ -1,9 +1,9 @@
 import { trpc } from '@lib/trpc';
-import { Container, Group, Table, Text, Title } from '@mantine/core';
+import { Container, Flex, Group, Table, Text, Title } from '@mantine/core';
 import { KVGStops } from 'src/types/stops';
 
 export default function Home() {
-	const homeStops = trpc.stop.useQuery(
+	const toHome = trpc.stop.useQuery(
 		{
 			stop: '1312',
 			routeId: '60835712076873740',
@@ -13,11 +13,11 @@ export default function Home() {
 			refetchInterval: 10000,
 		}
 	);
-	const schoolStops = trpc.stop.useQuery(
+	const toSchool = trpc.stop.useQuery(
 		{
 			stop: '1624',
 			routeId: '60835712076873740',
-			direction: 'Kroog%2C%20Am%20Wellsee',
+			direction: 'Am%20Wellsee',
 		},
 		{
 			refetchInterval: 10000,
@@ -27,18 +27,19 @@ export default function Home() {
 	return (
 		<Container mt='lg'>
 			<Title order={1}>Nairol Bus Tracker</Title>
-			<Group mt='lg'>
+			<Flex direction={'column'} gap={8} mt='lg'>
 				<Title order={2}>Zur Schule</Title>
-				{schoolStops.data && <KVGTable data={schoolStops.data} />}
+				{toSchool.data ? <KVGTable data={toSchool.data} /> : <Text>No Data</Text>}
 				<Title order={2}>Nach Hause</Title>
-				{homeStops.data && <KVGTable data={homeStops.data} />}
+				{toHome.data ? <KVGTable data={toHome.data} /> : <Text>No Data</Text>}
 				<Text>Letztes Update: {new Date().toLocaleTimeString()}</Text>
-			</Group>
+			</Flex>
 		</Container>
 	);
 }
 
 function KVGTable({ data }: { data: KVGStops }) {
+	console.log(data);
 	return (
 		<Table>
 			<thead>
