@@ -13,7 +13,7 @@ export default function Loading() {
 				<SkeletonTable />
 			</div>
 			<div>
-				<a className='px-2.5 py-1.5 rounded skeleton'>Reload</a>
+				<a className='px-2.5 py-1.5 rounded skeleton'>Neu laden</a>
 			</div>
 			<div>
 				<span className='text-sm skeleton'>Letztes Update: XX:XX:XX</span>
