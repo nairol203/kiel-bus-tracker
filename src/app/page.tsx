@@ -72,7 +72,7 @@ export default async function Page() {
 			</div>
 			<div>
 				<a className='px-2.5 py-1.5 rounded bg-black/25 dark:bg-white/25' href='/'>
-					Reload
+					Neu laden
 				</a>
 			</div>
 			<span className='text-sm opacity-70'>Letztes Update: {new Date().toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin' })}</span>
