@@ -1,7 +1,7 @@
 'use client';
 
 import { Fragment, useEffect, useState } from 'react';
-import { getStopData, getAutocompleteData } from '../(components)/actions';
+import { getStopData } from '../(components)/actions';
 import { Combobox, Transition } from '@headlessui/react';
 import KVGTable from '../(components)/KVGTable';
 import Image from 'next/image';
@@ -55,16 +55,18 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 			</div>
 			<Combobox value={selectedStop} onChange={setSelectedStop}>
 				<div className='relative'>
-					<Combobox.Input
-						className='bg-black/10 dark:bg-white/25 rounded p-2 w-full'
-						onChange={event => setQuery(event.target.value)}
-						displayValue={(stop?: StopByCharacter) => stop?.name || ''}
-						placeholder='Suche nach einer Haltestelle'
-					/>
-					<Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2'>
-						<Image src='/chevron-down-light.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='dark:hidden' />
-						<Image src='/chevron-down-dark.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='hidden dark:block' />
-					</Combobox.Button>
+					<div className='relative w-full'>
+						<Combobox.Input
+							className='bg-black/10 dark:bg-white/25 rounded p-2 w-full'
+							onChange={event => setQuery(event.target.value)}
+							displayValue={(stop?: StopByCharacter) => stop?.name || ''}
+							placeholder='Suche nach einer Haltestelle'
+						/>
+						<Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2'>
+							<Image src='/chevron-down-light.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='dark:hidden' />
+							<Image src='/chevron-down-dark.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='hidden dark:block' />
+						</Combobox.Button>
+					</div>
 					<Transition
 						as={Fragment}
 						enter='transition ease-in duration-100'
@@ -74,7 +76,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 						leaveFrom='opacity-100'
 						leaveTo='opacity-0'
 					>
-						<Combobox.Options className='absolute mt-1 bg-white dark:bg-black rounded overflow-auto w-full z-2 max-h-80'>
+						<Combobox.Options className=' mt-1 bg-white dark:bg-black rounded overflow-auto w-full z-2 max-h-80'>
 							{filteredStops.length ? (
 								filteredStops.map(stop => (
 									<Combobox.Option key={stop.id} value={stop} as={Fragment}>

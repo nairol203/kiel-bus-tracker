@@ -1,22 +1,5 @@
 'use server';
 
-export async function getAutocompleteData(query: string) {
-	const endpoint = new URL('https://www.kvg-kiel.de/internetservice/services/lookup/fulltext');
-
-	endpoint.searchParams.append('search', query);
-
-	const res = await fetch(endpoint.toString(), {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		cache: 'no-store',
-	});
-
-	const data = (await res.json()) as AutocompleteResponse;
-	return data.results.slice(0, 10);
-}
-
 export async function searchByCharacter(character: string) {
 	const endpoint = new URL('https://www.kvg-kiel.de/internetservice/services/lookup/stopsByCharacter');
 
