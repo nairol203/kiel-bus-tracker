@@ -42,7 +42,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 		fetchStopData();
 	}, [selectedStop, currentRouteId, currentDirection, refresh]);
 
-	const filteredStops = query === '' ? [] : allStops.filter(stop => stop.name.includes(query));
+	const filteredStops = query === '' ? [] : allStops.filter(stop => stop.name.includes(query)).slice(0, 15);
 
 	return (
 		<div className='grid gap-4 pt-2 m-2'>
@@ -76,7 +76,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 						leaveFrom='opacity-100'
 						leaveTo='opacity-0'
 					>
-						<Combobox.Options className=' mt-1 bg-white dark:bg-black rounded overflow-auto w-full z-2 max-h-80'>
+						<Combobox.Options className='absolute mt-1 bg-white dark:bg-black rounded overflow-auto w-full z-2'>
 							{filteredStops.length ? (
 								filteredStops.map(stop => (
 									<Combobox.Option key={stop.id} value={stop} as={Fragment}>
