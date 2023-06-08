@@ -17,6 +17,25 @@ export async function getAutocompleteData(query: string) {
 	return data.results.slice(0, 10);
 }
 
+export async function searchByCharacter(character: string) {
+	const endpoint = new URL('https://www.kvg-kiel.de/internetservice/services/lookup/stopsByCharacter');
+
+	endpoint.searchParams.append('character', character);
+
+	const res = await fetch(endpoint.toString(), {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		next: {
+			revalidate: 3600,
+		},
+	});
+
+	const data = (await res.json()) as StopsByCharacter;
+	return data;
+}
+
 export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string; direction?: string }) {
 	const endpoint = new URL('https://www.kvg-kiel.de/internetservice/services/passageInfo/stopPassages/stop');
 
