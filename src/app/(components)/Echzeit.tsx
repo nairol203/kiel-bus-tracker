@@ -42,7 +42,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 		fetchStopData();
 	}, [selectedStop, currentRouteId, currentDirection, refresh]);
 
-	const filteredStops = query === '' ? [] : allStops.filter(stop => stop.name.includes(query)).slice(0, 15);
+	const filteredStops = query === '' ? [] : allStops.filter(stop => stop.name.toLowerCase().replace(/\s+/g, '').includes(query.toLowerCase().replace(/\s+/g, ''))).slice(0, 15);
 
 	return (
 		<div className='grid gap-4 pt-2 m-2'>
