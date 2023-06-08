@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useState } from 'react';
 import { getStopData, getAutocompleteData } from '../(components)/actions';
-import { Combobox } from '@headlessui/react';
+import { Combobox, Transition } from '@headlessui/react';
 import KVGTable from '../(components)/KVGTable';
 import Image from 'next/image';
 
@@ -21,6 +21,8 @@ function concatenateDirectionsFromRoutes(arr: Route[]) {
 }
 
 export default function Fahrplan() {
+	const [refresh, setRefresh] = useState(false);
+	const [isLoading, setLoading] = useState(false);
 	const [autocompleteStops, setAutocompleteStops] = useState<AutocompleteStop[]>([]);
 	const [selectedStop, setSelectedStop] = useState<AutocompleteStop | null>(null);
 	const [activeStop, setActiveStop] = useState<KVGStops | null>(null);
@@ -30,16 +32,25 @@ export default function Fahrplan() {
 	useEffect(() => {
 		async function fetchStopData() {
 			if (!selectedStop) return;
+			setLoading(true);
 			const stopData = await getStopData({ stopId: selectedStop.stop, routeId: currentRouteId, direction: currentDirection });
 			setActiveStop(stopData);
+			setLoading(false);
 		}
 
+		setRefresh(false);
 		fetchStopData();
-	}, [selectedStop, currentRouteId, currentDirection]);
+	}, [selectedStop, currentRouteId, currentDirection, refresh]);
 
 	return (
 		<div className='grid gap-4 pt-2 m-2'>
-			<h1>Echtzeitabfahrten</h1>
+			<div className='flex justify-between'>
+				<h1>Echtzeitabfahrten</h1>
+				<button onClick={() => setRefresh(true)} className='disabled:opacity-50' disabled={!!!selectedStop} title='Aktualisieren'>
+					<Image src='/arrows-rotate-light.svg' alt='Arrow Down Icon' height={20} width={20} className={`${isLoading && 'animate-spin'} dark:hidden`} />
+					<Image src='/arrows-rotate-dark.svg' alt='Arrow Down Icon' height={20} width={20} className={`${isLoading && 'animate-spin'} hidden dark:block`} />
+				</button>
+			</div>
 			<Combobox value={selectedStop} onChange={setSelectedStop}>
 				<div className='relative'>
 					<Combobox.Input
@@ -49,28 +60,43 @@ export default function Fahrplan() {
 						placeholder='Suche nach einer Haltestelle'
 					/>
 					<Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2'>
-						<Image src='/chevron-down.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' />
+						<Image src='/chevron-down-light.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='dark:hidden' />
+						<Image src='/chevron-down-dark.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='hidden dark:block' />
 					</Combobox.Button>
-					<Combobox.Options className='absolute mt-1 bg-white dark:bg-black rounded overflow-auto w-full'>
-						{autocompleteStops.length ? (
-							autocompleteStops.map(stop => (
-								<Combobox.Option key={stop.stop} value={stop} as={Fragment}>
-									{({ active }) => (
-										<li className={`${active ? 'bg-black/30 text-white dark:bg-white/50' : 'bg-black/10 dark:bg-white/25'} p-2`}>{stop.stopPassengerName}</li>
-									)}
-								</Combobox.Option>
-							))
-						) : (
-							<li className='bg-black/25 dark:bg-white/25 rounded p-2'>Keine Ergebnisse</li>
-						)}
-					</Combobox.Options>
+					<Transition
+						as={Fragment}
+						enter='transition ease-in duration-100'
+						enterFrom='opacity-0'
+						enterTo='opacity-100'
+						leave='transition ease-in duration-100'
+						leaveFrom='opacity-100'
+						leaveTo='opacity-0'
+					>
+						<Combobox.Options className='absolute mt-1 bg-white dark:bg-black rounded overflow-auto w-full z-20'>
+							{autocompleteStops.length ? (
+								autocompleteStops.map(stop => (
+									<Combobox.Option key={stop.stop} value={stop} as={Fragment}>
+										{({ active }) => (
+											<li className={`${active ? 'bg-black/30 dark:bg-white/50' : 'bg-black/10 dark:bg-white/25'} p-2 cursor-pointer`}>
+												{stop.stopPassengerName}
+											</li>
+										)}
+									</Combobox.Option>
+								))
+							) : (
+								<li className='bg-black/25 dark:bg-white/25 rounded p-2'>Keine Ergebnisse</li>
+							)}
+						</Combobox.Options>
+					</Transition>
 				</div>
 			</Combobox>
 			{activeStop && (
 				<div className='grid gap-2'>
 					<div className='flex overflow-y-auto gap-2'>
 						<button
-							className={`${!currentRouteId && 'hidden'} px-2.5 py-1.5 bg-black/80 md:hover:bg-black/90 dark:bg-white/25 dark:md:hover:bg-white/30 rounded-full`}
+							className={`${
+								!currentRouteId && 'hidden'
+							} shrink-0 px-2.5 py-1.5 bg-black/80 md:hover:bg-black/90 dark:bg-white/25 dark:md:hover:bg-white/30 rounded-full transition`}
 							onClick={() => {
 								setRouteId(undefined);
 								setDirection(undefined);
@@ -87,10 +113,10 @@ export default function Fahrplan() {
 										`${
 											currentRouteId === route.id
 												? 'bg-black dark:bg-white text-white dark:text-black'
-												: 'bg-black/25 md:hover:bg-black/30 dark:bg-white/25 dark:md:hover:bg-white/30'
+												: 'bg-black/10 md:hover:bg-black/25 dark:bg-white/25 dark:md:hover:bg-white/30'
 										} ` +
 										`${currentDirection && '-mr-6 z-10'} ` +
-										'px-2.5 py-1.5 rounded-full whitespace-nowrap'
+										'px-2.5 py-1.5 rounded-full whitespace-nowrap transition'
 									}
 									onClick={() => {
 										if (currentRouteId) {
@@ -113,9 +139,9 @@ export default function Fahrplan() {
 										`${
 											currentDirection === direction
 												? 'bg-black/80 md:hover:bg-black/90 text-white dark:bg-white/80 dark:md:hover:bg-white/90 dark:text-black rounded-r-full pl-6'
-												: 'bg-black/25 md:hover:bg-black/30 dark:bg-white/25 dark:md:hover:bg-white/30 rounded-full'
+												: 'bg-black/10 md:hover:bg-black/25 dark:bg-white/25 dark:md:hover:bg-white/30 rounded-full'
 										} ` +
-										'px-2.5 py-1.5 whitespace-nowrap'
+										'px-2.5 py-1.5 whitespace-nowrap transition'
 									}
 									onClick={() => setDirection(currentDirection ? undefined : direction)}
 									key={direction}
