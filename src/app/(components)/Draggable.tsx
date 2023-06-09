@@ -8,6 +8,7 @@ export default function Draggable({ children }: { children: React.ReactNode }) {
 	const [showLeftButton, setShowLeftButton] = useState(false);
 	const [showRightButton, setShowRightButton] = useState(false);
 	const [isDown, setIsDown] = useState(false);
+	const [dragging, setDragging] = useState(false);
 	const [startX, setStartX] = useState(0);
 	const [scrollLeft, setScrollLeft] = useState(0);
 
@@ -25,7 +26,6 @@ export default function Draggable({ children }: { children: React.ReactNode }) {
 	const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
 		setIsDown(true);
 		if (sliderRef.current) {
-			sliderRef.current.classList.add('active');
 			setStartX(e.pageX - sliderRef.current.offsetLeft);
 			setScrollLeft(sliderRef.current.scrollLeft);
 		}
@@ -33,23 +33,24 @@ export default function Draggable({ children }: { children: React.ReactNode }) {
 
 	const handleMouseLeave = () => {
 		setIsDown(false);
-		if (sliderRef.current) {
-			sliderRef.current.classList.remove('active');
-		}
+		setDragging(false);
 	};
 
 	const handleMouseUp = () => {
-		setIsDown(false);
-		if (sliderRef.current) {
-			sliderRef.current.classList.remove('active');
-		}
+		requestAnimationFrame(() => {
+			setIsDown(false);
+			setDragging(false);
+		});
 	};
 
 	const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
 		if (!isDown) return;
 		e.preventDefault();
-		const x = e.pageX - (sliderRef.current?.offsetLeft || 0);
-		const walk = (x - startX) * 1.5; //scroll-fast
+		const walk = e.pageX - startX;
+
+		if (walk !== 0) {
+			setDragging(true);
+		}
 		if (sliderRef.current) {
 			sliderRef.current.scrollLeft = scrollLeft - walk;
 		}
@@ -86,6 +87,7 @@ export default function Draggable({ children }: { children: React.ReactNode }) {
 			return React.cloneElement(child, {
 				// @ts-expect-error
 				onClick: (event: React.MouseEvent<HTMLDivElement>) => {
+					if (isDown && dragging) return;
 					handleResetScroll();
 					if (child.props.onClick) {
 						child.props.onClick(event);
