@@ -1,9 +1,9 @@
 'use client';
 
 import { Fragment, useEffect, useState } from 'react';
-import { getStopData } from '../(components)/actions';
+import { getStopData } from './actions';
 import { Combobox, Transition } from '@headlessui/react';
-import KVGTable from '../(components)/KVGTable';
+import KVGTable from './KVGTable';
 import Image from 'next/image';
 import Draggable from './Draggable';
 
@@ -21,7 +21,7 @@ function concatenateDirectionsFromRoutes(arr: Route[]) {
 	return concatenatedArray;
 }
 
-export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) {
+export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) {
 	const [query, setQuery] = useState('');
 	const [refresh, setRefresh] = useState(false);
 	const [isLoading, setLoading] = useState(false);
@@ -48,7 +48,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 	return (
 		<div className='grid gap-4 pt-2 m-2'>
 			<div className='flex justify-between'>
-				<h1>Echtzeitabfahrten</h1>
+				<h1>KVG Echtzeitabfahrten</h1>
 				<button onClick={() => setRefresh(true)} className='disabled:opacity-50' disabled={!!!selectedStop} title='Aktualisieren'>
 					<Image src='/arrows-rotate-light.svg' alt='Arrow Down Icon' height={20} width={20} className={`${isLoading && 'animate-spin'} dark:hidden`} />
 					<Image src='/arrows-rotate-dark.svg' alt='Arrow Down Icon' height={20} width={20} className={`${isLoading && 'animate-spin'} hidden dark:block`} />

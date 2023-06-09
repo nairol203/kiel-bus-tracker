@@ -15,8 +15,8 @@ export async function searchByCharacter(character: string) {
 		},
 	});
 
-	const data = (await res.json()) as StopsByCharacter;
-	return data;
+	const data = await res.json();
+	return data as StopsByCharacter;
 }
 
 export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string; direction?: string }) {
