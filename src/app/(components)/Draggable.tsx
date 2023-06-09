@@ -19,7 +19,6 @@ export default function Draggable({ children }: { children: React.ReactNode }) {
 		if (sliderRef.current) {
 			setShowLeftButton(sliderRef.current.scrollLeft > 10);
 			setShowRightButton(sliderRef.current.scrollLeft < sliderRef.current.scrollWidth - sliderRef.current.clientWidth - 10);
-			console.log(sliderRef.current.scrollLeft, sliderRef.current.scrollWidth, sliderRef.current.clientWidth - 50);
 		}
 	};
 
