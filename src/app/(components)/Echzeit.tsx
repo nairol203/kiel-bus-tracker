@@ -76,7 +76,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 						leaveFrom='opacity-100'
 						leaveTo='opacity-0'
 					>
-						<Combobox.Options className='absolute mt-1 bg-white dark:bg-black rounded overflow-auto w-full z-2'>
+						<Combobox.Options className='absolute mt-1 bg-white dark:bg-black rounded overflow-auto w-full z-20'>
 							{filteredStops.length ? (
 								filteredStops.map(stop => (
 									<Combobox.Option key={stop.id} value={stop} as={Fragment}>
