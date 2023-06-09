@@ -5,6 +5,7 @@ import { getStopData } from '../(components)/actions';
 import { Combobox, Transition } from '@headlessui/react';
 import KVGTable from '../(components)/KVGTable';
 import Image from 'next/image';
+import Draggable from './Draggable';
 
 function filterUniqueAndSortAscending(arr: string[]) {
 	const uniqueArr = Array.from(new Set(arr));
@@ -53,7 +54,14 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 					<Image src='/arrows-rotate-dark.svg' alt='Arrow Down Icon' height={20} width={20} className={`${isLoading && 'animate-spin'} hidden dark:block`} />
 				</button>
 			</div>
-			<Combobox value={selectedStop} onChange={setSelectedStop}>
+			<Combobox
+				value={selectedStop}
+				onChange={e => {
+					setSelectedStop(e);
+					setRouteId(undefined);
+					setDirection(undefined);
+				}}
+			>
 				<div className='relative'>
 					<div className='relative w-full'>
 						<Combobox.Input
@@ -76,7 +84,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 						leaveFrom='opacity-100'
 						leaveTo='opacity-0'
 					>
-						<Combobox.Options className='absolute mt-1 bg-white dark:bg-black rounded overflow-auto w-full'>
+						<Combobox.Options className='absolute mt-1 bg-white dark:bg-black rounded overflow-auto w-full z-50'>
 							{filteredStops.length ? (
 								filteredStops.map(stop => (
 									<Combobox.Option key={stop.id} value={stop} as={Fragment}>
@@ -86,26 +94,26 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 									</Combobox.Option>
 								))
 							) : (
-								<li className='bg-black/25 dark:bg-white/25 rounded p-2'>Keine Ergebnisse</li>
+								<li className='bg-black/25 dark:bg-white/25 rounded p-2 wrap'>Keine Ergebnisse</li>
 							)}
 						</Combobox.Options>
 					</Transition>
 				</div>
 			</Combobox>
 			{activeStop && (
-				<div className='grid gap-2'>
-					<div className='flex overflow-y-auto gap-2'>
-						<button
-							className={`${
-								!currentRouteId && 'hidden'
-							} shrink-0 px-2.5 py-1.5 bg-black/80 md:hover:bg-black/90 dark:bg-white/25 dark:md:hover:bg-white/30 rounded-full transition`}
-							onClick={() => {
-								setRouteId(undefined);
-								setDirection(undefined);
-							}}
-						>
-							<Image src='/xmark.svg' alt='X Icon' height={20} width={20} />
-						</button>
+				<div className='grid gap-2 relative'>
+					<Draggable>
+						{currentRouteId && (
+							<button
+								className='shrink-0 px-2.5 py-1.5 bg-black/80 md:hover:bg-black/90 dark:bg-white/25 dark:md:hover:bg-white/30 rounded-full transition'
+								onClick={() => {
+									setRouteId(undefined);
+									setDirection(undefined);
+								}}
+							>
+								<Image src='/xmark.svg' alt='X Icon' height={15} width={15} />
+							</button>
+						)}
 						{activeStop.routes
 							.filter(route => (currentDirection ? route.directions.includes(currentDirection) : true))
 							.map(route => (
@@ -118,7 +126,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 												: 'bg-black/10 md:hover:bg-black/25 dark:bg-white/25 dark:md:hover:bg-white/30'
 										} ` +
 										`${currentDirection && '-mr-6'} ` +
-										'px-2.5 py-1.5 rounded-full whitespace-nowrap transition'
+										'px-2.5 py-1.5 rounded-full transition z-10'
 									}
 									onClick={() => {
 										if (currentRouteId) {
@@ -143,7 +151,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 												? 'bg-black/80 md:hover:bg-black/90 text-white dark:bg-white/80 dark:md:hover:bg-white/90 dark:text-black rounded-r-full pl-6'
 												: 'bg-black/10 md:hover:bg-black/25 dark:bg-white/25 dark:md:hover:bg-white/30 rounded-full'
 										} ` +
-										'px-2.5 py-1.5 whitespace-nowrap transition -z-2'
+										'px-2.5 py-1.5 transition'
 									}
 									onClick={() => setDirection(currentDirection ? undefined : direction)}
 									key={direction}
@@ -151,7 +159,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 									{direction}
 								</button>
 							))}
-					</div>
+					</Draggable>
 					<h2 className='mt-2'>{activeStop.stopName}</h2>
 					<KVGTable data={activeStop.actual} />
 				</div>

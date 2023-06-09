@@ -33,3 +33,27 @@
 		@apply relative animate-pulse before:absolute p-0.5 before:inset-0 before:rounded-md before:bg-gray-300 dark:before:bg-gray-500;
 	}
 }
+
+@layer utilities {
+	/* Chrome, Safari and Opera */
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	.no-scrollbar {
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+	}
+
+	.right-mask {
+		mask-image: linear-gradient(90deg, #000 calc(100% - 120px), transparent);
+	}
+
+	.left-mask {
+		mask-image: linear-gradient(90deg, transparent, #000 120px);
+	}
+
+	.mask {
+		mask-image: linear-gradient(90deg, transparent, #000 120px, #000 calc(100% - 120px), transparent);
+	}
+}
