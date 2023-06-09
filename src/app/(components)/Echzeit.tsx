@@ -76,7 +76,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 						leaveFrom='opacity-100'
 						leaveTo='opacity-0'
 					>
-						<Combobox.Options className='absolute mt-1 bg-white dark:bg-black rounded overflow-auto w-full z-20'>
+						<Combobox.Options className='absolute mt-1 bg-white dark:bg-black rounded overflow-auto w-full'>
 							{filteredStops.length ? (
 								filteredStops.map(stop => (
 									<Combobox.Option key={stop.id} value={stop} as={Fragment}>
@@ -117,7 +117,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 												? 'bg-black dark:bg-white text-white dark:text-black'
 												: 'bg-black/10 md:hover:bg-black/25 dark:bg-white/25 dark:md:hover:bg-white/30'
 										} ` +
-										`${currentDirection && '-mr-6 z-10'} ` +
+										`${currentDirection && '-mr-6'} ` +
 										'px-2.5 py-1.5 rounded-full whitespace-nowrap transition'
 									}
 									onClick={() => {
@@ -143,7 +143,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 												? 'bg-black/80 md:hover:bg-black/90 text-white dark:bg-white/80 dark:md:hover:bg-white/90 dark:text-black rounded-r-full pl-6'
 												: 'bg-black/10 md:hover:bg-black/25 dark:bg-white/25 dark:md:hover:bg-white/30 rounded-full'
 										} ` +
-										'px-2.5 py-1.5 whitespace-nowrap transition'
+										'px-2.5 py-1.5 whitespace-nowrap transition z-1'
 									}
 									onClick={() => setDirection(currentDirection ? undefined : direction)}
 									key={direction}
