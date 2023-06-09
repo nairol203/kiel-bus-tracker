@@ -143,7 +143,7 @@ export default function Echtzeit({ allStops }: { allStops: StopByCharacter[] }) 
 												? 'bg-black/80 md:hover:bg-black/90 text-white dark:bg-white/80 dark:md:hover:bg-white/90 dark:text-black rounded-r-full pl-6'
 												: 'bg-black/10 md:hover:bg-black/25 dark:bg-white/25 dark:md:hover:bg-white/30 rounded-full'
 										} ` +
-										'px-2.5 py-1.5 whitespace-nowrap transition z-1'
+										'px-2.5 py-1.5 whitespace-nowrap transition -z-1'
 									}
 									onClick={() => setDirection(currentDirection ? undefined : direction)}
 									key={direction}
