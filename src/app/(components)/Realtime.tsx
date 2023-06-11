@@ -24,7 +24,6 @@ function concatenateDirectionsFromRoutes(arr: Route[]) {
 export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) {
 	const [query, setQuery] = useState('');
 	const [reload, setReload] = useState(false);
-	const [isLoading, setLoading] = useState(false);
 	const [selectedStop, setSelectedStop] = useState<StopByCharacter | null>(null);
 	const [activeStop, setActiveStop] = useState<KVGStops | null>(null);
 	const [currentRouteId, setRouteId] = useState<string | undefined>(undefined);
@@ -33,10 +32,8 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 	useEffect(() => {
 		async function fetchStopData() {
 			if (!selectedStop) return;
-			setLoading(true);
 			const stopData = await getStopData({ stopId: selectedStop.number, routeId: currentRouteId, direction: currentDirection });
 			setActiveStop(stopData);
-			setLoading(false);
 		}
 
 		fetchStopData();
