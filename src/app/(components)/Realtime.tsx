@@ -182,6 +182,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 					</Draggable>
 					<h2 className='mt-2'>{activeStop.stopName}</h2>
 					<KVGTable data={activeStop.actual} />
+					<span className='text-sm opacity-70'>Letztes Update: {new Date().toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin' })}</span>
 				</div>
 			)}
 		</div>
