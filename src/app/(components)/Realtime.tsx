@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useState } from 'react';
 import { getStopData } from './actions';
-import { Combobox, Transition } from '@headlessui/react';
+import { Combobox, Switch, Transition } from '@headlessui/react';
 import KVGTable from './KVGTable';
 import Image from 'next/image';
 import Draggable from './Draggable';
@@ -23,7 +23,7 @@ function concatenateDirectionsFromRoutes(arr: Route[]) {
 
 export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) {
 	const [query, setQuery] = useState('');
-	const [refresh, setRefresh] = useState(false);
+	const [reload, setReload] = useState(false);
 	const [isLoading, setLoading] = useState(false);
 	const [selectedStop, setSelectedStop] = useState<StopByCharacter | null>(null);
 	const [activeStop, setActiveStop] = useState<KVGStops | null>(null);
@@ -39,20 +39,32 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 			setLoading(false);
 		}
 
-		setRefresh(false);
 		fetchStopData();
-	}, [selectedStop, currentRouteId, currentDirection, refresh]);
+
+		const interval = setInterval(() => {
+			if (!reload) return;
+			fetchStopData();
+		}, 10_000);
+
+		return () => {
+			clearInterval(interval);
+		};
+	}, [selectedStop, currentRouteId, currentDirection, reload]);
 
 	const filteredStops = query === '' ? [] : allStops.filter(stop => stop.name.toLowerCase().replace(/\s+/g, '').includes(query.toLowerCase().replace(/\s+/g, ''))).slice(0, 15);
 
 	return (
 		<div className='grid gap-4 pt-2 m-2'>
-			<div className='flex justify-between'>
+			<div className='grid sm:flex gap-1 justify-between items-center'>
 				<h1>KVG Echtzeitabfahrten</h1>
-				<button onClick={() => setRefresh(true)} className='disabled:opacity-50' disabled={!!!selectedStop} title='Aktualisieren'>
-					<Image src='/arrows-rotate-light.svg' alt='Arrow Down Icon' height={20} width={20} className={`${isLoading && 'animate-spin'} dark:hidden`} />
-					<Image src='/arrows-rotate-dark.svg' alt='Arrow Down Icon' height={20} width={20} className={`${isLoading && 'animate-spin'} hidden dark:block`} />
-				</button>
+				<div className='flex gap-2'>
+					<Switch.Group>
+						<Switch checked={reload} onChange={setReload} className={`${reload ? 'bg-blue-600' : 'bg-white'} relative inline-flex h-6 w-11 items-center rounded-full`}>
+							<span className={`${reload ? 'translate-x-6' : 'translate-x-1'} inline-block h-4 w-4 transform rounded-full bg-black transition`} aria-hidden='true' />
+						</Switch>
+						<Switch.Label>Auto-Aktualisieren</Switch.Label>
+					</Switch.Group>
+				</div>
 			</div>
 			<Combobox
 				value={selectedStop}

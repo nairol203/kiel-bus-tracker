@@ -16,13 +16,15 @@ export default function KVGTable({ data }: { data: Actual[] }) {
 			</thead>
 			<tbody>
 				{data.length ? (
-					data.map(a => (
-						<tr className='border-b border-black/25 dark:border-white/25' key={a.tripId}>
-							<td className='p-2'>{a.patternText}</td>
-							<td className='p-2'>{a.direction}</td>
-							<td className='p-2'>{formatDepartureTime(a)}</td>
-						</tr>
-					))
+					data.map((a, index) => {
+						return (
+							<tr className='border-b border-black/25 dark:border-white/25' key={`${index} ${a.tripId}`}>
+								<td className='p-2'>{a.patternText}</td>
+								<td className='p-2'>{a.direction}</td>
+								<td className='p-2'>{formatDepartureTime(a)}</td>
+							</tr>
+						);
+					})
 				) : (
 					<tr className='border-b border-black/25 dark:border-white/25'>
 						<td className='p-2'>Keine Daten</td>
