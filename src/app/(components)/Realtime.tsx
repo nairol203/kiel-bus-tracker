@@ -1,11 +1,13 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { getStopData } from './actions';
 import { Combobox, Switch, Transition } from '@headlessui/react';
 import KVGTable from './KVGTable';
 import Image from 'next/image';
 import Draggable from './Draggable';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { queryClient } from '../echtzeit/layout';
 
 function filterUniqueAndSortAscending(arr: string[]) {
 	const uniqueArr = Array.from(new Set(arr));
@@ -25,28 +27,23 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 	const [query, setQuery] = useState('');
 	const [reload, setReload] = useState(false);
 	const [selectedStop, setSelectedStop] = useState<StopByCharacter | null>(null);
-	const [activeStop, setActiveStop] = useState<KVGStops | null>(null);
 	const [currentRouteId, setRouteId] = useState<string | undefined>(undefined);
 	const [currentDirection, setDirection] = useState<string | undefined>(undefined);
 
-	useEffect(() => {
-		async function fetchStopData() {
-			if (!selectedStop) return;
-			const stopData = await getStopData({ stopId: selectedStop.number, routeId: currentRouteId, direction: currentDirection });
-			setActiveStop(stopData);
-		}
+	const { data: activeStop } = useQuery({
+		queryKey: ['stopData'],
+		queryFn: async () => {
+			if (!selectedStop) return null;
+			const res = await getStopData({ stopId: selectedStop.number, routeId: currentRouteId, direction: currentDirection });
+			return res;
+		},
+		refetchInterval: reload ? 10_000 : false,
+	});
 
-		fetchStopData();
-
-		const interval = setInterval(() => {
-			if (!reload) return;
-			fetchStopData();
-		}, 10_000);
-
-		return () => {
-			clearInterval(interval);
-		};
-	}, [selectedStop, currentRouteId, currentDirection, reload]);
+	const mutation = useMutation({
+		mutationFn: getStopData,
+		onSuccess: data => queryClient.setQueryData(['stopData'], data),
+	});
 
 	const filteredStops = query === '' ? [] : allStops.filter(stop => stop.name.toLowerCase().replace(/\s+/g, '').includes(query.toLowerCase().replace(/\s+/g, ''))).slice(0, 15);
 
@@ -69,6 +66,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 					setSelectedStop(e);
 					setRouteId(undefined);
 					setDirection(undefined);
+					mutation.mutate({ stopId: e!.number, direction: undefined, routeId: undefined });
 				}}
 			>
 				<div className='relative'>
@@ -118,6 +116,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 								onClick={() => {
 									setRouteId(undefined);
 									setDirection(undefined);
+									mutation.mutate({ stopId: selectedStop!.number, direction: undefined, routeId: undefined });
 								}}
 							>
 								<Image src='/xmark.svg' alt='X Icon' height={15} width={15} />
@@ -141,8 +140,10 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 										if (currentRouteId) {
 											setRouteId(undefined);
 											setDirection(undefined);
+											mutation.mutate({ stopId: selectedStop!.number, direction: undefined, routeId: undefined });
 										} else {
 											setRouteId(route.id);
+											mutation.mutate({ stopId: selectedStop!.number, direction: currentDirection, routeId: route.id });
 										}
 									}}
 									key={route.id}
@@ -162,7 +163,10 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 										} ` +
 										'px-2.5 py-1.5 transition'
 									}
-									onClick={() => setDirection(currentDirection ? undefined : direction)}
+									onClick={() => {
+										setDirection(currentDirection ? undefined : direction);
+										mutation.mutate({ stopId: selectedStop!.number, direction: currentDirection ? undefined : direction, routeId: currentRouteId });
+									}}
 									key={direction}
 								>
 									{direction}
