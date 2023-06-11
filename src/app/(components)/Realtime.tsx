@@ -7,7 +7,7 @@ import KVGTable from './KVGTable';
 import Image from 'next/image';
 import Draggable from './Draggable';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { queryClient } from '../echtzeit/layout';
+import { queryClient } from '@lib/reactQuery';
 
 function filterUniqueAndSortAscending(arr: string[]) {
 	const uniqueArr = Array.from(new Set(arr));
