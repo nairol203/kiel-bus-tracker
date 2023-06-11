@@ -53,8 +53,15 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 				<h1>KVG Echtzeitabfahrten</h1>
 				<div className='flex gap-2'>
 					<Switch.Group>
-						<Switch checked={reload} onChange={setReload} className={`${reload ? 'bg-blue-600' : 'bg-white'} relative inline-flex h-6 w-11 items-center rounded-full`}>
-							<span className={`${reload ? 'translate-x-6' : 'translate-x-1'} inline-block h-4 w-4 transform rounded-full bg-black transition`} aria-hidden='true' />
+						<Switch
+							checked={reload}
+							onChange={setReload}
+							className={`${reload ? 'bg-blue-600' : 'bg-black/50 dark:bg-white'} relative inline-flex h-6 w-11 items-center rounded-full`}
+						>
+							<span
+								className={`${reload ? 'translate-x-6' : 'translate-x-1'} inline-block h-4 w-4 transform rounded-full bg-white dark:bg-black transition`}
+								aria-hidden='true'
+							/>
 						</Switch>
 						<Switch.Label>Auto-Aktualisieren</Switch.Label>
 					</Switch.Group>
