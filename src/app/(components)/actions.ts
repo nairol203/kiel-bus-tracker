@@ -44,3 +44,20 @@ export async function getStopData({ stopId, routeId, direction }: { stopId: stri
 	const data = await res.json();
 	return data as KVGStops;
 }
+
+export async function getTripInfo(tripId: string) {
+	const endpoint = new URL('https://kvg-kiel.de/internetservice/services/tripInfo/tripPassages');
+
+	endpoint.searchParams.append('tripId', tripId);
+
+	const res = await fetch(endpoint.toString(), {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		cache: 'no-store',
+	});
+
+	const data = await res.json();
+	return data as StopInfo;
+}
