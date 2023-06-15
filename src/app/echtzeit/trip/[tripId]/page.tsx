@@ -5,32 +5,32 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { getTripInfo } from 'src/app/(components)/actions';
 
-// function timeToDate(time: string) {
-// 	const [hours, minutes] = time.split(':').map(Number);
+function timeToDate(time: string) {
+	const [hours, minutes] = time.split(':').map(Number);
 
-// 	const date = new Date();
+	const date = new Date();
 
-// 	date.setHours(hours);
-// 	date.setMinutes(minutes);
-// 	date.setSeconds(0);
-// 	date.setMilliseconds(0);
+	date.setHours(hours);
+	date.setMinutes(minutes);
+	date.setSeconds(0);
+	date.setMilliseconds(0);
 
-// 	return date;
-// }
+	return date;
+}
 
-// function formatTimeDifference(date: Date, old = false) {
-// 	const currentTime = new Date();
-// 	const timeDifference = Math.floor((old ? currentTime.getTime() - date.getTime() : date.getTime() - currentTime.getTime()) / 1000 / 60);
+function formatTimeDifference(date: Date, old = false) {
+	const currentTime = new Date();
+	const timeDifference = Math.floor((old ? currentTime.getTime() - date.getTime() : date.getTime() - currentTime.getTime()) / 1000 / 60);
 
-// 	if (timeDifference < 0) {
-// 		return `0 min`;
-// 	}
-// 	return `${timeDifference} min`;
-// }
+	if (timeDifference < 0) {
+		return `0 min`;
+	}
+	return `${timeDifference} min`;
+}
 
 export default function Page({ params }: { params: { tripId: string } }) {
 	const [reload, setReload] = useState(false);
-	const [showOld, setShowOld] = useState(true);
+	const [showOld, setShowOld] = useState(false);
 
 	const { data: tripInfo } = useQuery({
 		queryKey: ['stopData'],
