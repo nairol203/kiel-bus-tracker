@@ -89,15 +89,15 @@ export default function Page({ params }: { params: { tripId: string } }) {
 					{showOld &&
 						tripInfo.old.map(a => (
 							<tr key={a.stop_seq_num} className='border-b border-black/25 dark:border-white/25 text-gray-400'>
-								<td className='p-2'>{a.actualTime}</td>
-								{/* <td className='p-2'>vor {formatTimeDifference(timeToDate(a.actualTime), true)}</td> */}
+								{/* <td className='p-2'>{a.actualTime}</td> */}
+								<td className='p-2'>vor {formatTimeDifference(timeToDate(a.actualTime), true)}</td>
 								<td className='p-2'>{a.stop.name}</td>
 							</tr>
 						))}
 					{tripInfo.actual.map(a => (
 						<tr key={a.stop_seq_num} className='border-b border-black/25 dark:border-white/25'>
-							<td className='p-2'>{a.actualTime}</td>
-							{/* <td className='p-2'>{a.status === 'STOPPING' ? 'Sofort' : formatTimeDifference(timeToDate(a.actualTime))}</td> */}
+							{/* <td className='p-2'>{a.actualTime}</td> */}
+							<td className='p-2'>{a.status === 'STOPPING' ? 'Sofort' : formatTimeDifference(timeToDate(a.actualTime))}</td>
 							<td className='p-2'>{a.stop.name}</td>
 						</tr>
 					))}
