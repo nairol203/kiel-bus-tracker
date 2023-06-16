@@ -42,7 +42,7 @@ export default function NavBar() {
 		<nav className='relative'>
 			<div className='flex items-center justify-between mx-auto py-4 px-2'>
 				<Link href='/' className='flex items-center'>
-					<Image src='/logo.png' className='mr-3 h' alt='Nairol Bus Tracker Logo' width={32} height={32} />
+					<Image src='/logo.jpg' className='mr-3 rounded-full' alt='Nairol Bus Tracker Logo' width={32} height={32} />
 					<span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white'>Nairol Bus Tracker</span>
 				</Link>
 				<button
