@@ -1,5 +1,6 @@
 import React from 'react';
 import './globals.css';
+import NavBar from './(components)/NavBar';
 
 export const metadata = {
 	title: 'Nairol Bus Tracker',
@@ -18,8 +19,9 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang='de'>
-			<body>
-				<main className='min-h-screen max-w-2xl mx-auto'>{children}</main>
+			<body className='max-w-2xl mx-auto'>
+				<NavBar />
+				<main className='min-h-screen'>{children}</main>
 				<footer className='grid sm:flex gap-2 sm:gap-1 justify-center p-4 text-sm text-gray-400'>
 					<a href='https://nairol.me' target='_blank' rel='noreferrer' className='hover:underline flex justify-center'>
 						© 2023 nairol203

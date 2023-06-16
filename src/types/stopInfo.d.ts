@@ -7,13 +7,15 @@ interface StopInfo {
 
 interface StopInfoActual {
 	actualTime: string;
-	status: 'STOPPING' | 'PLANNED';
+	plannedTime: string;
+	status: 'STOPPING' | 'PREDICTED' | 'PLANNED';
 	stop: Stop;
 	stop_seq_num: string;
 }
 
 interface OldStopInfo {
-	actualTime: string;
+	actualTime?: string;
+	plannedTime?: string;
 	status: 'DEPARTED';
 	stop: Stop;
 	stop_seq_num: string;

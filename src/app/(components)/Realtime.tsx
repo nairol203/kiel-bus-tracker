@@ -48,25 +48,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 	const filteredStops = query === '' ? [] : allStops.filter(stop => stop.name.toLowerCase().replace(/\s+/g, '').includes(query.toLowerCase().replace(/\s+/g, ''))).slice(0, 15);
 
 	return (
-		<div className='grid gap-4 pt-2 m-2'>
-			<div className='grid sm:flex gap-1 justify-between items-center'>
-				<h1>KVG Echtzeitabfahrten</h1>
-				<div className='flex gap-2'>
-					<Switch.Group>
-						<Switch
-							checked={reload}
-							onChange={setReload}
-							className={`${reload ? 'bg-blue-600' : 'bg-black/50 dark:bg-white'} relative inline-flex h-6 w-11 items-center rounded-full`}
-						>
-							<span
-								className={`${reload ? 'translate-x-6' : 'translate-x-1'} inline-block h-4 w-4 transform rounded-full bg-white dark:bg-black transition`}
-								aria-hidden='true'
-							/>
-						</Switch>
-						<Switch.Label>Auto-Aktualisieren</Switch.Label>
-					</Switch.Group>
-				</div>
-			</div>
+		<div className='grid gap-4 mx-2'>
 			<Combobox
 				value={selectedStop}
 				onChange={e => {
@@ -182,7 +164,6 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 					</Draggable>
 					<h2 className='mt-2'>{activeStop.stopName}</h2>
 					<KVGTable data={activeStop.actual} />
-					<span className='text-sm opacity-70'>Letztes Update: {new Date().toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin' })}</span>
 				</div>
 			)}
 		</div>
