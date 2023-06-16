@@ -2,12 +2,13 @@
 
 import { Fragment, useState } from 'react';
 import { getStopData } from './actions';
-import { Combobox, Switch, Transition } from '@headlessui/react';
+import { Combobox, Transition } from '@headlessui/react';
 import KVGTable from './KVGTable';
 import Image from 'next/image';
 import Draggable from './Draggable';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@lib/reactQuery';
+import { useLocalStorage } from './useLocalStorage';
 
 function filterUniqueAndSortAscending(arr: string[]) {
 	const uniqueArr = Array.from(new Set(arr));
@@ -25,9 +26,9 @@ function concatenateDirectionsFromRoutes(arr: Route[]) {
 
 export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) {
 	const [query, setQuery] = useState('');
-	const [selectedStop, setSelectedStop] = useState<StopByCharacter | null>(null);
-	const [currentRouteId, setRouteId] = useState<string | undefined>(undefined);
-	const [currentDirection, setDirection] = useState<string | undefined>(undefined);
+	const [selectedStop, setSelectedStop] = useLocalStorage<StopByCharacter | null>('stop', null);
+	const [currentRouteId, setRouteId] = useLocalStorage<string | null>('routeId', null);
+	const [currentDirection, setDirection] = useLocalStorage<string | null>('direction', null);
 
 	const { data: activeStop } = useQuery({
 		queryKey: ['stopData'],
@@ -47,20 +48,20 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 	const filteredStops = query === '' ? [] : allStops.filter(stop => stop.name.toLowerCase().replace(/\s+/g, '').includes(query.toLowerCase().replace(/\s+/g, ''))).slice(0, 15);
 
 	return (
-		<div className='grid gap-4 mx-2'>
+		<div className='grid gap-2 mx-2'>
 			<Combobox
 				value={selectedStop}
 				onChange={e => {
 					setSelectedStop(e);
-					setRouteId(undefined);
-					setDirection(undefined);
+					setRouteId(null);
+					setDirection(null);
 					mutation.mutate({ stopId: e!.number, direction: undefined, routeId: undefined });
 				}}
 			>
 				<div className='relative'>
 					<div className='relative w-full'>
 						<Combobox.Input
-							className='bg-black/10 dark:bg-white/25 rounded p-2 w-full'
+							className='bg-white/80 dark:bg-white/10 rounded p-2 w-full'
 							onChange={event => setQuery(event.target.value)}
 							displayValue={(stop?: StopByCharacter) => stop?.name || ''}
 							placeholder='Suche nach einer Haltestelle'
@@ -83,9 +84,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 							{filteredStops.length ? (
 								filteredStops.map(stop => (
 									<Combobox.Option key={stop.id} value={stop} as={Fragment}>
-										{({ active }) => (
-											<li className={`${active ? 'bg-black/30 dark:bg-white/50' : 'bg-black/10 dark:bg-white/25'} p-2 cursor-pointer`}>{stop.name}</li>
-										)}
+										{({ active }) => <li className={`${active ? 'bg-blue-600 text-white' : 'dark:bg-white/20'} p-2 cursor-pointer`}>{stop.name}</li>}
 									</Combobox.Option>
 								))
 							) : (
@@ -100,14 +99,15 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 					<Draggable>
 						{currentRouteId && (
 							<button
-								className='shrink-0 px-2.5 py-1.5 bg-black/80 md:hover:bg-black/90 dark:bg-white/25 dark:md:hover:bg-white/30 rounded-full transition'
+								className='shrink-0 px-2.5 py-1.5 bg-white/80 dark:bg-white/10 rounded-full transition'
 								onClick={() => {
-									setRouteId(undefined);
-									setDirection(undefined);
+									setRouteId(null);
+									setDirection(null);
 									mutation.mutate({ stopId: selectedStop!.number, direction: undefined, routeId: undefined });
 								}}
 							>
-								<Image src='/xmark.svg' alt='X Icon' height={15} width={15} />
+								<Image src='/xmark-light.svg' alt='X Icon' height={15} width={15} className='dark:hidden' />
+								<Image src='/xmark-dark.svg' alt='X Icon' height={15} width={15} className='hidden dark:block' />
 							</button>
 						)}
 						{activeStop.routes
@@ -116,18 +116,14 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 								<button
 									className={
 										`${currentRouteId && currentRouteId !== route.id && 'hidden'} ` +
-										`${
-											currentRouteId === route.id
-												? 'bg-black dark:bg-white text-white dark:text-black'
-												: 'bg-black/10 md:hover:bg-black/25 dark:bg-white/25 dark:md:hover:bg-white/30'
-										} ` +
+										`${currentRouteId === route.id ? 'bg-black dark:bg-white text-white dark:text-black' : 'bg-white/80 dark:bg-white/10'} ` +
 										`${currentDirection && '-mr-6'} ` +
 										'px-2.5 py-1.5 rounded-full transition z-10'
 									}
 									onClick={() => {
 										if (currentRouteId) {
-											setRouteId(undefined);
-											setDirection(undefined);
+											setRouteId(null);
+											setDirection(null);
 											mutation.mutate({ stopId: selectedStop!.number, direction: undefined, routeId: undefined });
 										} else {
 											setRouteId(route.id);
@@ -147,12 +143,12 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 										`${
 											currentDirection === direction
 												? 'bg-black/80 md:hover:bg-black/90 text-white dark:bg-white/80 dark:md:hover:bg-white/90 dark:text-black rounded-r-full pl-6'
-												: 'bg-black/10 md:hover:bg-black/25 dark:bg-white/25 dark:md:hover:bg-white/30 rounded-full'
+												: 'bg-white/80 dark:bg-white/10 rounded-full'
 										} ` +
 										'px-2.5 py-1.5 transition'
 									}
 									onClick={() => {
-										setDirection(currentDirection ? undefined : direction);
+										setDirection(currentDirection ? null : direction);
 										mutation.mutate({ stopId: selectedStop!.number, direction: currentDirection ? undefined : direction, routeId: currentRouteId });
 									}}
 									key={direction}

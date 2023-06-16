@@ -16,21 +16,27 @@ export default function NavBar() {
 				<Link
 					onClick={() => setDropdown(false)}
 					href='/'
-					className={`${pathname === '/' && 'text-white bg-blue-600 md:bg-transparent rounded md:text-blue-600'} hover:text-blue-600 m-1 px-4 py-2 md:m-0`}
+					className={`${
+						pathname === '/' && 'text-white bg-blue-600 md:bg-transparent rounded md:underline underline-offset-4'
+					} md:hover:underline md:hover:underline-offset-4 m-1 px-4 py-2 md:m-0`}
 				>
 					Home
 				</Link>
 				<Link
 					onClick={() => setDropdown(false)}
 					href='/echtzeit'
-					className={`${pathname === '/echtzeit' && 'text-white bg-blue-600 md:bg-transparent rounded md:text-blue-600'} hover:text-blue-600 m-1 px-4 py-2 md:m-0`}
+					className={`${
+						pathname === '/echtzeit' && 'text-white bg-blue-600 md:bg-transparent rounded md:underline underline-offset-4'
+					} md:hover:underline md:hover:underline-offset-4 m-1 px-4 py-2 md:m-0`}
 				>
 					Echtzeitabfahrten
 				</Link>
 				<Link
 					onClick={() => setDropdown(false)}
 					href='/favoriten'
-					className={`${pathname === '/favoriten' && 'text-white bg-blue-600 md:bg-transparent rounded md:text-blue-600'} hover:text-blue-600 m-1 px-4 py-2 md:m-0`}
+					className={`${
+						pathname === '/favoriten' && 'text-white bg-blue-600 md:bg-transparent rounded md:underline underline-offset-4'
+					} md:hover:underline md:hover:underline-offset-4 m-1 px-4 py-2 md:m-0`}
 				>
 					Favoriten
 				</Link>
@@ -63,7 +69,7 @@ export default function NavBar() {
 				</div>
 			</div>
 			{showDropdown && (
-				<div className='absolute inset-[auto_0.5rem] rounded p-1 z-50 bg-white dark:bg-gray-600 md:hidden'>
+				<div className='absolute inset-[auto_0.5rem] rounded p-1 z-50 bg-white dark:bg-gray-500 md:hidden shadow'>
 					<NavList />
 				</div>
 			)}

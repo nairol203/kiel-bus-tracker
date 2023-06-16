@@ -19,7 +19,7 @@ export async function searchByCharacter(character: string) {
 	return data as StopsByCharacter;
 }
 
-export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string; direction?: string }) {
+export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string | null; direction?: string | null }) {
 	const endpoint = new URL('https://www.kvg-kiel.de/internetservice/services/passageInfo/stopPassages/stop');
 
 	endpoint.searchParams.append('stop', stopId);
