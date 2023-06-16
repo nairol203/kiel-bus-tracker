@@ -11,7 +11,7 @@ export async function searchByCharacter(character: string) {
 			'Content-Type': 'application/json',
 		},
 		next: {
-			revalidate: 3600,
+			revalidate: 86400,
 		},
 	});
 
