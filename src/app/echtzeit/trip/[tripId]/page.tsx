@@ -35,15 +35,13 @@ function formatTimeDifference(date: Date, old = false) {
 }
 
 export default function Page({ params }: { params: { tripId: string } }) {
-	const [reload, setReload] = useState(false);
-
 	const { data: tripInfo, isError } = useQuery({
 		queryKey: ['tripInfo'],
 		queryFn: async () => {
 			const res = await getTripInfo(params.tripId);
 			return res;
 		},
-		refetchInterval: reload ? 5_000 : false,
+		refetchInterval: 10_000,
 	});
 
 	if (isError) {
@@ -81,26 +79,9 @@ export default function Page({ params }: { params: { tripId: string } }) {
 
 	return (
 		<div className='grid gap-2 mx-2'>
-			<div className='flex flex-wrap gap-1 justify-between items-center'>
-				<h1>
-					{tripInfo.routeName} {tripInfo.directionText}
-				</h1>
-				<div className='flex gap-2'>
-					<Switch.Group>
-						<Switch.Label>Auto-Aktualisieren</Switch.Label>
-						<Switch
-							checked={reload}
-							onChange={setReload}
-							className={`${reload ? 'bg-blue-600' : 'bg-black/50 dark:bg-white'} relative inline-flex h-6 w-11 items-center rounded-full`}
-						>
-							<span
-								className={`${reload ? 'translate-x-6' : 'translate-x-1'} inline-block h-4 w-4 transform rounded-full bg-white dark:bg-black transition`}
-								aria-hidden='true'
-							/>
-						</Switch>
-					</Switch.Group>
-				</div>
-			</div>
+			<h1>
+				{tripInfo.routeName} {tripInfo.directionText}
+			</h1>
 			<div className='grid gap-1'>
 				{tripInfo.actual.map(a => (
 					<div key={a.stop_seq_num} className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10'>

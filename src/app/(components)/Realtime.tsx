@@ -25,7 +25,6 @@ function concatenateDirectionsFromRoutes(arr: Route[]) {
 
 export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) {
 	const [query, setQuery] = useState('');
-	const [reload, setReload] = useState(false);
 	const [selectedStop, setSelectedStop] = useState<StopByCharacter | null>(null);
 	const [currentRouteId, setRouteId] = useState<string | undefined>(undefined);
 	const [currentDirection, setDirection] = useState<string | undefined>(undefined);
@@ -37,7 +36,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 			const res = await getStopData({ stopId: selectedStop.number, routeId: currentRouteId, direction: currentDirection });
 			return res;
 		},
-		refetchInterval: reload ? 10_000 : false,
+		refetchInterval: 10_000,
 	});
 
 	const mutation = useMutation({
