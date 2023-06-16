@@ -35,7 +35,7 @@ export default async function Page() {
 				<KVGTable data={preetzerStraße.actual} />
 			</div>
 			<div>
-				<a className='px-2.5 py-1.5 rounded bg-white/80 dark:bg-white/10' href='/'>
+				<a className='px-2.5 py-1.5 rounded bg-white/80 dark:bg-white/10' href='/favoriten'>
 					Neu laden
 				</a>
 			</div>
