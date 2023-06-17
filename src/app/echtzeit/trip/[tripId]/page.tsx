@@ -3,6 +3,7 @@
 import { Switch } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { getTripInfo } from 'src/app/(components)/actions';
 
@@ -35,6 +36,7 @@ function formatTimeDifference(date: Date, old = false) {
 }
 
 export default function Page({ params }: { params: { tripId: string } }) {
+	const router = useRouter();
 	const { data: tripInfo, isError } = useQuery({
 		queryKey: ['tripInfo'],
 		queryFn: async () => {
@@ -49,9 +51,9 @@ export default function Page({ params }: { params: { tripId: string } }) {
 			<div className='grid gap-2 mx-2'>
 				<h1>Fehler</h1>
 				<span>Die Fahrt konnte nicht gefunden werden.</span>
-				<Link href='/' className='px-2.5 py-1.5 rounded bg-white/80 dark:bg-white/10'>
+				<button onClick={() => router.back()} className='px-2.5 py-1.5 rounded bg-white/80 dark:bg-white/10'>
 					Zurück
-				</Link>
+				</button>
 			</div>
 		);
 	}
@@ -82,14 +84,23 @@ export default function Page({ params }: { params: { tripId: string } }) {
 			<h1>
 				{tripInfo.routeName} {tripInfo.directionText}
 			</h1>
-			<div className='grid gap-1'>
-				{tripInfo.actual.map(a => (
-					<div key={a.stop_seq_num} className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10'>
-						<span>{a.stop.name}</span>
-						{a.status !== 'STOPPING' && <span>{formatTimeDifference(timeToDate(a.actualTime || a.plannedTime))}</span>}
-					</div>
-				))}
-			</div>
+			{tripInfo.actual.length ? (
+				<div className='grid gap-1'>
+					{tripInfo.actual.map(a => (
+						<div key={a.stop_seq_num} className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10'>
+							<span>{a.stop.name}</span>
+							{a.status !== 'STOPPING' && <span>{formatTimeDifference(timeToDate(a.actualTime || a.plannedTime))}</span>}
+						</div>
+					))}
+				</div>
+			) : (
+				<>
+					<span>Der Bus hat die Endstation erreicht.</span>
+					<button onClick={() => router.back()} className='px-2.5 py-1.5 rounded bg-white/80 dark:bg-white/10'>
+						Zurück
+					</button>
+				</>
+			)}
 		</div>
 	);
 }
