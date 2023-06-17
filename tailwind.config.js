@@ -4,7 +4,10 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				background: 'rgb(37 99 235 / 0.1)',
+				background: 'rgb(232, 239, 252)',
+				darkMode: {
+					background: 'rgb(19, 26, 40)',
+				},
 			},
 		},
 	},

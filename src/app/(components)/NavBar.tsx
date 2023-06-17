@@ -17,7 +17,7 @@ export default function NavBar() {
 					onClick={() => setDropdown(false)}
 					href='/'
 					className={`${
-						pathname === '/' && 'text-white bg-blue-600 md:bg-transparent rounded md:underline underline-offset-4'
+						pathname === '/' && 'text-white md:text-black md:dark:text-white bg-blue-600 md:bg-transparent rounded md:underline underline-offset-4'
 					} md:hover:underline md:hover:underline-offset-4 m-1 px-4 py-2 md:m-0`}
 				>
 					Home
@@ -26,7 +26,7 @@ export default function NavBar() {
 					onClick={() => setDropdown(false)}
 					href='/echtzeit'
 					className={`${
-						pathname === '/echtzeit' && 'text-white bg-blue-600 md:bg-transparent rounded md:underline underline-offset-4'
+						pathname === '/echtzeit' && 'text-white md:text-black md:dark:text-white bg-blue-600 md:bg-transparent rounded md:underline underline-offset-4'
 					} md:hover:underline md:hover:underline-offset-4 m-1 px-4 py-2 md:m-0`}
 				>
 					Echtzeitabfahrten
@@ -35,7 +35,7 @@ export default function NavBar() {
 					onClick={() => setDropdown(false)}
 					href='/favoriten'
 					className={`${
-						pathname === '/favoriten' && 'text-white bg-blue-600 md:bg-transparent rounded md:underline underline-offset-4'
+						pathname === '/favoriten' && 'text-white md:text-black md:dark:text-white bg-blue-600 md:bg-transparent rounded md:underline underline-offset-4'
 					} md:hover:underline md:hover:underline-offset-4 m-1 px-4 py-2 md:m-0`}
 				>
 					Favoriten

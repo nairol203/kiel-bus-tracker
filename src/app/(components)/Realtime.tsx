@@ -80,15 +80,17 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 						leaveFrom='opacity-100'
 						leaveTo='opacity-0'
 					>
-						<Combobox.Options className='absolute mt-1 bg-white dark:bg-black rounded overflow-auto w-full z-50'>
+						<Combobox.Options className='absolute mt-1 bg-background dark:bg-darkMode-background rounded overflow-auto w-full z-50 shadow'>
 							{filteredStops.length ? (
 								filteredStops.map(stop => (
 									<Combobox.Option key={stop.id} value={stop} as={Fragment}>
-										{({ active }) => <li className={`${active ? 'bg-blue-600 text-white' : 'dark:bg-white/20'} p-2 cursor-pointer`}>{stop.name}</li>}
+										{({ active }) => (
+											<li className={`${active ? 'bg-blue-600 text-white' : 'bg-white/80 dark:bg-white/10'} p-2 cursor-pointer`}>{stop.name}</li>
+										)}
 									</Combobox.Option>
 								))
 							) : (
-								<li className='bg-black/25 dark:bg-white/25 rounded p-2 wrap'>Keine Ergebnisse</li>
+								<li className='bg-white/80 dark:bg-white/10 rounded p-2 wrap'>Keine Ergebnisse</li>
 							)}
 						</Combobox.Options>
 					</Transition>
