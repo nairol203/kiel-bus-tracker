@@ -52,6 +52,9 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 
 	const filteredStops = query === '' ? [] : allStops.filter(stop => stop.name.toLowerCase().replace(/\s+/g, '').includes(query.toLowerCase().replace(/\s+/g, ''))).slice(0, 15);
 
+	const statusColor = isError ? 'bg-red-500' : isPaused ? 'bg-yellow-500' : 'bg-green-500';
+	const statusColorPulse = isError ? 'bg-red-400' : isPaused ? 'bg-yellow-400' : 'bg-green-400';
+
 	return (
 		<div className='grid gap-2 mx-2'>
 			<Combobox
@@ -167,12 +170,8 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 					<div className='flex justify-between items-center mt-2'>
 						<h2>{activeStop.stopName}</h2>
 						<span className='relative flex h-3 w-3'>
-							<span
-								className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${
-									isError || isPaused ? 'bg-red-400' : 'bg-green-400'
-								} opacity-75`}
-							></span>
-							<span className={`relative inline-flex rounded-full h-3 w-3 ${isError || isPaused ? 'bg-red-500' : 'bg-green-500'}`}></span>
+							<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${statusColorPulse} opacity-75`}></span>
+							<span className={`relative inline-flex rounded-full h-3 w-3 ${statusColor}`}></span>
 						</span>
 					</div>
 					<KVGTable data={activeStop.actual} />
