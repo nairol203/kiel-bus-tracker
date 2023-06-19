@@ -38,6 +38,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 		data: tripInfo,
 		isFetching,
 		isError,
+		isPaused,
 	} = useQuery({
 		queryKey: ['tripInfo'],
 		queryFn: async () => {
@@ -94,9 +95,11 @@ export default function Page({ params }: { params: { tripId: string } }) {
 				</h1>
 				<span className='relative flex h-3 w-3'>
 					<span
-						className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${isError ? 'bg-red-400' : 'bg-green-400'} opacity-75`}
+						className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${
+							isError || isPaused ? 'bg-red-400' : 'bg-green-400'
+						} opacity-75`}
 					></span>
-					<span className={`relative inline-flex rounded-full h-3 w-3 ${isError ? 'bg-red-500' : 'bg-green-500'}`}></span>
+					<span className={`relative inline-flex rounded-full h-3 w-3 ${isError || isPaused ? 'bg-red-500' : 'bg-green-500'}`}></span>
 				</span>
 			</div>
 			{tripInfo.actual.length ? (

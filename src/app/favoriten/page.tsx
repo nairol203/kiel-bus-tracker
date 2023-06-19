@@ -5,7 +5,7 @@ import KVGTable from '../(components)/KVGTable';
 import { getStopData } from '../(components)/actions';
 
 export default function Page() {
-	const { data, isFetching, isError } = useQuery({
+	const { data, isFetching, isError, isPaused } = useQuery({
 		queryKey: ['favorites'],
 		queryFn: async () => {
 			const rathausKronshagen = await getStopData({
@@ -39,9 +39,11 @@ export default function Page() {
 				<h2>Rathaus Kronshagen</h2>
 				<span className='relative flex h-3 w-3'>
 					<span
-						className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${isError ? 'bg-red-400' : 'bg-green-400'} opacity-75`}
+						className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${
+							isError || isPaused ? 'bg-red-400' : 'bg-green-400'
+						} opacity-75`}
 					></span>
-					<span className={`relative inline-flex rounded-full h-3 w-3 ${isError ? 'bg-red-500' : 'bg-green-500'}`}></span>
+					<span className={`relative inline-flex rounded-full h-3 w-3 ${isError || isPaused ? 'bg-red-500' : 'bg-green-500'}`}></span>
 				</span>
 			</div>
 			{data ? (

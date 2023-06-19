@@ -34,6 +34,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 		data: activeStop,
 		isFetching,
 		isError,
+		isPaused,
 	} = useQuery({
 		queryKey: ['stopData'],
 		queryFn: async () => {
@@ -167,9 +168,11 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 						<h2>{activeStop.stopName}</h2>
 						<span className='relative flex h-3 w-3'>
 							<span
-								className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${isError ? 'bg-red-400' : 'bg-green-400'} opacity-75`}
+								className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${
+									isError || isPaused ? 'bg-red-400' : 'bg-green-400'
+								} opacity-75`}
 							></span>
-							<span className={`relative inline-flex rounded-full h-3 w-3 ${isError ? 'bg-red-500' : 'bg-green-500'}`}></span>
+							<span className={`relative inline-flex rounded-full h-3 w-3 ${isError || isPaused ? 'bg-red-500' : 'bg-green-500'}`}></span>
 						</span>
 					</div>
 					<KVGTable data={activeStop.actual} />
