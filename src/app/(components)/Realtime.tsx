@@ -30,7 +30,11 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 	const [currentRouteId, setRouteId] = useLocalStorage<string | null>('routeId', null);
 	const [currentDirection, setDirection] = useLocalStorage<string | null>('direction', null);
 
-	const { data: activeStop } = useQuery({
+	const {
+		data: activeStop,
+		isFetching,
+		isError,
+	} = useQuery({
 		queryKey: ['stopData'],
 		queryFn: async () => {
 			if (!selectedStop) return null;
@@ -159,7 +163,15 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 								</button>
 							))}
 					</Draggable>
-					<h2 className='mt-2'>{activeStop.stopName}</h2>
+					<div className='flex justify-between items-center mt-2'>
+						<h2>{activeStop.stopName}</h2>
+						<span className='relative flex h-3 w-3'>
+							<span
+								className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${isError ? 'bg-red-400' : 'bg-green-400'} opacity-75`}
+							></span>
+							<span className={`relative inline-flex rounded-full h-3 w-3 ${isError ? 'bg-red-500' : 'bg-green-500'}`}></span>
+						</span>
+					</div>
 					<KVGTable data={activeStop.actual} />
 				</div>
 			)}

@@ -13,12 +13,3 @@ export default async function Fahrplan() {
 
 	return <Realtime allStops={stops} />;
 }
-
-/**
- * TODO
- * - Autocomplete auf Mobile aktualisiert nicht immer
- * - Design upgrade
- * - Scroll Right/Left Buttons sind nicht beim Initial Page Load dabei
- * - Die Stops werden nicht automatisch aktualsiert
- * - Refactor: Home Page / Echtzeit Page / Favoriten Page
- */

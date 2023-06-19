@@ -1,10 +1,7 @@
 'use client';
 
-import { Switch } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { getTripInfo } from 'src/app/(components)/actions';
 
 function timeToDate(time: string) {
@@ -37,7 +34,11 @@ function formatTimeDifference(date: Date, old = false) {
 
 export default function Page({ params }: { params: { tripId: string } }) {
 	const router = useRouter();
-	const { data: tripInfo, isError } = useQuery({
+	const {
+		data: tripInfo,
+		isFetching,
+		isError,
+	} = useQuery({
 		queryKey: ['tripInfo'],
 		queryFn: async () => {
 			const res = await getTripInfo(params.tripId);
@@ -61,8 +62,14 @@ export default function Page({ params }: { params: { tripId: string } }) {
 	if (!tripInfo) {
 		return (
 			<div className='grid gap-2 mx-2'>
-				<div className='flex'>
+				<div className='flex justify-between items-center'>
 					<h1 className='skeleton'>Lorem ipsum dolor sit.</h1>
+					<span className='relative flex h-3 w-3'>
+						<span
+							className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${isError ? 'bg-red-400' : 'bg-green-400'} opacity-75`}
+						></span>
+						<span className={`relative inline-flex rounded-full h-3 w-3 ${isError ? 'bg-red-500' : 'bg-green-500'}`}></span>
+					</span>
 				</div>
 				<div className='grid gap-1'>
 					<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
@@ -81,9 +88,17 @@ export default function Page({ params }: { params: { tripId: string } }) {
 
 	return (
 		<div className='grid gap-2 mx-2'>
-			<h1>
-				{tripInfo.routeName} {tripInfo.directionText}
-			</h1>
+			<div className='flex justify-between items-center'>
+				<h1>
+					{tripInfo.routeName} {tripInfo.directionText}
+				</h1>
+				<span className='relative flex h-3 w-3'>
+					<span
+						className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${isError ? 'bg-red-400' : 'bg-green-400'} opacity-75`}
+					></span>
+					<span className={`relative inline-flex rounded-full h-3 w-3 ${isError ? 'bg-red-500' : 'bg-green-500'}`}></span>
+				</span>
+			</div>
 			{tripInfo.actual.length ? (
 				<div className='grid gap-1'>
 					{tripInfo.actual.map(a => (
