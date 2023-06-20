@@ -161,7 +161,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 							))}
 					</Draggable>
 					<div className='flex justify-between items-center mt-2'>
-						<h1>{currentStop.stopName}</h1>
+						<h1 className='h2'>{currentStop.stopName}</h1>
 						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 					</div>
 					{mutation.isLoading ? (
