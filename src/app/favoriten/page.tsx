@@ -77,7 +77,7 @@ export default function Page() {
 					<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
 				</div>
 			)}
-			{isPaused && <span>Letzte Aktualisierung: {new Date(dataUpdatedAt).toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin' })} Uhr</span>}
+			{isPaused && <span className='text-sm opacity-70'>Letzte Aktualisierung: {new Date(dataUpdatedAt).toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin' })} Uhr</span>}
 		</div>
 	);
 }
