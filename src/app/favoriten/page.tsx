@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import KVGTable from '../(components)/KVGTable';
 import { getStopData } from '../(components)/actions';
+import HealthIndicator from '../(components)/HealthIndicator';
 
 export default function Page() {
 	const { data, isFetching, isError, isPaused, dataUpdatedAt } = useQuery({
@@ -33,17 +34,11 @@ export default function Page() {
 		refetchInterval: 10_000,
 	});
 
-	const statusColor = isError ? 'bg-red-500' : isPaused ? 'bg-yellow-500' : 'bg-green-500';
-	const statusColorPulse = isError ? 'bg-red-400' : isPaused ? 'bg-yellow-400' : 'bg-green-400';
-
 	return (
 		<div className='grid gap-2 mx-2'>
 			<div className='flex justify-between items-center mb-2'>
 				<h1>Favoriten</h1>
-				<span className='relative flex h-3 w-3'>
-					<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${statusColorPulse} opacity-75`}></span>
-					<span className={`relative inline-flex rounded-full h-3 w-3 ${statusColor}`}></span>
-				</span>
+				<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 			</div>
 			<h2>Rathaus Kronshagen</h2>
 			{data ? (
@@ -77,7 +72,9 @@ export default function Page() {
 					<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
 				</div>
 			)}
-			{isPaused && <span className='text-sm opacity-70'>Letzte Aktualisierung: {new Date(dataUpdatedAt).toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin' })} Uhr</span>}
+			{isPaused && (
+				<span className='text-sm opacity-70'>Letzte Aktualisierung: {new Date(dataUpdatedAt).toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin' })} Uhr</span>
+			)}
 		</div>
 	);
 }

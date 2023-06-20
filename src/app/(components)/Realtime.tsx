@@ -9,6 +9,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@lib/reactQuery';
 import { useLocalStorage } from './useLocalStorage';
 import Searchbar from './Searchbar';
+import HealthIndicator from './HealthIndicator';
 
 function filterUniqueAndSortAscending(arr: string[]) {
 	const uniqueArr = Array.from(new Set(arr));
@@ -55,9 +56,6 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 		mutationFn: getStopData,
 		onSuccess: data => queryClient.setQueryData(['stopData'], data),
 	});
-
-	const statusColor = isError ? 'bg-red-500' : isPaused ? 'bg-yellow-500' : 'bg-green-500';
-	const statusColorPulse = isError ? 'bg-red-400' : isPaused ? 'bg-yellow-400' : 'bg-green-400';
 
 	if (isLoading)
 		return (
@@ -164,10 +162,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 					</Draggable>
 					<div className='flex justify-between items-center mt-2'>
 						<h2>{currentStop.stopName}</h2>
-						<span className='relative flex h-3 w-3'>
-							<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${statusColorPulse} opacity-75`}></span>
-							<span className={`relative inline-flex rounded-full h-3 w-3 ${statusColor}`}></span>
-						</span>
+						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 					</div>
 					{mutation.isLoading ? (
 						<div className='grid gap-1'>

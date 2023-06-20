@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import HealthIndicator from 'src/app/(components)/HealthIndicator';
 import { getTripInfo } from 'src/app/(components)/actions';
 
 function timeToDate(time: string) {
@@ -47,8 +48,6 @@ export default function Page({ params }: { params: { tripId: string } }) {
 		},
 		refetchInterval: 10_000,
 	});
-	const statusColor = isError ? 'bg-red-500' : isPaused ? 'bg-yellow-500' : 'bg-green-500';
-	const statusColorPulse = isError ? 'bg-red-400' : isPaused ? 'bg-yellow-400' : 'bg-green-400';
 
 	if (isError) {
 		return (
@@ -67,10 +66,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 			<div className='grid gap-2 mx-2'>
 				<div className='flex justify-between items-center'>
 					<h1 className='skeleton'>Lorem ipsum dolor sit.</h1>
-					<span className='relative flex h-3 w-3'>
-						<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${statusColorPulse} opacity-75`}></span>
-						<span className={`relative inline-flex rounded-full h-3 w-3 ${statusColor}`}></span>
-					</span>
+					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 				</div>
 				<div className='grid gap-1'>
 					<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
@@ -93,10 +89,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 				<h1>
 					{tripInfo.routeName} {tripInfo.directionText}
 				</h1>
-				<span className='relative flex h-3 w-3'>
-					<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full ${statusColorPulse} opacity-75`}></span>
-					<span className={`relative inline-flex rounded-full h-3 w-3 ${statusColor}`}></span>
-				</span>
+				<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 			</div>
 			{tripInfo.actual.length ? (
 				<div className='grid gap-1'>
