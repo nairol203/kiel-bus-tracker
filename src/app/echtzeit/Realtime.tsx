@@ -1,10 +1,9 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { useLocalStorage } from './useLocalStorage';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useLocalStorage } from '../../utils/useLocalStorage';
+import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { getStopData } from '../(components)/actions';
-import { queryClient } from '@/lib/reactQuery';
 import Searchbar from './Searchbar';
 import Draggable from './Draggable';
 import Image from 'next/image';
@@ -30,6 +29,8 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 	const [selectedStop, setSelectedStop] = useLocalStorage<StopByCharacter | null>('stop', null);
 	const [currentRouteId, setRouteId] = useLocalStorage<string | null>('routeId', null);
 	const [currentDirection, setDirection] = useLocalStorage<string | null>('direction', null);
+
+	const queryClient = useMemo(() => new QueryClient(), []);
 
 	const filteredStops = useMemo(() => {
 		const formattedQuery = query.toLowerCase().replace(/\s+/g, '');
