@@ -82,7 +82,7 @@ export default function Draggable({ children }: { children: React.ReactNode }) {
 		}
 	};
 
-	const childrenWithClickHandler = React.Children.map(children, child => {
+	const childrenWithClickHandler = React.Children.map(children, (child) => {
 		if (React.isValidElement(child)) {
 			return React.cloneElement(child, {
 				// @ts-expect-error
@@ -103,12 +103,12 @@ export default function Draggable({ children }: { children: React.ReactNode }) {
 	return (
 		<>
 			{showLeftButton && (
-				<button className='absolute px-2.5 py-1.5 z-20 bg-black/25 dark:bg-white/25 rounded-full' onClick={handleScrollLeft}>
+				<button className='absolute z-20 rounded-full bg-black/25 px-2.5 py-1.5 dark:bg-white/25' onClick={handleScrollLeft}>
 					<Image src='/chevron-left.svg' alt='X Icon' height={15} width={15} className='dark:invert' />
 				</button>
 			)}
 			<div
-				className={`flex gap-2 whitespace-nowrap overflow-x-auto no-scrollbar ${currentMask}`}
+				className={`no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap ${currentMask}`}
 				ref={sliderRef}
 				onMouseDown={handleMouseDown}
 				onMouseLeave={handleMouseLeave}
@@ -119,7 +119,7 @@ export default function Draggable({ children }: { children: React.ReactNode }) {
 				{childrenWithClickHandler}
 			</div>
 			{showRightButton && (
-				<button className='absolute top-0 right-0 px-2.5 py-1.5 z-20 bg-black/25 dark:bg-white/25 rounded-full' onClick={handleScrollRight}>
+				<button className='absolute right-0 top-0 z-20 rounded-full bg-black/25 px-2.5 py-1.5 dark:bg-white/25' onClick={handleScrollRight}>
 					<Image src='/chevron-right.svg' alt='X Icon' height={15} width={15} className='dark:invert' />
 				</button>
 			)}

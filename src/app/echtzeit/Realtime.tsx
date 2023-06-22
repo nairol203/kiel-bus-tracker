@@ -1,14 +1,14 @@
 'use client';
 
+import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { useLocalStorage } from '../../utils/useLocalStorage';
-import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { getStopData } from '../(components)/actions';
-import Searchbar from './Searchbar';
-import Draggable from './Draggable';
-import Image from 'next/image';
-import KVGTable from '../(components)/KVGTable';
 import HealthIndicator from '../(components)/HealthIndicator';
+import KVGTable from '../(components)/KVGTable';
+import Draggable from './Draggable';
+import Searchbar from './Searchbar';
 
 function filterUniqueAndSortAscending(arr: string[]) {
 	const uniqueArr = Array.from(new Set(arr));
@@ -18,7 +18,7 @@ function filterUniqueAndSortAscending(arr: string[]) {
 
 function concatenateDirectionsFromRoutes(arr: Route[]) {
 	const concatenatedArray: string[] = [];
-	arr.forEach(obj => {
+	arr.forEach((obj) => {
 		concatenatedArray.push(...obj.directions);
 	});
 	return concatenatedArray;
@@ -34,7 +34,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 
 	const filteredStops = useMemo(() => {
 		const formattedQuery = query.toLowerCase().replace(/\s+/g, '');
-		return allStops.filter(stop => stop.name.toLowerCase().replace(/\s+/g, '').includes(formattedQuery)).slice(0, 15);
+		return allStops.filter((stop) => stop.name.toLowerCase().replace(/\s+/g, '').includes(formattedQuery)).slice(0, 15);
 	}, [query, allStops]);
 
 	const {
@@ -55,36 +55,36 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 
 	const mutation = useMutation({
 		mutationFn: getStopData,
-		onSuccess: data => queryClient.setQueryData(['stopData'], data),
+		onSuccess: (data) => queryClient.setQueryData(['stopData'], data),
 	});
 
 	if (isLoading)
 		return (
-			<div className='grid gap-2 mx-2'>
+			<div className='mx-2 grid gap-2'>
 				<div className='skeleton'>
-					<input className='bg-black/10 dark:bg-white/25 rounded p-2 w-full' placeholder='Suche nach einer Haltestelle' disabled />
+					<input className='w-full rounded bg-black/10 p-2 dark:bg-white/25' placeholder='Suche nach einer Haltestelle' disabled />
 				</div>
-				<div className='flex gap-2 whitespace-nowrap overflow-x-auto no-scrollbar'>
-					<button className='px-2.5 py-1.5 rounded-full transition z-10 skeleton'>Lorem.</button>
-					<button className='px-2.5 py-1.5 rounded-full transition z-10 skeleton'>Lorem.</button>
-					<button className='px-2.5 py-1.5 rounded-full transition z-10 skeleton'>Lorem.</button>
-					<button className='px-2.5 py-1.5 rounded-full transition z-10 skeleton'>Lorem.</button>
+				<div className='no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap'>
+					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
 				</div>
-				<div className='flex mt-2'>
+				<div className='mt-2 flex'>
 					<h2 className='skeleton'>Lorem, ipsum dolor.</h2>
 				</div>
 				<div className='grid gap-1'>
-					<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
-					<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
-					<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
-					<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
-					<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
 				</div>
 			</div>
 		);
 
 	return (
-		<div className='grid gap-2 mx-2'>
+		<div className='mx-2 grid gap-2'>
 			<Searchbar
 				selectedStop={selectedStop}
 				setSelectedStop={setSelectedStop}
@@ -95,11 +95,11 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 				setQuery={setQuery}
 			/>
 			{currentStop && (
-				<div className='grid gap-2 relative'>
+				<div className='relative grid gap-2'>
 					<Draggable>
 						{currentRouteId && (
 							<button
-								className='shrink-0 px-2.5 py-1.5 bg-white/80 dark:bg-white/10 rounded-full md:hover:bg-gray-100 dark:md:hover:bg-white/20 transition duration-200'
+								className='shrink-0 rounded-full bg-white/80 px-2.5 py-1.5 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
 								onClick={() => {
 									setRouteId(null);
 									setDirection(null);
@@ -110,18 +110,18 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 							</button>
 						)}
 						{currentStop.routes
-							.filter(route => (currentDirection ? route.directions.includes(currentDirection) : true))
-							.map(route => (
+							.filter((route) => (currentDirection ? route.directions.includes(currentDirection) : true))
+							.map((route) => (
 								<button
 									className={
 										`${currentRouteId && currentRouteId !== route.id && 'hidden'} ` +
 										`${
 											currentRouteId === route.id
-												? 'bg-black dark:bg-white text-white dark:text-black'
-												: 'bg-white/80 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20 transition duration-200'
+												? 'bg-black text-white dark:bg-white dark:text-black'
+												: 'bg-white/80 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
 										} ` +
 										`${currentDirection && '-mr-6'} ` +
-										'px-2.5 py-1.5 rounded-full transition z-10'
+										'z-10 rounded-full px-2.5 py-1.5 transition'
 									}
 									onClick={() => {
 										if (currentRouteId) {
@@ -139,20 +139,24 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 								</button>
 							))}
 						{currentRouteId &&
-							filterUniqueAndSortAscending(concatenateDirectionsFromRoutes(currentStop.routes.filter(route => route.id === currentRouteId))).map(direction => (
+							filterUniqueAndSortAscending(concatenateDirectionsFromRoutes(currentStop.routes.filter((route) => route.id === currentRouteId))).map((direction) => (
 								<button
 									className={
 										`${currentDirection && currentDirection !== direction && 'hidden'} ` +
 										`${
 											currentDirection === direction
-												? 'bg-black/80 md:hover:bg-black/90 text-white dark:bg-white/80 dark:md:hover:bg-white/90 dark:text-black rounded-r-full pl-6'
-												: 'bg-white/80 dark:bg-white/10 rounded-full md:hover:bg-gray-100 dark:md:hover:bg-white/20 transition duration-200'
+												? 'rounded-r-full bg-black/80 pl-6 text-white dark:bg-white/80 dark:text-black md:hover:bg-black/90 dark:md:hover:bg-white/90'
+												: 'rounded-full bg-white/80 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
 										} ` +
 										'px-2.5 py-1.5 transition'
 									}
 									onClick={() => {
 										setDirection(currentDirection ? null : direction);
-										mutation.mutate({ stopId: selectedStop!.number, direction: currentDirection ? undefined : direction, routeId: currentRouteId });
+										mutation.mutate({
+											stopId: selectedStop!.number,
+											direction: currentDirection ? undefined : direction,
+											routeId: currentRouteId,
+										});
 									}}
 									key={direction}
 								>
@@ -160,17 +164,17 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 								</button>
 							))}
 					</Draggable>
-					<div className='flex justify-between items-center mt-2'>
+					<div className='mt-2 flex items-center justify-between'>
 						<h1 className='h2'>{currentStop.stopName}</h1>
 						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 					</div>
 					{mutation.isLoading ? (
 						<div className='grid gap-1'>
-							<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
-							<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
-							<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
-							<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
-							<div className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 skeleton'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
 						</div>
 					) : (
 						<KVGTable data={currentStop.actual} />

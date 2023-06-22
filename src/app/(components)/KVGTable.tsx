@@ -11,7 +11,7 @@ export default function KVGTable({ data }: { data: Actual[] }) {
 				data.map((actual, index) => (
 					<Link
 						href={`/trip/${actual.tripId}`}
-						className='flex justify-between p-2 rounded bg-white/80 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20 transition duration-200'
+						className='flex justify-between rounded bg-white/80 p-2 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
 						key={`${index}-${actual.tripId}`}
 					>
 						<div className='flex gap-4'>
@@ -22,7 +22,7 @@ export default function KVGTable({ data }: { data: Actual[] }) {
 					</Link>
 				))
 			) : (
-				<div className='p-2 rounded bg-white/80 dark:bg-white/10'>Keine Daten</div>
+				<div className='rounded bg-white/80 p-2 dark:bg-white/10'>Keine Daten</div>
 			)}
 		</div>
 	);

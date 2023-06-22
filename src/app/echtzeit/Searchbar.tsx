@@ -1,7 +1,7 @@
-import React from 'react';
-import Image from 'next/image';
-import { UseMutationResult } from '@tanstack/react-query';
 import { Combobox, Transition } from '@headlessui/react';
+import { UseMutationResult } from '@tanstack/react-query';
+import Image from 'next/image';
+import React from 'react';
 
 type ComboboxComponentProps = {
 	selectedStop: StopByCharacter | null;
@@ -17,7 +17,7 @@ export default function Searchbar({ selectedStop, setSelectedStop, setRouteId, s
 	return (
 		<Combobox
 			value={selectedStop}
-			onChange={e => {
+			onChange={(e) => {
 				setSelectedStop(e);
 				setRouteId(null);
 				setDirection(null);
@@ -27,8 +27,8 @@ export default function Searchbar({ selectedStop, setSelectedStop, setRouteId, s
 			<div className='relative'>
 				<div className='relative w-full'>
 					<Combobox.Input
-						className='bg-white/80 dark:bg-white/10 rounded p-2 w-full'
-						onChange={event => setQuery(event.target.value)}
+						className='w-full rounded bg-white/80 p-2 dark:bg-white/10'
+						onChange={(event) => setQuery(event.target.value)}
 						displayValue={(stop?: StopByCharacter) => stop?.name || ''}
 						placeholder='Search for a stop'
 					/>
@@ -45,15 +45,15 @@ export default function Searchbar({ selectedStop, setSelectedStop, setRouteId, s
 					leaveFrom='opacity-100'
 					leaveTo='opacity-0'
 				>
-					<Combobox.Options className='absolute mt-1 bg-background dark:bg-darkMode-background rounded overflow-auto w-full z-50 shadow'>
+					<Combobox.Options className='absolute z-50 mt-1 w-full overflow-auto rounded bg-background shadow dark:bg-darkMode-background'>
 						{filteredStops.length ? (
-							filteredStops.map(stop => (
+							filteredStops.map((stop) => (
 								<Combobox.Option key={stop.id} value={stop} as={React.Fragment}>
-									{({ active }) => <li className={`${active ? 'bg-blue-600 text-white' : 'bg-white/80 dark:bg-white/10'} p-2 cursor-pointer`}>{stop.name}</li>}
+									{({ active }) => <li className={`${active ? 'bg-blue-600 text-white' : 'bg-white/80 dark:bg-white/10'} cursor-pointer p-2`}>{stop.name}</li>}
 								</Combobox.Option>
 							))
 						) : (
-							<li className='bg-white/80 dark:bg-white/10 rounded p-2 wrap'>No results</li>
+							<li className='wrap rounded bg-white/80 p-2 dark:bg-white/10'>No results</li>
 						)}
 					</Combobox.Options>
 				</Transition>

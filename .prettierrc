@@ -1,0 +1,14 @@
+{
+	"plugins": [
+		"prettier-plugin-tailwindcss",
+		"@ianvs/prettier-plugin-sort-imports"
+	],
+	"pluginSearchDirs": false,
+	"useTabs": true,
+	"tabWidth": 4,
+	"singleQuote": true,
+	"jsxSingleQuote": true,
+	"semi": true,
+	"printWidth": 180,
+	"importOrder": ["<THIRD_PARTY_MODULES>", "^[./]"]
+}
