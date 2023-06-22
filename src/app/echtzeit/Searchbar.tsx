@@ -33,8 +33,7 @@ export default function Searchbar({ selectedStop, setSelectedStop, setRouteId, s
 						placeholder='Search for a stop'
 					/>
 					<Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2'>
-						<Image src='/chevron-down-light.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='dark:hidden' />
-						<Image src='/chevron-down-dark.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='hidden dark:block' />
+						<Image src='/chevron-down.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='dark:invert' />
 					</Combobox.Button>
 				</div>
 				<Transition

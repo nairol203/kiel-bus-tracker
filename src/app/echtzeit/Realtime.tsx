@@ -106,8 +106,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 									mutation.mutate({ stopId: selectedStop!.number, direction: undefined, routeId: undefined });
 								}}
 							>
-								<Image src='/xmark-light.svg' alt='X Icon' height={15} width={15} className='dark:hidden' />
-								<Image src='/xmark-dark.svg' alt='X Icon' height={15} width={15} className='hidden dark:block' />
+								<Image src='/xmark.svg' alt='X Icon' height={15} width={15} className='dark:invert' />
 							</button>
 						)}
 						{currentStop.routes

@@ -4,7 +4,7 @@ import NavBar from './(components)/NavBar';
 import Providers from '@/utils/Providers';
 
 export const metadata = {
-	title: 'Nairol Bus Tracker',
+	title: 'KVG Bus Tracker',
 	authors: [
 		{
 			name: 'nairol203',

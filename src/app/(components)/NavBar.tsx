@@ -47,9 +47,9 @@ export default function NavBar() {
 	return (
 		<nav className='relative'>
 			<div className='flex items-center justify-between mx-auto py-4 px-2'>
-				<Link href='/' className='flex items-center'>
-					<Image src='/logo.jpg' className='mr-3 rounded-full' alt='Nairol Bus Tracker Logo' width={32} height={32} />
-					<span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white'>Nairol Bus Tracker</span>
+				<Link href='/' className='flex items-center '>
+					<Image src='/bus.svg' className='mr-3 rounded-full dark:invert' alt='KVG Bus Tracker Logo' width={30} height={30} />
+					<span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white'>KVG Bus Tracker</span>
 				</Link>
 				<button
 					onClick={() => setDropdown(!showDropdown)}
