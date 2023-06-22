@@ -1,6 +1,7 @@
 'use client';
 
-import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import { queryClient } from '@/utils/Providers';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { useLocalStorage } from '../../utils/useLocalStorage';
@@ -29,8 +30,6 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 	const [selectedStop, setSelectedStop] = useLocalStorage<StopByCharacter | null>('stop', null);
 	const [currentRouteId, setRouteId] = useLocalStorage<string | null>('routeId', null);
 	const [currentDirection, setDirection] = useLocalStorage<string | null>('direction', null);
-
-	const queryClient = useMemo(() => new QueryClient(), []);
 
 	const filteredStops = useMemo(() => {
 		const formattedQuery = query.toLowerCase().replace(/\s+/g, '');
@@ -180,6 +179,26 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 						<KVGTable data={currentStop.actual} />
 					)}
 				</div>
+			)}
+			{!currentStop && mutation.isLoading && (
+				<>
+					<div className='no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap'>
+						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+					</div>
+					<div className='mt-2 flex'>
+						<h2 className='skeleton'>Lorem, ipsum dolor.</h2>
+					</div>
+					<div className='grid gap-1'>
+						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+					</div>
+				</>
 			)}
 		</div>
 	);

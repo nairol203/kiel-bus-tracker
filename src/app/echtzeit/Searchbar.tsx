@@ -30,7 +30,7 @@ export default function Searchbar({ selectedStop, setSelectedStop, setRouteId, s
 						className='w-full rounded bg-white/80 p-2 dark:bg-white/10'
 						onChange={(event) => setQuery(event.target.value)}
 						displayValue={(stop?: StopByCharacter) => stop?.name || ''}
-						placeholder='Search for a stop'
+						placeholder='Suche nach einer Haltestelle'
 					/>
 					<Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2'>
 						<Image src='/chevron-down.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='dark:invert' />
