@@ -5,20 +5,20 @@ import Providers from '@/utils/Providers';
 
 export const metadata = {
 	title: 'KVG Bus Tracker',
-	description: 'KVG Bus Tracker ist eine benutzerfreundliche Drittanbieterlösung, mit der Sie Echtzeitabfahrten von Bussen aus Kiel einsehen können.',
+	description: 'KVG Bus Tracker ist eine moderne und benutzerfreundliche Drittanbieterlösung, mit der Sie Echtzeitabfahrten von Bussen der KVG einsehen können.',
 	authors: {
 		name: 'nairol203',
 		url: 'https://nairol.me',
 	},
 	openGraph: {
 		title: 'KVG Bus Tracker',
-		description: 'KVG Bus Tracker ist eine benutzerfreundliche Drittanbieterlösung, mit der Sie Echtzeitabfahrten von Bussen aus Kiel einsehen können.',
+		description: 'KVG Bus Tracker ist eine moderne und benutzerfreundliche Drittanbieterlösung, mit der Sie Echtzeitabfahrten von Bussen der KVG einsehen können.',
 		url: 'bus.nairol.me',
 		type: 'website',
 	},
 	twitter: {
 		title: 'KVG Bus Tracker',
-		description: 'KVG Bus Tracker ist eine benutzerfreundliche Drittanbieterlösung, mit der Sie Echtzeitabfahrten von Bussen aus Kiel einsehen können.',
+		description: 'KVG Bus Tracker ist eine moderne und benutzerfreundliche Drittanbieterlösung, mit der Sie Echtzeitabfahrten von Bussen der KVG einsehen können.',
 		site: '@nairol203',
 		creator: '@nairol203',
 		card: 'summary',
