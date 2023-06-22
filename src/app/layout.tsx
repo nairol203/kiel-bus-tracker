@@ -19,7 +19,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang='de'>
-			<body className='max-w-2xl mx-auto'>
+			<body className='max-w-3xl mx-auto'>
 				<NavBar />
 				<main className='min-h-screen'>{children}</main>
 				<footer className='grid sm:flex gap-2 sm:gap-1 justify-center p-4 text-sm text-gray-400'>

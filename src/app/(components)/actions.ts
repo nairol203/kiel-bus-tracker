@@ -1,25 +1,6 @@
 'use server';
 
-export async function searchByCharacter(character: string) {
-	const endpoint = new URL('https://www.kvg-kiel.de/internetservice/services/lookup/stopsByCharacter');
-
-	endpoint.searchParams.append('character', character);
-
-	const res = await fetch(endpoint.toString(), {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		next: {
-			revalidate: 86400,
-		},
-	});
-
-	const data = await res.json();
-	return data as StopsByCharacter;
-}
-
-export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string | null; direction?: string | null }) {
+export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string | null; direction?: string | null }): Promise<KVGStops> {
 	const endpoint = new URL('https://www.kvg-kiel.de/internetservice/services/passageInfo/stopPassages/stop');
 
 	endpoint.searchParams.append('stop', stopId);
@@ -41,11 +22,10 @@ export async function getStopData({ stopId, routeId, direction }: { stopId: stri
 		cache: 'no-store',
 	});
 
-	const data = await res.json();
-	return data as KVGStops;
+	return res.json();
 }
 
-export async function getTripInfo(tripId: string) {
+export async function getTripInfo(tripId: string): Promise<StopInfo> {
 	const endpoint = new URL('https://kvg-kiel.de/internetservice/services/tripInfo/tripPassages');
 
 	endpoint.searchParams.append('tripId', tripId);
@@ -58,6 +38,5 @@ export async function getTripInfo(tripId: string) {
 		cache: 'no-store',
 	});
 
-	const data = await res.json();
-	return data as StopInfo;
+	return res.json();
 }

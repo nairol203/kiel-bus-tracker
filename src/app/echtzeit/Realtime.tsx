@@ -1,15 +1,15 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { getStopData } from './actions';
-import KVGTable from './KVGTable';
-import Image from 'next/image';
-import Draggable from './Draggable';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { queryClient } from '@lib/reactQuery';
 import { useLocalStorage } from './useLocalStorage';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { getStopData } from '../(components)/actions';
+import { queryClient } from '@/lib/reactQuery';
 import Searchbar from './Searchbar';
-import HealthIndicator from './HealthIndicator';
+import Draggable from './Draggable';
+import Image from 'next/image';
+import KVGTable from '../(components)/KVGTable';
+import HealthIndicator from '../(components)/HealthIndicator';
 
 function filterUniqueAndSortAscending(arr: string[]) {
 	const uniqueArr = Array.from(new Set(arr));

@@ -1,6 +1,4 @@
 export default function HealthIndicator({ isError, isFetching, isPaused }: { isFetching: boolean; isError: boolean; isPaused: boolean }) {
-	console.log(isError, isFetching, isPaused);
-
 	if (isPaused)
 		return (
 			<div className='flex gap-2 items-center px-2 py-1 rounded-full bg-white/80 dark:bg-white/10'>
