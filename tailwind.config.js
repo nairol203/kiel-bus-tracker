@@ -2,7 +2,14 @@
 module.exports = {
 	content: ['./src/pages/**/*.{js,ts,jsx,tsx,mdx}', './src/components/**/*.{js,ts,jsx,tsx,mdx}', './src/app/**/*.{js,ts,jsx,tsx,mdx}'],
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				background: 'rgb(226 236 255)',
+				darkMode: {
+					background: 'rgb(19, 26, 40)',
+				},
+			},
+		},
 	},
 	plugins: [],
 };
