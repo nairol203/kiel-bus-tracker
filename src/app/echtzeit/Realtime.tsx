@@ -176,7 +176,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
 						</div>
 					) : (
-						<KVGTable data={currentStop.actual} />
+						<KVGTable data={currentStop} />
 					)}
 				</div>
 			)}

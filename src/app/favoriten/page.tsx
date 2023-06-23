@@ -56,7 +56,7 @@ export default function Page() {
 				? data.map((favData) => (
 						<div className='grid gap-2' key={favData.stopShortName}>
 							<h2>{favData.stopName}</h2>
-							<KVGTable data={favData.actual} />
+							<KVGTable data={favData} />
 						</div>
 				  ))
 				: favorites.map((fav) => <SkeletonFavorite key={fav.stopId} />)}
