@@ -10,11 +10,12 @@ export default function KVGTable({ data, showAlert = true }: { data: KVGStops; s
 		<div className='grid gap-1'>
 			{showAlert &&
 				data.generalAlerts.map((alert, index) => (
-					<div className='flex gap-2 rounded bg-yellow-500 p-2 dark:bg-yellow-600' key={`alert-${index}-${data.stopShortName}`}>
-						<Image src='/circle-info.svg' alt='Info Icon' height={30} width={30} className='shrink-0 dark:invert' />
+					<div className='flex gap-2 rounded bg-yellow-400 p-2 dark:bg-yellow-600' key={`alert-${index}-${data.stopShortName}`}>
+						<Image src='/circle-info.svg' alt='Info Icon' height={25} width={25} className='shrink-0 dark:invert' />
 						<span>{alert.title}</span>
 					</div>
 				))}
+
 			{data.actual.length ? (
 				data.actual.map((actual, index) => (
 					<Link
