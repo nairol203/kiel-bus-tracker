@@ -54,7 +54,7 @@ export default function Searchbar({ selectedStop, setSelectedStop, setRouteId, s
 								</Combobox.Option>
 							))
 						) : (
-							<li className='wrap rounded bg-white/80 p-2 dark:bg-white/10'>No results</li>
+							<li className='wrap rounded bg-white/80 p-2 dark:bg-white/10'>Keine Ergebnisse</li>
 						)}
 					</Combobox.Options>
 				</Transition>
