@@ -4,6 +4,15 @@ const nextConfig = {
 		serverActions: true,
 	},
 	reactStrictMode: true,
+	redirects: () => {
+		return [
+			{
+				source: '/',
+				destination: '/echtzeit',
+				permanent: false,
+			},
+		];
+	},
 };
 
 module.exports = nextConfig;

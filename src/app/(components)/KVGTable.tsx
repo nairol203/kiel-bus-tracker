@@ -15,7 +15,6 @@ export default function KVGTable({ data, showAlert = true }: { data: KVGStops; s
 						<span>{alert.title}</span>
 					</div>
 				))}
-
 			{data.actual.length ? (
 				data.actual.map((actual, index) => (
 					<Link

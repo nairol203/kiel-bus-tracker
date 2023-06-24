@@ -15,15 +15,6 @@ export default function NavBar() {
 			<div className='flex flex-col font-medium md:flex-row'>
 				<Link
 					onClick={() => setDropdown(false)}
-					href='/'
-					className={`${
-						pathname === '/' && 'rounded bg-blue-600 text-white underline-offset-4 md:bg-transparent md:text-black md:underline md:dark:text-white'
-					} m-1 px-4 py-2 md:m-0 md:hover:underline md:hover:underline-offset-4`}
-				>
-					Home
-				</Link>
-				<Link
-					onClick={() => setDropdown(false)}
 					href='/echtzeit'
 					className={`${
 						pathname === '/echtzeit' && 'rounded bg-blue-600 text-white underline-offset-4 md:bg-transparent md:text-black md:underline md:dark:text-white'
