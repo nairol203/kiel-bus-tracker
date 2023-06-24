@@ -4,7 +4,7 @@ import { queryClient } from '@/utils/Providers';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
-import { useLocalStorage } from '../../utils/useLocalStorage';
+import { useSessionStorage } from '../../utils/useSessionStorage';
 import { getStopData } from '../(components)/actions';
 import HealthIndicator from '../(components)/HealthIndicator';
 import KVGTable from '../(components)/KVGTable';
@@ -27,9 +27,9 @@ function concatenateDirectionsFromRoutes(arr: Route[]) {
 
 export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) {
 	const [query, setQuery] = useState('');
-	const [selectedStop, setSelectedStop] = useLocalStorage<StopByCharacter | null>('stop', null);
-	const [currentRouteId, setRouteId] = useLocalStorage<string | null>('routeId', null);
-	const [currentDirection, setDirection] = useLocalStorage<string | null>('direction', null);
+	const [selectedStop, setSelectedStop] = useSessionStorage<StopByCharacter | null>('stop', null);
+	const [currentRouteId, setRouteId] = useSessionStorage<string | null>('routeId', null);
+	const [currentDirection, setDirection] = useSessionStorage<string | null>('direction', null);
 
 	const filteredStops = useMemo(() => {
 		const formattedQuery = query.toLowerCase().replace(/\s+/g, '');
