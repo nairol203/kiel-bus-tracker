@@ -29,11 +29,17 @@ interface GeneralAlert {
 }
 
 interface Route {
-	alerts: any[];
+	alerts: RouteAlert[];
 	authority: string;
 	directions: string[];
 	id: string;
 	name: string;
 	routeType: string;
 	shortName: string;
+}
+
+interface RouteAlert {
+	direction: string[];
+	directionId: string;
+	title: string;
 }

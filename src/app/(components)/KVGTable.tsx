@@ -5,7 +5,7 @@ function formatDepartureTime(a: Actual) {
 	return a.actualRelativeTime ? (a.actualRelativeTime > 60 ? `${Math.round(a.actualRelativeTime / 60)} min` : 'Sofort') : `${a.plannedTime} Uhr`;
 }
 
-export default function KVGTable({ data, showAlert = true }: { data: KVGStops; showAlert?: boolean }) {
+export default function KVGTable({ data, direction, routeId, showAlert = true }: { data: KVGStops; routeId?: string; direction?: string; showAlert?: boolean }) {
 	return (
 		<div className='grid gap-1'>
 			{showAlert &&
@@ -15,6 +15,22 @@ export default function KVGTable({ data, showAlert = true }: { data: KVGStops; s
 						<span>{alert.title}</span>
 					</div>
 				))}
+			{showAlert &&
+				data.routes
+					.filter((route) => (routeId ? route.id === routeId : true))
+					.map((route) =>
+						route.alerts
+							.filter((alert) => (direction ? alert.direction.includes(direction) : true))
+							.map((alert, index) => (
+								<div className='flex gap-2  flex-wrap justify-between rounded bg-yellow-400 p-2 dark:bg-yellow-600' key={`alert-${index}-${data.stopShortName}`}>
+									<div className='flex gap-4'>
+										<span>{route.name}</span>
+										<span>{alert.direction.join('; ')}</span>
+									</div>
+									<span>{alert.title}</span>
+								</div>
+							))
+					)}
 			{data.actual.length ? (
 				data.actual.map((actual, index) => (
 					<Link
