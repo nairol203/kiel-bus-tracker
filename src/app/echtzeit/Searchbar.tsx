@@ -29,7 +29,7 @@ export default function Searchbar({ selectedStop, setSelectedStop, setRouteId, s
 				<div className='relative w-full'>
 					<Combobox.Input
 						className='w-full rounded bg-white/80 p-2 dark:bg-white/10'
-						onChange={(event) => setQuery(event.currentTarget.value)}
+						onInput={(event) => setQuery(event.currentTarget.value)}
 						displayValue={(stop?: StopByCharacter) => stop?.name || ''}
 						placeholder='Suche nach einer Haltestelle'
 						autoFocus={!selectedStop}
