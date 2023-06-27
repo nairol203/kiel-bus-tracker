@@ -36,7 +36,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 		const fuse = new Fuse(allStops, {
 			keys: ['name'],
 		});
-		const result = fuse.search(query);
+		const result = fuse.search(query.trim());
 		return result.map((item) => item.item).slice(0, 10);
 	}, [query, allStops]);
 
