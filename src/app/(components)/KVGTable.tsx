@@ -5,6 +5,23 @@ function formatDepartureTime(a: Actual) {
 	return a.actualRelativeTime ? (a.actualRelativeTime > 60 ? `${Math.round(a.actualRelativeTime / 60)} min` : 'Sofort') : `${a.plannedTime} Uhr`;
 }
 
+function filterIdenticalRouteAlerts(alerts: RouteAlert[]) {
+	const uniqueAlerts: RouteAlert[] = [];
+
+	alerts.forEach((alert) => {
+		const isIdentical = uniqueAlerts.some(
+			(uniqueAlert) =>
+				JSON.stringify(uniqueAlert.direction) === JSON.stringify(alert.direction) && uniqueAlert.directionId === alert.directionId && uniqueAlert.title === alert.title
+		);
+
+		if (!isIdentical) {
+			uniqueAlerts.push(alert);
+		}
+	});
+
+	return uniqueAlerts;
+}
+
 export default function KVGTable({ data, direction, routeId, showAlert = true }: { data: KVGStops; routeId?: string; direction?: string; showAlert?: boolean }) {
 	return (
 		<div className='grid gap-1'>
@@ -19,7 +36,7 @@ export default function KVGTable({ data, direction, routeId, showAlert = true }:
 				data.routes
 					.filter((route) => (routeId ? route.id === routeId : true))
 					.map((route) =>
-						route.alerts
+						filterIdenticalRouteAlerts(route.alerts)
 							.filter((alert) => (direction ? alert.direction.includes(direction) : true))
 							.map((alert, index) => (
 								<div
