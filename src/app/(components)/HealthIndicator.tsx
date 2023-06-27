@@ -24,8 +24,8 @@ export default function HealthIndicator({ isError, isFetching, isPaused }: { isF
 	return (
 		<div className='px-2 py-1'>
 			<span className='relative flex h-3 w-3'>
-				<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75`}></span>
-				<span className={`relative inline-flex h-3 w-3 rounded-full bg-green-500`}></span>
+				<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75`}></span>
+				<span className={`relative inline-flex h-3 w-3 rounded-full bg-blue-500`}></span>
 			</span>
 		</div>
 	);
