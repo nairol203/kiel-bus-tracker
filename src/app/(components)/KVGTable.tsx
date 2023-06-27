@@ -8,16 +8,11 @@ function formatDepartureTime(a: Actual) {
 function filterIdenticalRouteAlerts(alerts: RouteAlert[]) {
 	const uniqueAlerts: RouteAlert[] = [];
 
-	alerts.forEach((alert) => {
-		const isIdentical = uniqueAlerts.some(
-			(uniqueAlert) =>
-				JSON.stringify(uniqueAlert.direction) === JSON.stringify(alert.direction) && uniqueAlert.directionId === alert.directionId && uniqueAlert.title === alert.title
-		);
-
-		if (!isIdentical) {
-			uniqueAlerts.push(alert);
-		}
-	});
+	for (const alert of alerts) {
+		const isIdentical = uniqueAlerts.some((uniqueAlert) => JSON.stringify(uniqueAlert) === JSON.stringify(alert));
+		if (isIdentical) continue;
+		uniqueAlerts.push(alert);
+	}
 
 	return uniqueAlerts;
 }
