@@ -11,7 +11,7 @@ export default function KVGTable({ data, direction, routeId, showAlert = true }:
 			{showAlert &&
 				data.generalAlerts.map((alert, index) => (
 					<div className='flex gap-2 rounded bg-yellow-400 p-2 dark:bg-yellow-600' key={`alert-${index}-${data.stopShortName}`}>
-						<Image src='/circle-info.svg' alt='Info Icon' height={25} width={25} className='shrink-0 dark:invert' />
+						<Image src='/warn.svg' alt='Warn Icon' height={25} width={25} className='shrink-0 dark:invert' />
 						<span>{alert.title}</span>
 					</div>
 				))}
@@ -22,12 +22,15 @@ export default function KVGTable({ data, direction, routeId, showAlert = true }:
 						route.alerts
 							.filter((alert) => (direction ? alert.direction.includes(direction) : true))
 							.map((alert, index) => (
-								<div className='flex gap-2  flex-wrap justify-between rounded bg-yellow-400 p-2 dark:bg-yellow-600' key={`alert-${index}-${data.stopShortName}`}>
+								<div className='flex gap-2 flex-wrap justify-between rounded bg-yellow-400 p-2 dark:bg-yellow-600' key={`alert-${index}-${data.stopShortName}`}>
 									<div className='flex gap-4'>
 										<span>{route.name}</span>
 										<span>{alert.direction.join('; ')}</span>
 									</div>
-									<span>{alert.title}</span>
+									<div className='flex gap-2'>
+										<Image src='/warn.svg' alt='Warn Icon' height={25} width={25} className='shrink-0 dark:invert' />
+										<span>{alert.title}</span>
+									</div>
 								</div>
 							))
 					)}
