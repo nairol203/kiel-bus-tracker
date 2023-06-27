@@ -29,16 +29,25 @@ export default function Searchbar({ selectedStop, setSelectedStop, setRouteId, s
 				<div className='relative w-full'>
 					<Combobox.Input
 						className='w-full rounded bg-white/80 p-2 dark:bg-white/10'
-						onInput={(event) => setQuery(event.currentTarget.value)}
+						onChange={(event) => setQuery(event.currentTarget.value)}
 						displayValue={(stop?: StopByCharacter) => stop?.name || ''}
 						placeholder='Suche nach einer Haltestelle'
-						autoFocus={!selectedStop}
+						// autoFocus={!selectedStop}
 					/>
 					<Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2'>
 						<Image src='/chevron-down.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='dark:invert' />
 					</Combobox.Button>
 				</div>
-				<Transition as={Fragment} leave='transition ease-in duration-100' leaveFrom='opacity-100' leaveTo='opacity-0' afterLeave={() => setQuery('')}>
+				<Transition
+					as={Fragment}
+					enter='transition ease-in duration-100'
+					enterFrom='opacity-0'
+					enterTo='opacity-100'
+					leave='transition ease-in duration-100'
+					leaveFrom='opacity-100'
+					leaveTo='opacity-0'
+					afterLeave={() => setQuery('')}
+				>
 					<Combobox.Options className='absolute z-50 mt-1 w-full overflow-auto rounded bg-background shadow dark:bg-darkMode-background'>
 						{filteredStops.length === 0 && query !== '' ? (
 							<li className='wrap rounded bg-white/80 p-2 dark:bg-white/10'>Keine Ergebnisse</li>
