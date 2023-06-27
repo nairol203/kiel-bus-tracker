@@ -2,6 +2,7 @@
 
 import { queryClient } from '@/utils/Providers';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import Fuse from 'fuse.js';
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { useSessionStorage } from '../../utils/useSessionStorage';
@@ -32,8 +33,11 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 	const [currentDirection, setDirection] = useSessionStorage<string | null>('direction', null);
 
 	const filteredStops = useMemo(() => {
-		const formattedQuery = query.toLowerCase().replace(/\s+/g, '');
-		return allStops.filter((stop) => stop.name.toLowerCase().replace(/\s+/g, '').includes(formattedQuery)).slice(0, 15);
+		const fuse = new Fuse(allStops, {
+			keys: ['name'],
+		});
+		const result = fuse.search(query);
+		return result.map((item) => item.item).slice(0, 10);
 	}, [query, allStops]);
 
 	const {

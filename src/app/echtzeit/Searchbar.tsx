@@ -29,16 +29,14 @@ export default function Searchbar({ selectedStop, setSelectedStop, setRouteId, s
 					<Combobox.Input
 						className='w-full rounded bg-white/80 p-2 dark:bg-white/10'
 						onInput={(event) => setQuery(event.currentTarget.value)}
-						// onChange={(event) => setQuery(event.currentTarget.value)}
 						displayValue={(stop?: StopByCharacter) => stop?.name || ''}
 						placeholder='Suche nach einer Haltestelle'
-						// autoFocus={!selectedStop}
 					/>
 					<Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2'>
 						<Image src='/chevron-down.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='dark:invert' />
 					</Combobox.Button>
 				</div>
-				{/* <Transition
+				<Transition
 					as={React.Fragment}
 					enter='transition ease-in duration-100'
 					enterFrom='opacity-0'
@@ -46,22 +44,20 @@ export default function Searchbar({ selectedStop, setSelectedStop, setRouteId, s
 					leave='transition ease-in duration-100'
 					leaveFrom='opacity-100'
 					leaveTo='opacity-0'
-					afterLeave={() => setQuery('')}
-				> */}
-				<Combobox.Options className='absolute z-50 mt-1 w-full overflow-auto rounded bg-background shadow dark:bg-darkMode-background'>
-					{filteredStops.length ? (
-						filteredStops.map((stop) => (
-							<Combobox.Option key={stop.id} value={stop} as={React.Fragment}>
-								{({ active }) => <li className={`${active ? 'bg-blue-600 text-white' : 'bg-white/80 dark:bg-white/10'} cursor-pointer p-2`}>{stop.name}</li>}
-							</Combobox.Option>
-						))
-					) : (
-						<li className='wrap rounded bg-white/80 p-2 dark:bg-white/10'>Keine Ergebnisse</li>
-					)}
-				</Combobox.Options>
-				{/* </Transition> */}
+				>
+					<Combobox.Options className='absolute z-50 mt-1 w-full overflow-auto rounded bg-background shadow dark:bg-darkMode-background'>
+						{filteredStops.length ? (
+							filteredStops.map((stop) => (
+								<Combobox.Option key={stop.id} value={stop} as={React.Fragment}>
+									{({ active }) => <li className={`${active ? 'bg-blue-600 text-white' : 'bg-white/80 dark:bg-white/10'} cursor-pointer p-2`}>{stop.name}</li>}
+								</Combobox.Option>
+							))
+						) : (
+							<li className='wrap rounded bg-white/80 p-2 dark:bg-white/10'>Keine Ergebnisse</li>
+						)}
+					</Combobox.Options>
+				</Transition>
 			</div>
 		</Combobox>
 	);
 }
-//
