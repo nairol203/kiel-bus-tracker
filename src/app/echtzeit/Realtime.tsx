@@ -1,10 +1,11 @@
 'use client';
 
 import { queryClient } from '@/utils/Providers';
+import { Combobox, Transition } from '@headlessui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSessionStorage } from '../../utils/useSessionStorage';
 import { getStopData } from '../(components)/actions';
 import HealthIndicator from '../(components)/HealthIndicator';
@@ -88,15 +89,52 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 
 	return (
 		<div className='mx-2 grid gap-2'>
-			<Searchbar
-				selectedStop={selectedStop}
-				setSelectedStop={setSelectedStop}
-				setRouteId={setRouteId}
-				setDirection={setDirection}
-				mutation={mutation}
-				filteredStops={filteredStops}
-				setQuery={setQuery}
-			/>
+			<Combobox
+				value={selectedStop}
+				onChange={(e) => {
+					setSelectedStop(e);
+					setRouteId(null);
+					setDirection(null);
+					mutation.mutate({ stopId: e!.number, direction: undefined, routeId: undefined });
+				}}
+			>
+				<div className='relative'>
+					<div className='relative w-full'>
+						<Combobox.Input
+							className='w-full rounded bg-white/80 p-2 dark:bg-white/10'
+							onInput={(event) => setQuery(event.currentTarget.value)}
+							displayValue={(stop?: StopByCharacter) => stop?.name || ''}
+							placeholder='Suche nach einer Haltestelle'
+						/>
+						<Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2'>
+							<Image src='/chevron-down.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='dark:invert' />
+						</Combobox.Button>
+					</div>
+					<Transition
+						as={React.Fragment}
+						enter='transition ease-in duration-100'
+						enterFrom='opacity-0'
+						enterTo='opacity-100'
+						leave='transition ease-in duration-100'
+						leaveFrom='opacity-100'
+						leaveTo='opacity-0'
+					>
+						<Combobox.Options className='absolute z-50 mt-1 w-full overflow-auto rounded bg-background shadow dark:bg-darkMode-background'>
+							{filteredStops.length ? (
+								filteredStops.map((stop) => (
+									<Combobox.Option key={stop.id} value={stop} as={React.Fragment}>
+										{({ active }) => (
+											<li className={`${active ? 'bg-blue-600 text-white' : 'bg-white/80 dark:bg-white/10'} cursor-pointer p-2`}>{stop.name}</li>
+										)}
+									</Combobox.Option>
+								))
+							) : (
+								<li className='wrap rounded bg-white/80 p-2 dark:bg-white/10'>Keine Ergebnisse</li>
+							)}
+						</Combobox.Options>
+					</Transition>
+				</div>
+			</Combobox>
 			{currentStop && (
 				<div className='relative grid gap-2'>
 					<Draggable>
