@@ -46,7 +46,6 @@ export default function Searchbar({ selectedStop, setSelectedStop, setRouteId, s
 					leave='transition ease-in duration-100'
 					leaveFrom='opacity-100'
 					leaveTo='opacity-0'
-					afterLeave={() => setQuery('')}
 				>
 					<Combobox.Options className='absolute z-50 mt-1 w-full overflow-auto rounded bg-background shadow dark:bg-darkMode-background'>
 						{filteredStops.length === 0 && query !== '' ? (
