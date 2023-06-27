@@ -95,6 +95,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 				setDirection={setDirection}
 				mutation={mutation}
 				filteredStops={filteredStops}
+				query={query}
 				setQuery={setQuery}
 			/>
 			{currentStop && (
