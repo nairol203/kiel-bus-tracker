@@ -1,5 +1,9 @@
 import Realtime from './Realtime';
 
+export const config = {
+	runtime: 'edge',
+};
+
 const ONE_DAY_IN_SECONDS = 86_400;
 
 const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
