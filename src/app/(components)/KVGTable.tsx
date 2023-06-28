@@ -23,8 +23,8 @@ export default function KVGTable({ data, direction, routeId, showAlert = true }:
 			{showAlert &&
 				data.generalAlerts.map((alert, index) => (
 					<div className='flex gap-2 text-black rounded bg-yellow-400 p-2 dark:bg-yellow-600' key={`alert-${index}-${data.stopShortName}`}>
-						<Image src='/warn.svg' alt='Warn Icon' height={25} width={25} className='shrink-0' />
-						<span>{alert.title}</span>
+						<Image src='/warn.svg' alt='Warn Icon' height={35} width={35} className='shrink-0' />
+						<span className='font-medium'>{alert.title}</span>
 					</div>
 				))}
 			{showAlert &&
@@ -34,10 +34,7 @@ export default function KVGTable({ data, direction, routeId, showAlert = true }:
 						filterIdenticalRouteAlerts(route.alerts)
 							.filter((alert) => (direction ? alert.direction.includes(direction) : true))
 							.map((alert, index) => (
-								<div
-									className='flex gap-2 text-black flex-wrap justify-between rounded bg-yellow-400 p-2 dark:bg-yellow-600'
-									key={`alert-${index}-${data.stopShortName}`}
-								>
+								<div className='grid gap-1 text-black rounded bg-yellow-400 p-2 dark:bg-yellow-600' key={`alert-${index}-${data.stopShortName}`}>
 									<div className='flex gap-4'>
 										<span>{route.name}</span>
 										<span>{alert.direction.join('; ')}</span>
