@@ -23,7 +23,7 @@ export default function KVGTable({ data, direction, routeId, showAlert = true }:
 			{showAlert &&
 				data.generalAlerts.map((alert, index) => (
 					<div className='flex gap-2 text-black rounded bg-yellow-400 p-2 dark:bg-yellow-600' key={`alert-${index}-${data.stopShortName}`}>
-						<Image src='/warn.svg' alt='Warn Icon' height={25} width={25} className='shrink-0 invert' />
+						<Image src='/warn.svg' alt='Warn Icon' height={25} width={25} className='shrink-0' />
 						<span>{alert.title}</span>
 					</div>
 				))}
