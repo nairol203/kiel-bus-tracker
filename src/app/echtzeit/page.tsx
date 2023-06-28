@@ -1,8 +1,6 @@
 import Realtime from './Realtime';
 
-export const config = {
-	runtime: 'edge',
-};
+export const runtime = 'edge';
 
 const ONE_DAY_IN_SECONDS = 86_400;
 
