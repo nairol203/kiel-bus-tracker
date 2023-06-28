@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { getStopData } from '../(components)/actions';
+import { GeneralAlerts } from '../(components)/alerts';
 import HealthIndicator from '../(components)/HealthIndicator';
 import KVGTable from '../(components)/KVGTable';
 
@@ -52,11 +53,12 @@ export default function Page() {
 				<h1>Favoriten</h1>
 				<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 			</div>
+			{data && <GeneralAlerts data={data[0]} />}
 			{data
 				? data.map((favData) => (
 						<div className='grid gap-2' key={favData.stopShortName}>
 							<h2>{favData.stopName}</h2>
-							<KVGTable data={favData} />
+							<KVGTable data={favData} showGeneralAlerts={false} />
 						</div>
 				  ))
 				: favorites.map((fav) => <SkeletonFavorite key={fav.stopId} />)}
