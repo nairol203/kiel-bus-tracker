@@ -1,7 +1,7 @@
 export default function HealthIndicator({ isError, isFetching, isPaused }: { isFetching: boolean; isError: boolean; isPaused: boolean }) {
 	if (isPaused)
 		return (
-			<div className='flex items-center gap-2 rounded-full px-2.5 py-1 bg-yellow-400 dark:bg-yellow-600 shadow'>
+			<div className='flex items-center gap-2 rounded-full bg-yellow-400 px-2.5 py-1 shadow dark:bg-yellow-600'>
 				<span className='text-black'>Offline</span>
 				<span className='relative flex h-3 w-3'>
 					<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full bg-black opacity-75`}></span>
