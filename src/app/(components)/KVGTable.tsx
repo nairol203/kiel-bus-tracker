@@ -7,12 +7,14 @@ function formatDepartureTime(a: Actual) {
 
 export default function KVGTable({
 	data,
+	isPaused,
 	direction,
 	routeId,
 	showGeneralAlerts = true,
 	showRouteAlerts = true,
 }: {
 	data: KVGStops;
+	isPaused: boolean;
 	routeId?: string;
 	direction?: string;
 	showGeneralAlerts?: boolean;
@@ -26,18 +28,18 @@ export default function KVGTable({
 				data.actual.map((actual, index) => (
 					<Link
 						href={`/trip/${actual.tripId}`}
-						className='flex justify-between rounded bg-white/80 p-2 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
+						className='flex justify-between rounded bg-white/80 p-2 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20 shadow'
 						key={`${index}-${actual.tripId}`}
 					>
 						<div className='flex gap-4'>
 							<span>{actual.patternText}</span>
 							<span>{actual.direction}</span>
 						</div>
-						<span>{formatDepartureTime(actual)}</span>
+						<span>{isPaused ? actual.actualTime : formatDepartureTime(actual)}</span>
 					</Link>
 				))
 			) : (
-				<div className='rounded bg-white/80 p-2 dark:bg-white/10'>Keine Daten</div>
+				<div className='rounded bg-white/80 p-2 dark:bg-white/10 shadow'>Keine Daten</div>
 			)}
 		</div>
 	);

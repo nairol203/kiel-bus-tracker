@@ -96,7 +96,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 					{tripInfo.actual.map((a) => (
 						<div key={a.stop_seq_num} className='flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>
 							<span>{a.stop.name}</span>
-							{a.status !== 'STOPPING' && <span>{formatTimeDifference(timeToDate(a.actualTime || a.plannedTime))}</span>}
+							{a.status !== 'STOPPING' && <span>{isPaused ? a.actualTime || a.plannedTime : formatTimeDifference(timeToDate(a.actualTime || a.plannedTime))}</span>}
 						</div>
 					))}
 				</div>
