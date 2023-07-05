@@ -94,7 +94,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 			{tripInfo.actual.length ? (
 				<div className='grid gap-1'>
 					{tripInfo.actual.map((a) => (
-						<div key={a.stop_seq_num} className='flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>
+						<div key={a.stop_seq_num} className='flex justify-between rounded bg-white/80 p-2 dark:bg-white/10 shadow'>
 							<span>{a.stop.name}</span>
 							{a.status !== 'STOPPING' && <span>{isPaused ? a.actualTime || a.plannedTime : formatTimeDifference(timeToDate(a.actualTime || a.plannedTime))}</span>}
 						</div>
@@ -103,7 +103,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 			) : (
 				<>
 					<span>Der Bus hat die Endstation erreicht.</span>
-					<button onClick={() => router.back()} className='rounded bg-white/80 px-2.5 py-1.5 dark:bg-white/10'>
+					<button onClick={() => router.back()} className='rounded bg-white/80 px-2.5 py-1.5 dark:bg-white/10 shadow'>
 						Zurück
 					</button>
 				</>

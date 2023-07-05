@@ -103,7 +103,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 					<Draggable>
 						{currentRouteId && (
 							<button
-								className='shrink-0 rounded-full bg-white/80 px-2.5 py-1.5 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
+								className='shrink-0 rounded-full bg-white/80 px-2.5 py-1.5 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20 shadow'
 								onClick={() => {
 									setRouteId(null);
 									setDirection(null);
@@ -125,7 +125,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 												: 'bg-white/80 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
 										} ` +
 										`${currentDirection && '-mr-6'} ` +
-										'z-10 rounded-full px-2.5 py-1.5 transition'
+										'z-10 rounded-full px-2.5 py-1.5 transition shadow'
 									}
 									onClick={() => {
 										if (currentRouteId) {
@@ -152,7 +152,7 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 												? 'rounded-r-full bg-black/80 pl-6 text-white dark:bg-white/80 dark:text-black md:hover:bg-black/90 dark:md:hover:bg-white/90'
 												: 'rounded-full bg-white/80 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
 										} ` +
-										'px-2.5 py-1.5 transition'
+										'px-2.5 py-1.5 transition shadow'
 									}
 									onClick={() => {
 										setDirection(currentDirection ? null : direction);
