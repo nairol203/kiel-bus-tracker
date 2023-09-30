@@ -103,12 +103,12 @@ export default function Draggable({ children }: { children: React.ReactNode }) {
 	return (
 		<>
 			{showLeftButton && (
-				<button className='absolute z-20 rounded-full bg-black/25 px-2.5 py-1.5 dark:bg-white/25' onClick={handleScrollLeft}>
+				<button className='absolute top-0.5 z-20 rounded-full bg-black/25 px-2.5 py-1.5 dark:bg-white/25' onClick={handleScrollLeft}>
 					<Image src='/chevron-left.svg' alt='X Icon' height={15} width={15} className='dark:invert' />
 				</button>
 			)}
 			<div
-				className={`no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap ${currentMask}`}
+				className={`no-scrollbar flex py-0.5 gap-2 overflow-x-auto whitespace-nowrap ${currentMask}`}
 				ref={sliderRef}
 				onMouseDown={handleMouseDown}
 				onMouseLeave={handleMouseLeave}
@@ -119,7 +119,7 @@ export default function Draggable({ children }: { children: React.ReactNode }) {
 				{childrenWithClickHandler}
 			</div>
 			{showRightButton && (
-				<button className='absolute right-0 top-0 z-20 rounded-full bg-black/25 px-2.5 py-1.5 dark:bg-white/25' onClick={handleScrollRight}>
+				<button className='absolute right-0 top-0.5 z-20 rounded-full bg-black/25 px-2.5 py-1.5 dark:bg-white/25' onClick={handleScrollRight}>
 					<Image src='/chevron-right.svg' alt='X Icon' height={15} width={15} className='dark:invert' />
 				</button>
 			)}
