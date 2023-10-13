@@ -196,7 +196,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				</div>
 			) : !mutation.isLoading ? (
 				<div className='grid gap-2 mt-2'>
-					<h2>Beliebte Suchergebisse</h2>
+					<h2>Beliebte Suchanfragen</h2>
 					<Link
 						className='group flex gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 						href={pathname + '?stop=2387'}
