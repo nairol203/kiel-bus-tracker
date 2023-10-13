@@ -106,7 +106,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		);
 
 	return (
-		<div className='grid gap-2'>
+		<div className='mx-2 grid gap-2'>
 			<Searchbar allStops={stops} />
 			{busStop && (
 				<div className='relative grid gap-2'>
