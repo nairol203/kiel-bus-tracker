@@ -40,7 +40,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		} else {
 			mutation.mutate({ stopId, routeId, direction });
 		}
-	}, [pathname, searchParams]);
+	}, [pathname, searchParams, stopId, routeId, direction]);
 
 	const {
 		data: busStop,
@@ -87,7 +87,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		return (
 			<div className='mx-2 grid gap-2'>
 				<div className='skeleton'>
-					<input className='w-full rounded bg-black/10 p-2 dark:bg-white/25' placeholder='Suche nach einer Haltestelle' disabled />
+					<input className='w-full rounded p-2' placeholder='Suche nach einer Haltestelle' disabled />
 				</div>
 				<div className='no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap'>
 					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
@@ -99,11 +99,11 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					<h2 className='skeleton'>Lorem, ipsum dolor.</h2>
 				</div>
 				<div className='grid gap-1'>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
 				</div>
 			</div>
 		);
@@ -116,7 +116,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					<Draggable>
 						{stopId && routeId && (
 							<button
-								className='shrink-0 rounded-full bg-white/80 px-2.5 py-1.5 shadow transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
+								className='shrink-0 rounded-full bg-secondary px-2.5 py-1.5 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent dark:md:hover:bg-darkMode-accent'
 								onClick={() => {
 									router.push(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
 								}}
@@ -133,8 +133,8 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 											`${routeId && routeId !== route.id && 'hidden'} ` +
 											`${
 												routeId === route.id
-													? 'bg-black text-white dark:bg-white dark:text-black'
-													: 'bg-white/80 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
+													? 'bg-primary text-darkMode-text dark:bg-darkMode-primary dark:text-text'
+													: 'bg-secondary transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent dark:md:hover:bg-darkMode-accent'
 											} ` +
 											`${direction && '-mr-6'} ` +
 											'z-10 rounded-full px-2.5 py-1.5 shadow transition'
@@ -159,8 +159,8 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 										`${direction && direction !== _direction && 'hidden'} ` +
 										`${
 											direction === _direction
-												? 'rounded-r-full bg-black/80 pl-6 text-white dark:bg-white/80 dark:text-black md:hover:bg-black/90 dark:md:hover:bg-white/90'
-												: 'rounded-full bg-white/80 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
+												? 'rounded-r-full bg-secondary pl-6 dark:bg-darkMode-secondary md:hover:bg-accent dark:md:hover:bg-darkMode-accent'
+												: 'rounded-full bg-secondary transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent dark:md:hover:bg-darkMode-accent'
 										} ` +
 										'px-2.5 py-1.5 shadow transition'
 									}
@@ -183,11 +183,11 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					</div>
 					{mutation.isLoading ? (
 						<div className='grid gap-1'>
-							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
 						</div>
 					) : (
 						<KVGTable data={busStop} isPaused={isPaused} />
@@ -206,11 +206,11 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 						<h2 className='skeleton'>Lorem, ipsum dolor.</h2>
 					</div>
 					<div className='grid gap-1'>
-						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
 					</div>
 				</>
 			)}
