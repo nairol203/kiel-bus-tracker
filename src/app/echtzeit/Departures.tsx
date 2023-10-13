@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { getStopData } from '../(components)/actions';
+import HealthIndicator from '../(components)/HealthIndicator';
 import KVGTable from '../(components)/KVGTable';
 import Draggable from './Draggable';
 import Searchbar from './Searchbar';
@@ -35,14 +36,19 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 	const [busStop, setBusStop] = useState<KVGStops | null>(null);
 
 	useEffect(() => {
-		if (stopId) {
+		if (!stopId) return;
+		mutate({ stopId, routeId, direction });
+
+		const interval = setInterval(() => {
+			if (!stopId) return;
 			mutate({ stopId, routeId, direction });
-		}
+		}, 10_000);
+		return () => clearInterval(interval);
 	}, [pathname, searchParams]);
 
 	const { mutate, isError, isPaused, isLoading } = useMutation({
 		mutationFn: getStopData,
-		onSuccess: setBusStop,
+		onSuccess: (value) => setBusStop(value),
 	});
 
 	const createQueryString = useCallback(
@@ -134,7 +140,10 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 								</button>
 							))}
 					</Draggable>
-					<h2>{busStop.stopName}</h2>
+					<div className='mt-2 flex items-center justify-between'>
+						<h1 className='h2'>{busStop.stopName}</h1>
+						<HealthIndicator isError={isError} isFetching={isLoading} isPaused={isPaused} />
+					</div>
 					{isLoading ? (
 						<div className='grid gap-1'>
 							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
