@@ -7,7 +7,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { getStopData } from '../(components)/actions';
 import KVGTable from '../(components)/KVGTable';
 import Draggable from '../echtzeit/Draggable';
-import BusList from './BusList';
 import Searchbar from './Searchbar';
 
 function filterUniqueAndSortAscending(arr: string[]) {
@@ -76,7 +75,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 							<button
 								className='shrink-0 rounded-full bg-white/80 px-2.5 py-1.5 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20 shadow'
 								onClick={() => {
-									router.replace(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
+									router.push(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
 								}}
 							>
 								<Image src='/xmark.svg' alt='X Icon' height={15} width={15} className='dark:invert' />
@@ -99,9 +98,9 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 										}
 										onClick={() => {
 											if (routeId) {
-												router.replace(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
+												router.push(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
 											} else {
-												router.replace(pathname + '?' + createQueryString('routeId', route.id));
+												router.push(pathname + '?' + createQueryString('routeId', route.id));
 											}
 										}}
 										key={route.id}
@@ -124,9 +123,9 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 									}
 									onClick={() => {
 										if (direction) {
-											router.replace(pathname + '?' + removeQueryStrings(['direction']));
+											router.push(pathname + '?' + removeQueryStrings(['direction']));
 										} else {
-											router.replace(pathname + '?' + createQueryString('direction', _direction));
+											router.push(pathname + '?' + createQueryString('direction', _direction));
 										}
 									}}
 									key={_direction}
