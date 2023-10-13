@@ -2,12 +2,18 @@
 module.exports = {
 	content: ['./src/pages/**/*.{js,ts,jsx,tsx,mdx}', './src/components/**/*.{js,ts,jsx,tsx,mdx}', './src/app/**/*.{js,ts,jsx,tsx,mdx}'],
 	theme: {
-		extend: {
-			colors: {
-				background: 'rgb(226 236 255)',
-				darkMode: {
-					background: 'rgb(19, 26, 40)',
-				},
+		colors: {
+			text: '#03111c',
+			background: '#dfeffc',
+			primary: '#0a3a61',
+			secondary: '#cce5fa',
+			accent: '#1887e2',
+			darkMode: {
+				text: '#e3f1fc',
+				background: '#031321',
+				primary: '#9ecef5',
+				secondary: '#00294c',
+				accent: '#1d8ce7',
 			},
 		},
 	},

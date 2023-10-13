@@ -54,7 +54,10 @@ export default function Page({ params }: { params: { tripId: string } }) {
 			<div className='mx-2 grid gap-2'>
 				<h1>Fehler</h1>
 				<span>Die Fahrt konnte nicht gefunden werden.</span>
-				<button onClick={() => router.back()} className='rounded bg-white/80 px-2.5 py-1.5 dark:bg-white/10'>
+				<button
+					onClick={() => router.back()}
+					className='rounded bg-primary px-2.5 py-1.5 dark:bg-darkMode-primary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+				>
 					Zurück
 				</button>
 			</div>
@@ -69,15 +72,15 @@ export default function Page({ params }: { params: { tripId: string } }) {
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 				</div>
 				<div className='grid gap-1'>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
 				</div>
 			</div>
 		);
@@ -94,7 +97,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 			{tripInfo.actual.length ? (
 				<div className='grid gap-1'>
 					{tripInfo.actual.map((a) => (
-						<div key={a.stop_seq_num} className='flex justify-between rounded bg-white/80 p-2 shadow dark:bg-white/10'>
+						<div key={a.stop_seq_num} className='flex justify-between rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary'>
 							<span>{a.stop.name}</span>
 							{a.status !== 'STOPPING' && <span>{isPaused ? a.actualTime || a.plannedTime : formatTimeDifference(timeToDate(a.actualTime || a.plannedTime))}</span>}
 						</div>
@@ -103,7 +106,10 @@ export default function Page({ params }: { params: { tripId: string } }) {
 			) : (
 				<>
 					<span>Der Bus hat die Endstation erreicht.</span>
-					<button onClick={() => router.back()} className='rounded bg-white/80 px-2.5 py-1.5 shadow dark:bg-white/10'>
+					<button
+						onClick={() => router.back()}
+						className='rounded bg-primary px-2.5 py-1.5 shadow dark:bg-darkMode-primary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+					>
 						Zurück
 					</button>
 				</>

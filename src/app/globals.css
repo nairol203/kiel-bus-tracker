@@ -8,7 +8,7 @@
 	}
 
 	body {
-		@apply bg-background dark:bg-darkMode-background;
+		@apply bg-background text-text dark:bg-darkMode-background dark:text-darkMode-text;
 	}
 
 	h1,
@@ -34,7 +34,7 @@
 
 @layer components {
 	.skeleton {
-		@apply relative animate-pulse p-0.5 before:absolute before:inset-0 before:rounded-md before:bg-gray-300 dark:before:bg-gray-700;
+		@apply relative animate-pulse p-0.5 before:absolute before:inset-0 before:rounded-md before:bg-secondary dark:before:bg-darkMode-secondary;
 	}
 }
 

@@ -103,8 +103,8 @@ export default function Draggable({ children }: { children: React.ReactNode }) {
 	return (
 		<>
 			{showLeftButton && (
-				<button className='absolute top-0.5 z-20 rounded-full bg-black/25 px-2.5 py-1.5 dark:bg-white/25' onClick={handleScrollLeft}>
-					<Image src='/chevron-left.svg' alt='X Icon' height={15} width={15} className='dark:invert' />
+				<button className='absolute top-0.5 z-20 rounded-full bg-accent px-2.5 py-1.5 dark:bg-darkMode-accent' onClick={handleScrollLeft}>
+					<Image src='/chevron-left.svg' alt='X Icon' height={15} width={15} className='invert' />
 				</button>
 			)}
 			<div
@@ -119,8 +119,8 @@ export default function Draggable({ children }: { children: React.ReactNode }) {
 				{childrenWithClickHandler}
 			</div>
 			{showRightButton && (
-				<button className='absolute right-0 top-0.5 z-20 rounded-full bg-black/25 px-2.5 py-1.5 dark:bg-white/25' onClick={handleScrollRight}>
-					<Image src='/chevron-right.svg' alt='X Icon' height={15} width={15} className='dark:invert' />
+				<button className='absolute right-0 top-0.5 z-20 rounded-full bg-accent px-2.5 py-1.5 dark:bg-darkMode-accent' onClick={handleScrollRight}>
+					<Image src='/chevron-right.svg' alt='X Icon' height={15} width={15} className='invert' />
 				</button>
 			)}
 		</>
