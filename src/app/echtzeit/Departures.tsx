@@ -113,7 +113,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					<Draggable>
 						{stopId && routeId && (
 							<button
-								className='shrink-0 rounded-full bg-white/80 px-2.5 py-1.5 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20 shadow'
+								className='shrink-0 rounded-full bg-white/80 px-2.5 py-1.5 shadow transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
 								onClick={() => {
 									router.push(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
 								}}
@@ -134,7 +134,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 													: 'bg-white/80 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
 											} ` +
 											`${direction && '-mr-6'} ` +
-											'z-10 rounded-full px-2.5 py-1.5 transition shadow'
+											'z-10 rounded-full px-2.5 py-1.5 shadow transition'
 										}
 										onClick={() => {
 											if (routeId) {
@@ -159,7 +159,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 												? 'rounded-r-full bg-black/80 pl-6 text-white dark:bg-white/80 dark:text-black md:hover:bg-black/90 dark:md:hover:bg-white/90'
 												: 'rounded-full bg-white/80 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
 										} ` +
-										'px-2.5 py-1.5 transition shadow'
+										'px-2.5 py-1.5 shadow transition'
 									}
 									onClick={() => {
 										if (direction) {
