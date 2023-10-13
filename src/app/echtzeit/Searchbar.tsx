@@ -65,9 +65,7 @@ export default function Searchbar({ allStops }: { allStops: StopByCharacter[] })
 								<Combobox.Option
 									key={stop.id}
 									className={({ active }) =>
-										`${
-											active ? 'bg-accent text-darkMode-text dark:bg-darkMode-accent dark:text-text' : 'bg-secondary dark:bg-darkMode-secondary'
-										} cursor-pointer p-2`
+										`${active ? 'bg-accent text-darkMode-text dark:bg-darkMode-accent' : 'bg-secondary dark:bg-darkMode-secondary'} cursor-pointer p-2`
 									}
 									value={stop}
 								>
