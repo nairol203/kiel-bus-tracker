@@ -1,38 +1,47 @@
+'use client';
+
 import { Combobox, Transition } from '@headlessui/react';
-import { UseMutationResult } from '@tanstack/react-query';
+import Fuse from 'fuse.js';
 import Image from 'next/image';
-import { Fragment } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Fragment, useMemo, useState } from 'react';
 
-type ComboboxComponentProps = {
-	selectedStop: StopByCharacter | null;
-	setSelectedStop: (stop: StopByCharacter | null) => void;
-	setRouteId: (routeId: string | null) => void;
-	setDirection: (direction: string | null) => void;
-	mutation: UseMutationResult<KVGStops, unknown, { stopId: string; routeId?: string | null | undefined; direction?: string | null | undefined }, unknown>;
-	filteredStops: StopByCharacter[];
-	query: string;
-	setQuery: (query: string) => void;
-};
+export default function Searchbar({ allStops }: { allStops: StopByCharacter[] }) {
+	const router = useRouter();
+	const pathname = usePathname();
 
-export default function Searchbar({ selectedStop, setSelectedStop, setRouteId, setDirection, mutation, filteredStops, query, setQuery }: ComboboxComponentProps) {
+	const [query, setQuery] = useState('');
+	const [selectedStop, setSelectedStop] = useState<StopByCharacter | null>(null);
+
+	const filteredStops = useMemo(() => {
+		const fuse = new Fuse(allStops, {
+			keys: ['name'],
+		});
+		const result = fuse.search(query.trim());
+		return result.map((item) => item.item).slice(0, 10);
+	}, [query, allStops]);
+
+	function updateQuery(selectedStop: StopByCharacter) {
+		router.push(pathname + `?stop=${selectedStop.number}`);
+	}
+
 	return (
 		<Combobox
 			value={selectedStop}
-			onChange={(e) => {
-				setSelectedStop(e);
-				setRouteId(null);
-				setDirection(null);
-				mutation.mutate({ stopId: e!.number, direction: undefined, routeId: undefined });
+			onChange={(value) => {
+				setSelectedStop(value);
+				if (value) {
+					updateQuery(value);
+				}
 			}}
 		>
 			<div className='relative'>
 				<div className='relative w-full'>
 					<Combobox.Input
 						className='w-full rounded bg-white/80 p-2 shadow dark:bg-white/10'
-						onInput={(event) => setQuery(event.currentTarget.value)}
+						onChange={(event) => setQuery(event.target.value)}
 						displayValue={(stop?: StopByCharacter) => stop?.name || ''}
 						placeholder='Suche nach einer Haltestelle'
-						autoFocus={!selectedStop}
 					/>
 					<Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2'>
 						<Image src='/chevron-down.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='dark:invert' />

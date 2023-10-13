@@ -108,7 +108,7 @@ export default function Draggable({ children }: { children: React.ReactNode }) {
 				</button>
 			)}
 			<div
-				className={`no-scrollbar flex py-0.5 gap-2 overflow-x-auto whitespace-nowrap ${currentMask}`}
+				className={`no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap py-0.5 ${currentMask}`}
 				ref={sliderRef}
 				onMouseDown={handleMouseDown}
 				onMouseLeave={handleMouseLeave}

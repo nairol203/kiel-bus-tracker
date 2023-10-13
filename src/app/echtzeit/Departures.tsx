@@ -2,10 +2,9 @@
 
 import { queryClient } from '@/utils/Providers';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import Fuse from 'fuse.js';
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
-import { useSessionStorage } from '../../utils/useSessionStorage';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect } from 'react';
 import { getStopData } from '../(components)/actions';
 import HealthIndicator from '../(components)/HealthIndicator';
 import KVGTable from '../(components)/KVGTable';
@@ -26,22 +25,22 @@ function concatenateDirectionsFromRoutes(arr: Route[]) {
 	return concatenatedArray;
 }
 
-export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) {
-	const [query, setQuery] = useState('');
-	const [selectedStop, setSelectedStop] = useSessionStorage<StopByCharacter | null>('stop', null);
-	const [currentRouteId, setRouteId] = useSessionStorage<string | null>('routeId', null);
-	const [currentDirection, setDirection] = useSessionStorage<string | null>('direction', null);
+export default function Departures({ stops }: { stops: StopByCharacter[] }) {
+	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
 
-	const filteredStops = useMemo(() => {
-		const fuse = new Fuse(allStops, {
-			keys: ['name'],
-		});
-		const result = fuse.search(query.trim());
-		return result.map((item) => item.item).slice(0, 10);
-	}, [query, allStops]);
+	const stopId = searchParams.get('stop');
+	const routeId = searchParams.get('routeId') ?? undefined;
+	const direction = searchParams.get('direction') ?? undefined;
+
+	useEffect(() => {
+		if (!stopId) return;
+		mutation.mutate({ stopId, routeId, direction });
+	}, [pathname, searchParams]);
 
 	const {
-		data: currentStop,
+		data: busStop,
 		isFetching,
 		isError,
 		isPaused,
@@ -49,8 +48,8 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 	} = useQuery({
 		queryKey: ['stopData'],
 		queryFn: async () => {
-			if (!selectedStop) return null;
-			const res = await getStopData({ stopId: selectedStop.number, routeId: currentRouteId, direction: currentDirection });
+			if (!stopId) return null;
+			const res = await getStopData({ stopId, routeId, direction });
 			return res;
 		},
 		refetchInterval: 10_000,
@@ -60,6 +59,26 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 		mutationFn: getStopData,
 		onSuccess: (data) => queryClient.setQueryData(['stopData'], data),
 	});
+
+	const createQueryString = useCallback(
+		(name: string, value: string) => {
+			const params = new URLSearchParams(searchParams);
+			params.set(name, value);
+
+			return params.toString();
+		},
+		[searchParams]
+	);
+
+	const removeQueryStrings = useCallback(
+		(names: string[]) => {
+			const params = new URLSearchParams(searchParams);
+			names.forEach((name) => params.delete(name));
+
+			return params.toString();
+		},
+		[searchParams]
+	);
 
 	if (isLoading)
 		return (
@@ -87,89 +106,76 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 		);
 
 	return (
-		<div className='mx-2 grid gap-2'>
-			<Searchbar
-				selectedStop={selectedStop}
-				setSelectedStop={setSelectedStop}
-				setRouteId={setRouteId}
-				setDirection={setDirection}
-				mutation={mutation}
-				filteredStops={filteredStops}
-				query={query}
-				setQuery={setQuery}
-			/>
-			{currentStop && (
+		<div className='grid gap-2'>
+			<Searchbar allStops={stops} />
+			{busStop && (
 				<div className='relative grid gap-2'>
 					<Draggable>
-						{currentRouteId && (
+						{stopId && routeId && (
 							<button
-								className='shrink-0 rounded-full bg-white/80 px-2.5 py-1.5 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20 shadow'
+								className='shrink-0 rounded-full bg-white/80 px-2.5 py-1.5 shadow transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
 								onClick={() => {
-									setRouteId(null);
-									setDirection(null);
-									mutation.mutate({ stopId: selectedStop!.number, direction: undefined, routeId: undefined });
+									router.push(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
 								}}
 							>
 								<Image src='/xmark.svg' alt='X Icon' height={15} width={15} className='dark:invert' />
 							</button>
 						)}
-						{currentStop.routes
-							.filter((route) => (currentDirection ? route.directions.includes(currentDirection) : true))
-							.map((route) => (
-								<button
-									className={
-										`${currentRouteId && currentRouteId !== route.id && 'hidden'} ` +
-										`${
-											currentRouteId === route.id
-												? 'bg-black text-white dark:bg-white dark:text-black'
-												: 'bg-white/80 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
-										} ` +
-										`${currentDirection && '-mr-6'} ` +
-										'z-10 rounded-full px-2.5 py-1.5 transition shadow'
-									}
-									onClick={() => {
-										if (currentRouteId) {
-											setRouteId(null);
-											setDirection(null);
-											mutation.mutate({ stopId: selectedStop!.number, direction: undefined, routeId: undefined });
-										} else {
-											setRouteId(route.id);
-											mutation.mutate({ stopId: selectedStop!.number, direction: currentDirection, routeId: route.id });
+						{stopId &&
+							busStop.routes
+								.filter((route) => (direction ? route.directions.includes(direction) : true))
+								.map((route) => (
+									<button
+										className={
+											`${routeId && routeId !== route.id && 'hidden'} ` +
+											`${
+												routeId === route.id
+													? 'bg-black text-white dark:bg-white dark:text-black'
+													: 'bg-white/80 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
+											} ` +
+											`${direction && '-mr-6'} ` +
+											'z-10 rounded-full px-2.5 py-1.5 shadow transition'
 										}
-									}}
-									key={route.id}
-								>
-									{route.authority} {route.name}
-								</button>
-							))}
-						{currentRouteId &&
-							filterUniqueAndSortAscending(concatenateDirectionsFromRoutes(currentStop.routes.filter((route) => route.id === currentRouteId))).map((direction) => (
+										onClick={() => {
+											if (routeId) {
+												router.push(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
+											} else {
+												router.push(pathname + '?' + createQueryString('routeId', route.id));
+											}
+										}}
+										key={route.id}
+									>
+										{route.authority} {route.name}
+									</button>
+								))}
+						{stopId &&
+							routeId &&
+							filterUniqueAndSortAscending(concatenateDirectionsFromRoutes(busStop.routes.filter((route) => route.id === routeId))).map((_direction) => (
 								<button
 									className={
-										`${currentDirection && currentDirection !== direction && 'hidden'} ` +
+										`${direction && direction !== _direction && 'hidden'} ` +
 										`${
-											currentDirection === direction
+											direction === _direction
 												? 'rounded-r-full bg-black/80 pl-6 text-white dark:bg-white/80 dark:text-black md:hover:bg-black/90 dark:md:hover:bg-white/90'
 												: 'rounded-full bg-white/80 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
 										} ` +
-										'px-2.5 py-1.5 transition shadow'
+										'px-2.5 py-1.5 shadow transition'
 									}
 									onClick={() => {
-										setDirection(currentDirection ? null : direction);
-										mutation.mutate({
-											stopId: selectedStop!.number,
-											direction: currentDirection ? undefined : direction,
-											routeId: currentRouteId,
-										});
+										if (direction) {
+											router.push(pathname + '?' + removeQueryStrings(['direction']));
+										} else {
+											router.push(pathname + '?' + createQueryString('direction', _direction));
+										}
 									}}
-									key={direction}
+									key={_direction}
 								>
-									{direction}
+									{_direction}
 								</button>
 							))}
 					</Draggable>
 					<div className='mt-2 flex items-center justify-between'>
-						<h1 className='h2'>{currentStop.stopName}</h1>
+						<h1 className='h2'>{busStop.stopName}</h1>
 						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 					</div>
 					{mutation.isLoading ? (
@@ -181,11 +187,11 @@ export default function Realtime({ allStops }: { allStops: StopByCharacter[] }) 
 							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
 						</div>
 					) : (
-						<KVGTable data={currentStop} isPaused={isPaused} routeId={currentRouteId} direction={currentDirection} />
+						<KVGTable data={busStop} isPaused={isPaused} />
 					)}
 				</div>
 			)}
-			{!currentStop && mutation.isLoading && (
+			{!busStop && mutation.isLoading && (
 				<>
 					<div className='no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap'>
 						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
