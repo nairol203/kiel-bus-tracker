@@ -38,7 +38,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		}
 	}, [pathname, searchParams]);
 
-	const { data: busStop, mutate } = useMutation(getStopData);
+	const { data: busStop, mutate, isError, isPaused, isLoading } = useMutation(getStopData);
 
 	const createQueryString = useCallback(
 		(name: string, value: string) => {
@@ -131,6 +131,26 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					</Draggable>
 					<BusList stop={busStop} />
 				</div>
+			)}
+			{!busStop && isLoading && (
+				<>
+					<div className='no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap'>
+						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+					</div>
+					<div className='mt-2 flex'>
+						<h2 className='skeleton'>Lorem, ipsum dolor.</h2>
+					</div>
+					<div className='grid gap-1'>
+						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+						<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+					</div>
+				</>
 			)}
 		</div>
 	);
