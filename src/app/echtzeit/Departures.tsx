@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { getStopData } from '../(components)/actions';
 import KVGTable from '../(components)/KVGTable';
-import Draggable from '../echtzeit/Draggable';
+import Draggable from './Draggable';
 import Searchbar from './Searchbar';
 
 function filterUniqueAndSortAscending(arr: string[]) {

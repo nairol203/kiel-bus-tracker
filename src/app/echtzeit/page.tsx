@@ -1,4 +1,4 @@
-import Realtime from './Realtime';
+import Departures from './Departures';
 
 const ONE_DAY_IN_SECONDS = 86_400;
 
@@ -22,7 +22,7 @@ async function searchByCharacter(character: string): Promise<StopsByCharacter> {
 	return res.json();
 }
 
-export default async function Fahrplan() {
+export default async function Searchbar() {
 	const stops: StopByCharacter[] = [];
 
 	for (const letter of alphabet) {
@@ -30,5 +30,5 @@ export default async function Fahrplan() {
 		stops.push(...result.stops);
 	}
 
-	return <Realtime allStops={stops} />;
+	return <Departures stops={stops} />;
 }
