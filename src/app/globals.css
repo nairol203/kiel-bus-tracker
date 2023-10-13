@@ -34,7 +34,7 @@
 
 @layer components {
 	.skeleton {
-		@apply relative animate-pulse p-0.5 before:absolute before:inset-0 before:rounded-md before:bg-skeleton dark:before:bg-darkMode-skeleton;
+		@apply relative animate-pulse p-0.5 before:absolute before:inset-0 before:rounded-md before:bg-secondary dark:before:bg-darkMode-secondary;
 	}
 }
 

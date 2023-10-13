@@ -54,7 +54,10 @@ export default function Page({ params }: { params: { tripId: string } }) {
 			<div className='mx-2 grid gap-2'>
 				<h1>Fehler</h1>
 				<span>Die Fahrt konnte nicht gefunden werden.</span>
-				<button onClick={() => router.back()} className='rounded bg-primary px-2.5 py-1.5 dark:bg-darkMode-primary'>
+				<button
+					onClick={() => router.back()}
+					className='rounded bg-primary px-2.5 py-1.5 dark:bg-darkMode-primary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+				>
 					Zurück
 				</button>
 			</div>
@@ -103,7 +106,10 @@ export default function Page({ params }: { params: { tripId: string } }) {
 			) : (
 				<>
 					<span>Der Bus hat die Endstation erreicht.</span>
-					<button onClick={() => router.back()} className='rounded bg-primary px-2.5 py-1.5 shadow dark:bg-darkMode-primary'>
+					<button
+						onClick={() => router.back()}
+						className='rounded bg-primary px-2.5 py-1.5 shadow dark:bg-darkMode-primary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+					>
 						Zurück
 					</button>
 				</>
