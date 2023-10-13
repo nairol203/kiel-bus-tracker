@@ -201,35 +201,35 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 						className='group flex gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 						href={pathname + '?stop=2387'}
 					>
-						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='group-hover:invert' />
+						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='dark:invert group-hover:invert' />
 						Hauptbahnhof
 					</Link>
 					<Link
 						className='group flex gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 						href={pathname + '?stop=1624'}
 					>
-						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='group-hover:invert' />
+						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='dark:invert group-hover:invert' />
 						Rathaus Kronshagen
 					</Link>
 					<Link
 						className='group flex gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 						href={pathname + '?stop=1312'}
 					>
-						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='group-hover:invert' />
+						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='dark:invert group-hover:invert' />
 						Am Langsee
 					</Link>
 					<Link
 						className='group flex gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 						href={pathname + '?stop=2246'}
 					>
-						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='group-hover:invert' />
+						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='dark:invert group-hover:invert' />
 						Preetzer Straße
 					</Link>
 					<Link
 						className='group flex gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 						href={pathname + '?stop=1317'}
 					>
-						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='group-hover:invert' />
+						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='dark:invert group-hover:invert' />
 						Heischberg
 					</Link>
 				</div>
