@@ -3,8 +3,9 @@
 import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getStopData } from '../(components)/actions';
+import KVGTable from '../(components)/KVGTable';
 import Draggable from '../echtzeit/Draggable';
 import BusList from './BusList';
 import Searchbar from './Searchbar';
@@ -32,13 +33,18 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 	const routeId = searchParams.get('routeId') ?? undefined;
 	const direction = searchParams.get('direction') ?? undefined;
 
+	const [busStop, setBusStop] = useState<KVGStops | null>(null);
+
 	useEffect(() => {
 		if (stopId) {
 			mutate({ stopId, routeId, direction });
 		}
 	}, [pathname, searchParams]);
 
-	const { data: busStop, mutate, isError, isPaused, isLoading } = useMutation(getStopData);
+	const { mutate, isError, isPaused, isLoading } = useMutation({
+		mutationFn: getStopData,
+		onSuccess: setBusStop,
+	});
 
 	const createQueryString = useCallback(
 		(name: string, value: string) => {
@@ -129,7 +135,18 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 								</button>
 							))}
 					</Draggable>
-					<BusList stop={busStop} />
+					<h2>{busStop.stopName}</h2>
+					{isLoading ? (
+						<div className='grid gap-1'>
+							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+						</div>
+					) : (
+						<KVGTable data={busStop} isPaused={isPaused} />
+					)}
 				</div>
 			)}
 			{!busStop && isLoading && (
