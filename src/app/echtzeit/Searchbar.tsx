@@ -42,6 +42,7 @@ export default function Searchbar({ allStops }: { allStops: StopByCharacter[] })
 						onChange={(event) => setQuery(event.target.value)}
 						displayValue={(stop?: StopByCharacter) => stop?.name || ''}
 						placeholder='Suche nach einer Haltestelle'
+						autoFocus={!selectedStop}
 					/>
 					<Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2'>
 						<Image src='/chevron-down.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='dark:invert' />

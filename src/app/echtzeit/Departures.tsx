@@ -35,8 +35,11 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 	const direction = searchParams.get('direction') ?? undefined;
 
 	useEffect(() => {
-		if (!stopId) return;
-		mutation.mutate({ stopId, routeId, direction });
+		if (!stopId) {
+			queryClient.removeQueries(['stopData']);
+		} else {
+			mutation.mutate({ stopId, routeId, direction });
+		}
 	}, [pathname, searchParams]);
 
 	const {
