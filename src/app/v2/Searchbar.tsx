@@ -22,7 +22,7 @@ export default function Searchbar({ allStops }: { allStops: StopByCharacter[] })
 	}, [query, allStops]);
 
 	function updateQuery(selectedStop: StopByCharacter) {
-		router.replace(pathname + `?stop=${selectedStop.number}`);
+		router.push(pathname + `?stop=${selectedStop.number}`);
 	}
 
 	return (
