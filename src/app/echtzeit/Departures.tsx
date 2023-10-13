@@ -3,6 +3,7 @@
 import { queryClient } from '@/utils/Providers';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 import { getStopData } from '../(components)/actions';
@@ -111,7 +112,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 	return (
 		<div className='mx-2 grid gap-2'>
 			<Searchbar allStops={stops} />
-			{busStop && (
+			{busStop ? (
 				<div className='relative grid gap-2'>
 					<Draggable>
 						{stopId && routeId && (
@@ -193,6 +194,47 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 						<KVGTable data={busStop} isPaused={isPaused} />
 					)}
 				</div>
+			) : !mutation.isLoading ? (
+				<div className='grid gap-2 mt-2'>
+					<h2>Beliebte Suchergebisse</h2>
+					<Link
+						className='group flex gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						href={pathname + '?stop=2387'}
+					>
+						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='group-hover:invert' />
+						Hauptbahnhof
+					</Link>
+					<Link
+						className='group flex gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						href={pathname + '?stop=1624'}
+					>
+						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='group-hover:invert' />
+						Rathaus Kronshagen
+					</Link>
+					<Link
+						className='group flex gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						href={pathname + '?stop=1312'}
+					>
+						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='group-hover:invert' />
+						Am Langsee
+					</Link>
+					<Link
+						className='group flex gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						href={pathname + '?stop=2246'}
+					>
+						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='group-hover:invert' />
+						Preetzer Straße
+					</Link>
+					<Link
+						className='group flex gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						href={pathname + '?stop=1317'}
+					>
+						<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='group-hover:invert' />
+						Heischberg
+					</Link>
+				</div>
+			) : (
+				<></>
 			)}
 			{!busStop && mutation.isLoading && (
 				<>
