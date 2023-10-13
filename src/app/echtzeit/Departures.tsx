@@ -116,12 +116,12 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					<Draggable>
 						{stopId && routeId && (
 							<button
-								className='shrink-0 rounded-full bg-secondary px-2.5 py-1.5 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent dark:md:hover:bg-darkMode-accent'
+								className='group shrink-0 rounded-full bg-secondary px-2.5 py-1.5 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 								onClick={() => {
 									router.push(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
 								}}
 							>
-								<Image src='/xmark.svg' alt='X Icon' height={15} width={15} className='dark:invert' />
+								<Image src='/xmark.svg' alt='X Icon' height={15} width={15} className='dark:invert group-hover:invert' />
 							</button>
 						)}
 						{stopId &&
@@ -134,7 +134,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 											`${
 												routeId === route.id
 													? 'bg-primary text-darkMode-text dark:bg-darkMode-primary dark:text-text'
-													: 'bg-secondary transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent dark:md:hover:bg-darkMode-accent'
+													: 'bg-secondary transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 											} ` +
 											`${direction && '-mr-6'} ` +
 											'z-10 rounded-full px-2.5 py-1.5 shadow transition'
@@ -159,8 +159,8 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 										`${direction && direction !== _direction && 'hidden'} ` +
 										`${
 											direction === _direction
-												? 'rounded-r-full bg-secondary pl-6 dark:bg-darkMode-secondary md:hover:bg-accent dark:md:hover:bg-darkMode-accent'
-												: 'rounded-full bg-secondary transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent dark:md:hover:bg-darkMode-accent'
+												? 'rounded-r-full bg-secondary pl-6 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+												: 'rounded-full bg-secondary transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 										} ` +
 										'px-2.5 py-1.5 shadow transition'
 									}

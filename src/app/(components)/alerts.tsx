@@ -16,8 +16,8 @@ export function GeneralAlerts({ data }: { data: KVGStops }) {
 	return (
 		<>
 			{filterIdenticalAlerts(data.generalAlerts).map((alert, index) => (
-				<div className='flex gap-2 rounded bg-primary dark:bg-darkMode-primary p-2 shadows' key={`alert-${index}-${data.stopShortName}`}>
-					<Image src='/warn.svg' alt='Warn Icon' height={35} width={35} className='shrink-0' />
+				<div className='flex gap-2 rounded bg-primary text-darkMode-text dark:bg-darkMode-primary dark:text-text p-2 shadows' key={`alert-${index}-${data.stopShortName}`}>
+					<Image src='/warn.svg' alt='Warn Icon' height={35} width={35} className='shrink-0 invert dark:invert-0' />
 					<span className='font-medium'>{alert.title}</span>
 				</div>
 			))}
@@ -34,13 +34,16 @@ export function RouteAlerts({ data, direction, routeId }: { data: KVGStops; rout
 					filterIdenticalAlerts(route.alerts)
 						.filter((alert) => (direction ? alert.direction.includes(direction) : true))
 						.map((alert, index) => (
-							<div className='grid gap-1 rounded bg-primary dark:bg-darkMode-primary p-2 md:flex md:justify-between' key={`alert-${index}-${data.stopShortName}`}>
+							<div
+								className='grid gap-1 rounded bg-primary text-darkMode-text dark:bg-darkMode-primary dark:text-text p-2 md:flex md:justify-between'
+								key={`alert-${index}-${data.stopShortName}`}
+							>
 								<div className='flex gap-4'>
 									<span>{route.name}</span>
 									<span>{alert.direction.join('; ')}</span>
 								</div>
 								<div className='flex gap-2'>
-									<Image src='/warn.svg' alt='Warn Icon' height={25} width={25} className='shrink-0' />
+									<Image src='/warn.svg' alt='Warn Icon' height={25} width={25} className='shrink-0 invert dark:invert-0' />
 									<span>{alert.title}</span>
 								</div>
 							</div>

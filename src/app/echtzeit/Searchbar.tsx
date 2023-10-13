@@ -66,7 +66,7 @@ export default function Searchbar({ allStops }: { allStops: StopByCharacter[] })
 									key={stop.id}
 									className={({ active }) =>
 										`${
-											active ? 'bg-primary text-darkMode-text dark:bg-darkMode-primary dark:text-text' : 'bg-secondary dark:bg-darkMode-secondary'
+											active ? 'bg-accent text-darkMode-text dark:bg-darkMode-accent dark:text-text' : 'bg-secondary dark:bg-darkMode-secondary'
 										} cursor-pointer p-2`
 									}
 									value={stop}
