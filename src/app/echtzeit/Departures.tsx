@@ -1,6 +1,7 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '@/utils/Providers';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
@@ -33,23 +34,30 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 	const routeId = searchParams.get('routeId') ?? undefined;
 	const direction = searchParams.get('direction') ?? undefined;
 
-	const [busStop, setBusStop] = useState<KVGStops | null>(null);
-
 	useEffect(() => {
 		if (!stopId) return;
-		mutate({ stopId, routeId, direction });
-
-		const interval = setInterval(() => {
-			if (!stopId) return;
-			mutate({ stopId, routeId, direction });
-		}, 10_000);
-
-		return () => clearInterval(interval);
+		mutation.mutate({ stopId, routeId, direction });
 	}, [pathname, searchParams]);
 
-	const { mutate, isError, isPaused, isLoading } = useMutation({
+	const {
+		data: busStop,
+		isFetching,
+		isError,
+		isPaused,
+		isLoading,
+	} = useQuery({
+		queryKey: ['stopData'],
+		queryFn: async () => {
+			if (!stopId) return null;
+			const res = await getStopData({ stopId, routeId, direction });
+			return res;
+		},
+		refetchInterval: 10_000,
+	});
+
+	const mutation = useMutation({
 		mutationFn: getStopData,
-		onSuccess: (value) => setBusStop(value),
+		onSuccess: (data) => queryClient.setQueryData(['stopData'], data),
 	});
 
 	const createQueryString = useCallback(
@@ -71,6 +79,31 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		},
 		[searchParams]
 	);
+
+	if (isLoading)
+		return (
+			<div className='mx-2 grid gap-2'>
+				<div className='skeleton'>
+					<input className='w-full rounded bg-black/10 p-2 dark:bg-white/25' placeholder='Suche nach einer Haltestelle' disabled />
+				</div>
+				<div className='no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap'>
+					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+				</div>
+				<div className='mt-2 flex'>
+					<h2 className='skeleton'>Lorem, ipsum dolor.</h2>
+				</div>
+				<div className='grid gap-1'>
+					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+				</div>
+			</div>
+		);
 
 	return (
 		<div className='grid gap-2'>
@@ -143,9 +176,9 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					</Draggable>
 					<div className='mt-2 flex items-center justify-between'>
 						<h1 className='h2'>{busStop.stopName}</h1>
-						<HealthIndicator isError={isError} isFetching={isLoading} isPaused={isPaused} />
+						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 					</div>
-					{/* {isLoading ? (
+					{mutation.isLoading ? (
 						<div className='grid gap-1'>
 							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
 							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
@@ -155,11 +188,10 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 						</div>
 					) : (
 						<KVGTable data={busStop} isPaused={isPaused} />
-					)} */}
-					<KVGTable data={busStop} isPaused={isPaused} />
+					)}
 				</div>
 			)}
-			{!busStop && isLoading && (
+			{!busStop && mutation.isLoading && (
 				<>
 					<div className='no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap'>
 						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
