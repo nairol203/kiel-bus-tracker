@@ -3,23 +3,12 @@
 import { Combobox, Transition } from '@headlessui/react';
 import Fuse from 'fuse.js';
 import Image from 'next/image';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Fragment, useCallback, useMemo, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Fragment, useMemo, useState } from 'react';
 
 export default function Searchbar({ allStops }: { allStops: StopByCharacter[] }) {
 	const router = useRouter();
 	const pathname = usePathname();
-	const searchParams = useSearchParams();
-
-	const createQueryString = useCallback(
-		(name: string, value: string) => {
-			const params = new URLSearchParams(searchParams);
-			params.set(name, value);
-
-			return params.toString();
-		},
-		[searchParams]
-	);
 
 	const [query, setQuery] = useState('');
 	const [selectedStop, setSelectedStop] = useState<StopByCharacter | null>(null);
@@ -33,7 +22,7 @@ export default function Searchbar({ allStops }: { allStops: StopByCharacter[] })
 	}, [query, allStops]);
 
 	function updateQuery(selectedStop: StopByCharacter) {
-		router.replace(pathname + '?' + createQueryString('stop', selectedStop.number));
+		router.replace(pathname + `?stop=${selectedStop.number}`);
 	}
 
 	return (

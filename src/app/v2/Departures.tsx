@@ -1,33 +1,137 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect } from 'react';
 import { getStopData } from '../(components)/actions';
+import Draggable from '../echtzeit/Draggable';
 import BusList from './BusList';
 import Searchbar from './Searchbar';
 
+function filterUniqueAndSortAscending(arr: string[]) {
+	const uniqueArr = Array.from(new Set(arr));
+	const sortedArr = uniqueArr.sort();
+	return sortedArr;
+}
+
+function concatenateDirectionsFromRoutes(arr: Route[]) {
+	const concatenatedArray: string[] = [];
+	arr.forEach((obj) => {
+		concatenatedArray.push(...obj.directions);
+	});
+	return concatenatedArray;
+}
+
 export default function Departures({ stops }: { stops: StopByCharacter[] }) {
+	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
+
 	const stopId = searchParams.get('stop');
-	const [busStop, setBusStop] = useState<KVGStops | null>(null);
+	const routeId = searchParams.get('routeId') ?? undefined;
+	const direction = searchParams.get('direction') ?? undefined;
 
 	useEffect(() => {
 		if (stopId) {
-			mutate(stopId);
+			mutate({ stopId, routeId, direction });
 		}
 	}, [pathname, searchParams]);
 
-	const { mutate } = useMutation({
-		mutationFn: async (stopId: string) => await getStopData({ stopId }),
-		onSuccess: (value) => setBusStop(value),
-	});
+	const { data: busStop, mutate } = useMutation(getStopData);
+
+	const createQueryString = useCallback(
+		(name: string, value: string) => {
+			const params = new URLSearchParams(searchParams);
+			params.set(name, value);
+
+			return params.toString();
+		},
+		[searchParams]
+	);
+
+	const removeQueryStrings = useCallback(
+		(names: string[]) => {
+			const params = new URLSearchParams(searchParams);
+			names.forEach((name) => params.delete(name));
+
+			return params.toString();
+		},
+		[searchParams]
+	);
 
 	return (
-		<div className='grid gap-4'>
+		<div className='grid gap-2'>
 			<Searchbar allStops={stops} />
-			{busStop && <BusList stop={busStop} />}
+			{busStop && (
+				<div className='relative grid gap-2'>
+					<Draggable>
+						{stopId && routeId && (
+							<button
+								className='shrink-0 rounded-full bg-white/80 px-2.5 py-1.5 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20 shadow'
+								onClick={() => {
+									router.replace(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
+								}}
+							>
+								<Image src='/xmark.svg' alt='X Icon' height={15} width={15} className='dark:invert' />
+							</button>
+						)}
+						{stopId &&
+							busStop.routes
+								.filter((route) => (direction ? route.directions.includes(direction) : true))
+								.map((route) => (
+									<button
+										className={
+											`${routeId && routeId !== route.id && 'hidden'} ` +
+											`${
+												routeId === route.id
+													? 'bg-black text-white dark:bg-white dark:text-black'
+													: 'bg-white/80 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
+											} ` +
+											`${direction && '-mr-6'} ` +
+											'z-10 rounded-full px-2.5 py-1.5 transition shadow'
+										}
+										onClick={() => {
+											if (routeId) {
+												router.replace(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
+											} else {
+												router.replace(pathname + '?' + createQueryString('routeId', route.id));
+											}
+										}}
+										key={route.id}
+									>
+										{route.authority} {route.name}
+									</button>
+								))}
+						{stopId &&
+							routeId &&
+							filterUniqueAndSortAscending(concatenateDirectionsFromRoutes(busStop.routes.filter((route) => route.id === routeId))).map((_direction) => (
+								<button
+									className={
+										`${direction && direction !== _direction && 'hidden'} ` +
+										`${
+											direction === _direction
+												? 'rounded-r-full bg-black/80 pl-6 text-white dark:bg-white/80 dark:text-black md:hover:bg-black/90 dark:md:hover:bg-white/90'
+												: 'rounded-full bg-white/80 transition duration-200 dark:bg-white/10 md:hover:bg-gray-100 dark:md:hover:bg-white/20'
+										} ` +
+										'px-2.5 py-1.5 transition shadow'
+									}
+									onClick={() => {
+										if (direction) {
+											router.replace(pathname + '?' + removeQueryStrings(['direction']));
+										} else {
+											router.replace(pathname + '?' + createQueryString('direction', _direction));
+										}
+									}}
+									key={_direction}
+								>
+									{_direction}
+								</button>
+							))}
+					</Draggable>
+					<BusList stop={busStop} />
+				</div>
+			)}
 		</div>
 	);
 }
