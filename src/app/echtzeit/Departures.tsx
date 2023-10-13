@@ -43,6 +43,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 			if (!stopId) return;
 			mutate({ stopId, routeId, direction });
 		}, 10_000);
+
 		return () => clearInterval(interval);
 	}, [pathname, searchParams]);
 
@@ -144,7 +145,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 						<h1 className='h2'>{busStop.stopName}</h1>
 						<HealthIndicator isError={isError} isFetching={isLoading} isPaused={isPaused} />
 					</div>
-					{isLoading ? (
+					{/* {isLoading ? (
 						<div className='grid gap-1'>
 							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
 							<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
@@ -154,7 +155,8 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 						</div>
 					) : (
 						<KVGTable data={busStop} isPaused={isPaused} />
-					)}
+					)} */}
+					<KVGTable data={busStop} isPaused={isPaused} />
 				</div>
 			)}
 			{!busStop && isLoading && (
