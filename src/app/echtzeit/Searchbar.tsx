@@ -40,7 +40,7 @@ export default function Searchbar({ allStops }: { allStops: StopByCharacter[] })
 					<Combobox.Input
 						className='w-full rounded shadow p-2 bg-secondary dark:bg-darkMode-secondary'
 						onChange={(event) => setQuery(event.target.value)}
-						displayValue={(stop?: StopByCharacter) => stop?.name || ''}
+						// displayValue={(stop?: StopByCharacter) => stop?.name || ''}
 						placeholder='Suche nach einer Haltestelle'
 						autoFocus={!selectedStop}
 					/>
