@@ -1,7 +1,7 @@
 import { Listbox, Transition } from '@headlessui/react';
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Fragment, useCallback, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 
 function filterUniqueAndSortAscending(arr: string[]) {
 	const uniqueArr = Array.from(new Set(arr));
@@ -16,7 +16,12 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 
 	const routeId = searchParams.get('routeId');
 	const direction = searchParams.get('direction');
+
 	const [directionThroughSuggestionChip, setDirectionThroughSuggestionChip] = useState((!!routeId && !!direction) ?? false);
+
+	useEffect(() => {
+		setDirectionThroughSuggestionChip((!!routeId && !!direction) ?? false);
+	}, [routeId, direction]);
 
 	const routes = direction && !directionThroughSuggestionChip ? stop.routes.filter((route) => route.directions.includes(direction)) : stop.routes;
 	const selectedRoute = stop.routes.find((route) => route.id === routeId) ?? null;
