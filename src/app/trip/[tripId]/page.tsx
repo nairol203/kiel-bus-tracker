@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getTripInfo } from 'src/app/(components)/actions';
 import HealthIndicator from 'src/app/(components)/HealthIndicator';
@@ -97,10 +98,14 @@ export default function Page({ params }: { params: { tripId: string } }) {
 			{tripInfo.actual.length ? (
 				<div className='grid gap-1'>
 					{tripInfo.actual.map((a) => (
-						<div key={a.stop_seq_num} className='flex justify-between rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary'>
+						<Link
+							href={`/echtzeit?stop=${a.stop.shortName}`}
+							key={a.stop_seq_num}
+							className='flex justify-between rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						>
 							<span>{a.stop.name}</span>
 							{a.status !== 'STOPPING' && <span>{isPaused ? a.actualTime || a.plannedTime : formatTimeDifference(timeToDate(a.actualTime || a.plannedTime))}</span>}
-						</div>
+						</Link>
 					))}
 				</div>
 			) : (
