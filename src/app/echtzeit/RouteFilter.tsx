@@ -9,7 +9,11 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 	const searchParams = useSearchParams();
 
 	const routeId = searchParams.get('routeId');
-	const [selectedRoute, setSelectedRoute] = useState<Route | null>(stop.routes.find((route) => route.id === routeId) ?? null);
+	const direction = searchParams.get('direction');
+
+	const routes = direction ? stop.routes.filter((route) => route.directions.includes(direction)) : stop.routes;
+
+	const [selectedRoute, setSelectedRoute] = useState<Route | null>(routes.find((route) => route.id === routeId) ?? null);
 
 	const createQueryString = useCallback(
 		(name: string, value: string) => {
@@ -58,7 +62,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 					leaveTo='opacity-0'
 				>
 					<Listbox.Options className='absolute mt-1 grid gap-2 bg-secondary dark:bg-darkMode-secondary shadow rounded max-h-96 overflow-y-scroll w-60'>
-						{stop.routes.map((route) => (
+						{routes.map((route) => (
 							<Listbox.Option key={route.id} value={route} as={Fragment}>
 								{({ active, selected }) => (
 									<button
