@@ -7,8 +7,9 @@ import { useEffect } from 'react';
 import { getStopData } from '../(components)/actions';
 import HealthIndicator from '../(components)/HealthIndicator';
 import KVGTable from '../(components)/KVGTable';
-import Filter from './Filter';
+import DirectionFilter from './DirectionFilter';
 import RecommendedSearches from './RecommendedSearches';
+import RouteFilter from './RouteFilter';
 import Searchbar from './Searchbar';
 
 export default function Departures({ stops }: { stops: StopByCharacter[] }) {
@@ -78,10 +79,14 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 			<Searchbar allStops={stops} />
 			{busStop ? (
 				<div className='relative grid gap-2'>
-					<Filter busStop={busStop} />
+					{/* <Filter busStop={busStop} /> */}
 					<div className='mt-2 flex items-center justify-between'>
 						<h1 className='h2'>{busStop.stopName}</h1>
 						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
+					</div>
+					<div className='flex gap-2'>
+						<RouteFilter stop={busStop} />
+						<DirectionFilter stop={busStop} />
 					</div>
 					{mutation.isLoading ? (
 						<div className='grid gap-1'>
