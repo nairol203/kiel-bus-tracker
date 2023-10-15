@@ -56,7 +56,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					<input className='w-full rounded p-2' placeholder='Suche nach einer Haltestelle' disabled />
 				</div>
 				<div className='flex'>
-					<h1 className='skeleton h2'>Lorem, ipsum do.</h1>
+					<h1 className='skeleton'>Lorem, ipsum do.</h1>
 				</div>
 				<div className='flex gap-2'>
 					<button className='skeleton flex gap-2 z-10 rounded-full px-2 py-1 transition'>
@@ -84,7 +84,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 			{busStop ? (
 				<>
 					<div className='mt-2 flex items-center justify-between'>
-						<h1 className='h2'>{busStop.stopName}</h1>
+						<h1>{busStop.stopName}</h1>
 						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 					</div>
 					<div className='flex gap-2 mb-2 flex-wrap'>
@@ -106,7 +106,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 			) : mutation.isLoading ? (
 				<>
 					<div className='mt-2 flex'>
-						<h1 className='skeleton h2'>Lorem, ipsum do.</h1>
+						<h1 className='skeleton'>Lorem, ipsum do.</h1>
 					</div>
 					<div className='flex gap-2'>
 						<button className='skeleton flex gap-2 z-10 rounded-full px-2 py-1 transition'>
