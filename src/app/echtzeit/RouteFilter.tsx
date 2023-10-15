@@ -69,7 +69,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 						} flex items-center gap-2 rounded px-2 py-1 shadow transition duration-200`}
 					>
 						{selectedRoute ? `${selectedRoute.authority} ${selectedRoute.name}` : 'Linie'}
-						<Image src='/chevron-down.svg' height={15} width={15} alt='Chevron down icon' className={selectedRoute ? '' : 'dark:invert'} />
+						<Image src='/chevron-down.svg' height={15} width={15} alt='Chevron down icon' className={selectedRoute ? 'invert dark:invert-0' : 'dark:invert'} />
 					</Listbox.Button>
 					<Transition
 						as={Fragment}
