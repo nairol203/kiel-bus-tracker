@@ -58,7 +58,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				<div className='flex'>
 					<h1 className='skeleton'>Lorem, ipsum do.</h1>
 				</div>
-				<div className='flex gap-2'>
+				<div className='flex flex-wrap gap-2 mb-2'>
 					<button className='skeleton flex gap-2 z-10 rounded-full px-2 py-1 transition'>
 						Linie
 						<div className='h-[15px] w-[15px]' />
@@ -108,7 +108,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					<div className='mt-2 flex'>
 						<h1 className='skeleton'>Lorem, ipsum do.</h1>
 					</div>
-					<div className='flex gap-2'>
+					<div className='flex flex-wrap gap-2 mb-2'>
 						<button className='skeleton flex gap-2 z-10 rounded-full px-2 py-1 transition'>
 							Linie
 							<div className='h-[15px] w-[15px]' />
