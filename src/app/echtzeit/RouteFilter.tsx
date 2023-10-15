@@ -1,7 +1,7 @@
 import { Listbox, Transition } from '@headlessui/react';
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Fragment, useCallback, useState } from 'react';
+import { Fragment, useCallback } from 'react';
 
 function filterUniqueAndSortAscending(arr: string[]) {
 	const uniqueArr = Array.from(new Set(arr));
@@ -18,7 +18,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 	const direction = searchParams.get('direction');
 
 	const routes = direction ? stop.routes.filter((route) => route.directions.includes(direction)) : stop.routes;
-	const [selectedRoute, setSelectedRoute] = useState<Route | null>(routes.find((route) => route.id === routeId) ?? null);
+	const selectedRoute = stop.routes.find((route) => route.id === routeId);
 
 	let directions = routeId ? stop.routes.find((route) => route.id === routeId)!.directions : [];
 	if (!routeId) {
@@ -51,10 +51,11 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 			<Listbox
 				value={selectedRoute}
 				onChange={(value) => {
-					if (selectedRoute === value) {
-						setSelectedRoute(null);
+					if (!value) return;
+					if (routeId === value.id) {
+						router.push(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
 					} else {
-						setSelectedRoute(value);
+						router.push(pathname + '?' + createQueryString('routeId', value.id));
 					}
 				}}
 				as={Fragment}
@@ -82,21 +83,14 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 						<Listbox.Options className='absolute mt-1 grid gap-2 bg-secondary dark:bg-darkMode-secondary shadow rounded max-h-96 overflow-y-auto w-60'>
 							{routes.map((route) => (
 								<Listbox.Option key={route.id} value={route} as={Fragment}>
-									{({ active, selected }) => (
-										<button
-											onClick={() => {
-												if (routeId == route.id) {
-													router.push(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
-												} else {
-													router.push(pathname + '?' + createQueryString('routeId', route.id));
-												}
-											}}
+									{({ active }) => (
+										<li
 											className={`${active && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'} ${
-												selected && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'
+												routeId === route.id && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'
 											} px-2 py-1 rounded text-start`}
 										>
 											{route.authority} {route.name}
-										</button>
+										</li>
 									)}
 								</Listbox.Option>
 							))}
