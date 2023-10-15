@@ -13,10 +13,10 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
-	const [directionThroughSuggestionChip, setDirectionThroughSuggestionChip] = useState(false);
 
 	const routeId = searchParams.get('routeId');
 	const direction = searchParams.get('direction');
+	const [directionThroughSuggestionChip, setDirectionThroughSuggestionChip] = useState((!!routeId && !!direction) ?? false);
 
 	const routes = direction && !directionThroughSuggestionChip ? stop.routes.filter((route) => route.directions.includes(direction)) : stop.routes;
 	const selectedRoute = stop.routes.find((route) => route.id === routeId) ?? null;
