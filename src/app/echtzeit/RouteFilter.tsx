@@ -18,7 +18,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 	const direction = searchParams.get('direction');
 
 	const routes = direction ? stop.routes.filter((route) => route.directions.includes(direction)) : stop.routes;
-	const selectedRoute = stop.routes.find((route) => route.id === routeId);
+	const selectedRoute = stop.routes.find((route) => route.id === routeId) ?? null;
 
 	let directions = routeId ? stop.routes.find((route) => route.id === routeId)!.directions : [];
 	if (!routeId) {
