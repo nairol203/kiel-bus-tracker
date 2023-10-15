@@ -87,7 +87,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 						<h1 className='h2'>{busStop.stopName}</h1>
 						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 					</div>
-					<div className='flex gap-2'>
+					<div className='flex gap-2 mb-2 flex-wrap'>
 						{<RouteFilter stop={busStop} />}
 						{!routeId && <DirectionFilter stop={busStop} />}
 					</div>
