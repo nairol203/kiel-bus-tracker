@@ -1,5 +1,6 @@
 'use client';
 
+import useLocalStorage from '@/utils/useSessionStorage';
 import { Combobox, Transition } from '@headlessui/react';
 import Fuse from 'fuse.js';
 import Image from 'next/image';
@@ -12,6 +13,7 @@ export default function Searchbar({ allStops }: { allStops: StopByCharacter[] })
 
 	const [query, setQuery] = useState('');
 	const [selectedStop, setSelectedStop] = useState<StopByCharacter | null>(null);
+	const [lastSearches, setLastSearches] = useLocalStorage<StopByCharacter[]>('lastSearches', []);
 
 	const filteredStops = useMemo(() => {
 		const fuse = new Fuse(allStops, {
@@ -32,6 +34,7 @@ export default function Searchbar({ allStops }: { allStops: StopByCharacter[] })
 				setSelectedStop(value);
 				if (value) {
 					updateQuery(value);
+					setLastSearches([...lastSearches, value]);
 				}
 			}}
 		>
