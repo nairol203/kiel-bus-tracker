@@ -57,7 +57,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 				<span>Die Fahrt konnte nicht gefunden werden.</span>
 				<button
 					onClick={() => router.back()}
-					className='rounded bg-primary px-2.5 py-1.5 dark:bg-darkMode-primary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+					className='rounded bg-primary text-darkMode-text px-2.5 py-1.5 dark:bg-darkMode-primary dark:text-text md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 				>
 					Zurück
 				</button>
@@ -113,7 +113,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 					<span>Der Bus hat die Endstation erreicht.</span>
 					<button
 						onClick={() => router.back()}
-						className='rounded bg-primary px-2.5 py-1.5 shadow dark:bg-darkMode-primary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						className='rounded bg-primary text-darkMode-text px-2.5 py-1.5 dark:bg-darkMode-primary dark:text-text md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 					>
 						Zurück
 					</button>

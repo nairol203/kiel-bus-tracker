@@ -2,7 +2,7 @@
 
 import { queryClient } from '@/utils/Providers';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { getStopData } from '../(components)/actions';
 import HealthIndicator from '../(components)/HealthIndicator';
@@ -13,6 +13,7 @@ import RouteFilter from './RouteFilter';
 import Searchbar from './Searchbar';
 
 export default function Departures({ stops }: { stops: StopByCharacter[] }) {
+	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 
@@ -49,7 +50,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		onSuccess: (data) => queryClient.setQueryData(['stopData'], data),
 	});
 
-	if (isLoading)
+	if (isLoading) {
 		return (
 			<div className='mx-2 grid gap-2'>
 				<div className='skeleton'>
@@ -77,47 +78,19 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				</div>
 			</div>
 		);
-
-	return (
-		<div className='mx-2 grid gap-2'>
-			<Searchbar allStops={stops} />
-			{busStop ? (
-				<>
-					<div className='mt-2 flex items-center justify-between'>
-						<h1 className='line-clamp-1'>{busStop.stopName}</h1>
-						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
-					</div>
-					<div className='mb-2 flex flex-wrap gap-2'>
-						{<RouteFilter stop={busStop} />}
-						{!routeId && <DirectionFilter stop={busStop} />}
-					</div>
-					{mutation.isLoading ? (
-						<div className='grid gap-1'>
-							<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-							<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-							<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-							<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-							<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-						</div>
-					) : (
-						<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} />
-					)}
-				</>
-			) : mutation.isLoading ? (
-				<>
-					<div className='mt-2 flex'>
-						<h1 className='skeleton'>Lorem, ipsum do.</h1>
-					</div>
-					<div className='mb-2 flex flex-wrap gap-2'>
-						<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
-							Linie
-							<div className='h-[15px] w-[15px]' />
-						</button>
-						<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
-							Richtung
-							<div className='h-[15px] w-[15px]' />
-						</button>
-					</div>
+	} else if (busStop) {
+		return (
+			<div className='mx-2 grid gap-2'>
+				<Searchbar allStops={stops} />
+				<div className='mt-2 flex items-center justify-between'>
+					<h1 className='line-clamp-1'>{busStop.stopName}</h1>
+					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
+				</div>
+				<div className='mb-2 flex flex-wrap gap-2'>
+					{<RouteFilter stop={busStop} />}
+					{!routeId && <DirectionFilter stop={busStop} />}
+				</div>
+				{mutation.isLoading ? (
 					<div className='grid gap-1'>
 						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
 						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
@@ -125,10 +98,59 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
 						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
 					</div>
-				</>
-			) : (
-				<RecommendedSearches stops={stops} />
-			)}
+				) : (
+					<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} />
+				)}
+			</div>
+		);
+	} else if (mutation.isLoading) {
+		return (
+			<div className='mx-2 grid gap-2'>
+				<Searchbar allStops={stops} />
+				<div className='mt-2 flex'>
+					<h1 className='skeleton'>Lorem, ipsum do.</h1>
+				</div>
+				<div className='mb-2 flex flex-wrap gap-2'>
+					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
+						Linie
+						<div className='h-[15px] w-[15px]' />
+					</button>
+					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
+						Richtung
+						<div className='h-[15px] w-[15px]' />
+					</button>
+				</div>
+				<div className='grid gap-1'>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+				</div>
+			</div>
+		);
+	} else if (isError) {
+		return (
+			<div className='mx-2 grid gap-2'>
+				<Searchbar allStops={stops} />
+				<div className='grid gap-2'>
+					<h1>Fehler</h1>
+					<span>Die Haltestelle konnte nicht gefunden werden.</span>
+					<button
+						onClick={() => router.back()}
+						className='rounded bg-primary text-darkMode-text px-2.5 py-1.5 dark:bg-darkMode-primary dark:text-text md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+					>
+						Zurück
+					</button>
+				</div>
+			</div>
+		);
+	}
+
+	return (
+		<div className='mx-2 grid gap-2'>
+			<Searchbar allStops={stops} />
+			<RecommendedSearches stops={stops} />
 		</div>
 	);
 }
