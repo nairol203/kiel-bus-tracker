@@ -99,7 +99,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 				</div>
 			</Listbox>
 			{selectedRoute &&
-				directions.map((_direction) => (
+				directions.map((_direction, index) => (
 					<button
 						onClick={() => {
 							if (direction === _direction) {
@@ -113,7 +113,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 								? 'bg-primary dark:text-text dark:bg-darkMode-primary'
 								: 'bg-secondary dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 						} px-2 py-1 rounded text-start`}
-						key={direction}
+						key={`${index}_${direction}`}
 					>
 						{_direction}
 					</button>
