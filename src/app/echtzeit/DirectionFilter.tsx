@@ -59,9 +59,15 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 			as={Fragment}
 		>
 			<div className='relative'>
-				<Listbox.Button className='flex items-center gap-2 px-2 py-1 rounded bg-secondary shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'>
+				<Listbox.Button
+					className={` ${
+						selectedDirection
+							? 'bg-primary dark:bg-darkMode-primary dark:text-text'
+							: 'bg-secondary dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+					} flex items-center gap-2 px-2 py-1 rounded shadow transition duration-200`}
+				>
 					{selectedDirection ? selectedDirection : 'Richtung'}
-					<Image src='/chevron-down.svg' height={15} width={15} alt='Chevron down icon' className='dark:invert' />
+					<Image src='/chevron-down.svg' height={15} width={15} alt='Chevron down icon' className={selectedDirection ? '' : 'dark:invert'} />
 				</Listbox.Button>
 				<Transition
 					as={Fragment}
@@ -72,7 +78,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 					leaveFrom='opacity-100'
 					leaveTo='opacity-0'
 				>
-					<Listbox.Options className='absolute mt-1 grid gap-2 bg-secondary dark:bg-darkMode-secondary shadow rounded max-h-96 overflow-y-scroll w-60'>
+					<Listbox.Options className='absolute mt-1 grid gap-2 bg-secondary dark:bg-darkMode-secondary shadow rounded max-h-96 overflow-y-auto w-60'>
 						{directions.map((_direction) => (
 							<Listbox.Option key={_direction} value={_direction} as={Fragment}>
 								{({ active, selected }) => (

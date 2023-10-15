@@ -2,6 +2,7 @@
 
 import { queryClient } from '@/utils/Providers';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { getStopData } from '../(components)/actions';
@@ -55,14 +56,18 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				<div className='skeleton'>
 					<input className='w-full rounded p-2' placeholder='Suche nach einer Haltestelle' disabled />
 				</div>
-				<div className='no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap'>
-					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
-					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
-					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
-					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+				<div className=' flex'>
+					<h2 className='skeleton'>Lorem, ipsum do.</h2>
 				</div>
-				<div className='mt-2 flex'>
-					<h2 className='skeleton'>Lorem, ipsum dolor.</h2>
+				<div className='no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap'>
+					<button className='skeleton flex gap-2 z-10 rounded-full px-2 py-1 transition'>
+						Linie
+						<div className='h-[15px] w-[15px]' />
+					</button>
+					<button className='skeleton flex gap-2 z-10 rounded-full px-2 py-1 transition'>
+						Richtung
+						<div className='h-[15px] w-[15px]' />
+					</button>
 				</div>
 				<div className='grid gap-1'>
 					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>

@@ -48,9 +48,15 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 			as={Fragment}
 		>
 			<div className='relative'>
-				<Listbox.Button className='flex items-center gap-2 px-2 py-1 rounded bg-secondary shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'>
+				<Listbox.Button
+					className={`${
+						selectedRoute
+							? 'bg-primary dark:bg-darkMode-primary dark:text-text'
+							: 'bg-secondary dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+					} flex items-center gap-2 px-2 py-1 rounded shadow transition duration-200`}
+				>
 					{selectedRoute ? `${selectedRoute.authority} ${selectedRoute.name}` : 'Linie'}
-					<Image src='/chevron-down.svg' height={15} width={15} alt='Chevron down icon' className='dark:invert' />
+					<Image src='/chevron-down.svg' height={15} width={15} alt='Chevron down icon' className={selectedRoute ? '' : 'dark:invert'} />
 				</Listbox.Button>
 				<Transition
 					as={Fragment}
@@ -61,7 +67,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 					leaveFrom='opacity-100'
 					leaveTo='opacity-0'
 				>
-					<Listbox.Options className='absolute mt-1 grid gap-2 bg-secondary dark:bg-darkMode-secondary shadow rounded max-h-96 overflow-y-scroll w-60'>
+					<Listbox.Options className='absolute mt-1 grid gap-2 bg-secondary dark:bg-darkMode-secondary shadow rounded max-h-96 overflow-y-auto w-60'>
 						{routes.map((route) => (
 							<Listbox.Option key={route.id} value={route} as={Fragment}>
 								{({ active, selected }) => (
