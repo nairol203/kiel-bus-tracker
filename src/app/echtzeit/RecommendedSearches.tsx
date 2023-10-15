@@ -17,13 +17,14 @@ export default function RecommendedSearches({ stops }: { stops: StopByCharacter[
 					{lastSearches
 						.toReversed()
 						.slice(0, 10)
-						.map((search) => (
+						.map((stop, index) => (
 							<Link
 								className='group flex gap-3	 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
-								href={pathname + '?stop=2387'}
+								href={pathname + `?stop=${stop.number}`}
+								key={`${index}_${stop.id}`}
 							>
 								<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='dark:invert group-hover:invert' />
-								{search.name}
+								{stop.name}
 							</Link>
 						))}
 				</div>
