@@ -61,7 +61,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 				<Listbox.Button
 					className={` ${
 						direction
-							? 'bg-primary dark:bg-darkMode-primary dark:text-text'
+							? 'bg-primary text-darkMode-text dark:bg-darkMode-primary dark:text-text'
 							: 'bg-secondary dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 					} flex items-center gap-2 rounded px-2 py-1 shadow transition duration-200`}
 				>
