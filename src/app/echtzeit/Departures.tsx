@@ -92,7 +92,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 							<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
 						</div>
 					) : (
-						<KVGTable data={busStop} isPaused={isPaused} />
+						<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} />
 					)}
 				</div>
 			) : !mutation.isLoading ? (
