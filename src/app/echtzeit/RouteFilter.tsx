@@ -1,7 +1,7 @@
 import { Listbox, Transition } from '@headlessui/react';
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Fragment, useCallback } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 
 function filterUniqueAndSortAscending(arr: string[]) {
 	const uniqueArr = Array.from(new Set(arr));
@@ -13,11 +13,12 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
+	const [directionThroughSuggestionChip, setDirectionThroughSuggestionChip] = useState(false);
 
 	const routeId = searchParams.get('routeId');
 	const direction = searchParams.get('direction');
 
-	const routes = direction ? stop.routes.filter((route) => route.directions.includes(direction)) : stop.routes;
+	const routes = direction && !directionThroughSuggestionChip ? stop.routes.filter((route) => route.directions.includes(direction)) : stop.routes;
 	const selectedRoute = stop.routes.find((route) => route.id === routeId) ?? null;
 
 	let directions = routeId ? stop.routes.find((route) => route.id === routeId)!.directions : [];
@@ -53,6 +54,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 				onChange={(value) => {
 					if (!value) return;
 					if (routeId === value.id) {
+						setDirectionThroughSuggestionChip(false);
 						router.push(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
 					} else {
 						router.push(pathname + '?' + createQueryString('routeId', value.id));
@@ -103,8 +105,10 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 					<button
 						onClick={() => {
 							if (direction === _direction) {
+								setDirectionThroughSuggestionChip(false);
 								router.push(pathname + '?' + removeQueryStrings(['direction']));
 							} else {
+								setDirectionThroughSuggestionChip(true);
 								router.push(pathname + '?' + createQueryString('direction', _direction));
 							}
 						}}
