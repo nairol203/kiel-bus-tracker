@@ -7,8 +7,9 @@ import { useEffect } from 'react';
 import { getStopData } from '../(components)/actions';
 import HealthIndicator from '../(components)/HealthIndicator';
 import KVGTable from '../(components)/KVGTable';
-import Filter from './Filter';
+import DirectionFilter from './DirectionFilter';
 import RecommendedSearches from './RecommendedSearches';
+import RouteFilter from './RouteFilter';
 import Searchbar from './Searchbar';
 
 export default function Departures({ stops }: { stops: StopByCharacter[] }) {
@@ -54,14 +55,18 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				<div className='skeleton'>
 					<input className='w-full rounded p-2' placeholder='Suche nach einer Haltestelle' disabled />
 				</div>
-				<div className='no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap'>
-					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
-					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
-					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
-					<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
+				<div className='flex'>
+					<h1 className='skeleton'>Lorem, ipsum do.</h1>
 				</div>
-				<div className='mt-2 flex'>
-					<h2 className='skeleton'>Lorem, ipsum dolor.</h2>
+				<div className='mb-2 flex flex-wrap gap-2'>
+					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
+						Linie
+						<div className='h-[15px] w-[15px]' />
+					</button>
+					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
+						Richtung
+						<div className='h-[15px] w-[15px]' />
+					</button>
 				</div>
 				<div className='grid gap-1'>
 					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
@@ -77,11 +82,14 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		<div className='mx-2 grid gap-2'>
 			<Searchbar allStops={stops} />
 			{busStop ? (
-				<div className='relative grid gap-2'>
-					<Filter busStop={busStop} />
+				<>
 					<div className='mt-2 flex items-center justify-between'>
-						<h1 className='h2'>{busStop.stopName}</h1>
+						<h1 className='line-clamp-1'>{busStop.stopName}</h1>
 						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
+					</div>
+					<div className='mb-2 flex flex-wrap gap-2'>
+						{<RouteFilter stop={busStop} />}
+						{!routeId && <DirectionFilter stop={busStop} />}
 					</div>
 					{mutation.isLoading ? (
 						<div className='grid gap-1'>
@@ -94,22 +102,21 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					) : (
 						<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} />
 					)}
-				</div>
-			) : !mutation.isLoading ? (
-				<RecommendedSearches stops={stops} />
-			) : (
-				<></>
-			)}
-			{!busStop && mutation.isLoading && (
+				</>
+			) : mutation.isLoading ? (
 				<>
-					<div className='no-scrollbar flex gap-2 overflow-x-auto whitespace-nowrap'>
-						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
-						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
-						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
-						<button className='skeleton z-10 rounded-full px-2.5 py-1.5 transition'>Lorem.</button>
-					</div>
 					<div className='mt-2 flex'>
-						<h2 className='skeleton'>Lorem, ipsum dolor.</h2>
+						<h1 className='skeleton'>Lorem, ipsum do.</h1>
+					</div>
+					<div className='mb-2 flex flex-wrap gap-2'>
+						<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
+							Linie
+							<div className='h-[15px] w-[15px]' />
+						</button>
+						<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
+							Richtung
+							<div className='h-[15px] w-[15px]' />
+						</button>
 					</div>
 					<div className='grid gap-1'>
 						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
@@ -119,6 +126,8 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
 					</div>
 				</>
+			) : (
+				<RecommendedSearches stops={stops} />
 			)}
 		</div>
 	);

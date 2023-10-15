@@ -41,7 +41,7 @@ export default function Searchbar({ allStops }: { allStops: StopByCharacter[] })
 			<div className='relative'>
 				<div className='relative w-full'>
 					<Combobox.Input
-						className='w-full rounded shadow p-2 bg-secondary dark:bg-darkMode-secondary'
+						className='w-full rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary'
 						onChange={(event) => setQuery(event.target.value)}
 						// displayValue={(stop?: StopByCharacter) => stop?.name || ''}
 						placeholder='Suche nach einer Haltestelle'
@@ -62,7 +62,7 @@ export default function Searchbar({ allStops }: { allStops: StopByCharacter[] })
 				>
 					<Combobox.Options className='absolute z-50 mt-1 w-full overflow-auto rounded bg-background shadow dark:bg-darkMode-background'>
 						{filteredStops.length === 0 && query !== '' ? (
-							<li className='wrap rounded bg-secondary dark:bg-darkMode-secondary p-2'>Keine Ergebnisse</li>
+							<li className='wrap rounded bg-secondary p-2 dark:bg-darkMode-secondary'>Keine Ergebnisse</li>
 						) : (
 							filteredStops.map((stop) => (
 								<Combobox.Option

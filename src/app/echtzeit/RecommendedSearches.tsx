@@ -12,7 +12,7 @@ export default function RecommendedSearches({ stops }: { stops: StopByCharacter[
 	return (
 		<>
 			{lastSearches.length ? (
-				<div className='grid gap-2 mt-2'>
+				<div className='mt-2 grid gap-2'>
 					<h2>Letzte Suchanfragen</h2>
 					{lastSearches
 						.toReversed()
@@ -31,7 +31,7 @@ export default function RecommendedSearches({ stops }: { stops: StopByCharacter[
 			) : (
 				<></>
 			)}
-			<div className='grid gap-2 mt-2'>
+			<div className='mt-2 grid gap-2'>
 				<h2>Trends bei Suchanfragen</h2>
 				<Link
 					className='group flex gap-3	 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
