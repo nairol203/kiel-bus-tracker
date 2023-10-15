@@ -3,6 +3,12 @@ import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Fragment, useCallback, useState } from 'react';
 
+function filterUniqueAndSortAscending(arr: string[]) {
+	const uniqueArr = Array.from(new Set(arr));
+	const sortedArr = uniqueArr.sort();
+	return sortedArr;
+}
+
 export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 	const router = useRouter();
 	const pathname = usePathname();
@@ -10,12 +16,13 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 
 	const routeId = searchParams.get('routeId');
 	const direction = searchParams.get('direction');
-	const directions = routeId ? stop.routes.find((route) => route.id === routeId)!.directions : [''].concat(...stop.routes.map((route) => route.directions));
+	let directions = routeId ? stop.routes.find((route) => route.id === routeId)!.directions : [''].concat(...stop.routes.map((route) => route.directions));
 
 	if (!routeId) {
 		directions.shift();
 	}
-	directions.sort();
+
+	directions = filterUniqueAndSortAscending(directions);
 
 	const [selectedDirection, setSelectedDirection] = useState<string | null>(direction);
 
@@ -69,23 +76,20 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 						{directions.map((_direction) => (
 							<Listbox.Option key={_direction} value={_direction} as={Fragment}>
 								{({ active, selected }) => (
-									<li
+									<button
+										onClick={() => {
+											if (direction === _direction) {
+												router.push(pathname + '?' + removeQueryStrings(['direction']));
+											} else {
+												router.push(pathname + '?' + createQueryString('direction', _direction));
+											}
+										}}
 										className={`${active && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'} ${
 											selected && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'
-										} px-2 py-1 rounded`}
+										} px-2 py-1 rounded text-start`}
 									>
-										<button
-											onClick={() => {
-												if (direction === _direction) {
-													router.push(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
-												} else {
-													router.push(pathname + '?' + createQueryString('direction', _direction));
-												}
-											}}
-										>
-											{_direction}
-										</button>
-									</li>
+										{_direction}
+									</button>
 								)}
 							</Listbox.Option>
 						))}

@@ -61,23 +61,20 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 						{stop.routes.map((route) => (
 							<Listbox.Option key={route.id} value={route} as={Fragment}>
 								{({ active, selected }) => (
-									<li
+									<button
+										onClick={() => {
+											if (routeId == route.id) {
+												router.push(pathname + '?' + removeQueryStrings(['routeId']));
+											} else {
+												router.push(pathname + '?' + createQueryString('routeId', route.id));
+											}
+										}}
 										className={`${active && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'} ${
 											selected && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'
-										} px-2 py-1 rounded`}
+										} px-2 py-1 rounded text-start`}
 									>
-										<button
-											onClick={() => {
-												if (routeId == route.id) {
-													router.push(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
-												} else {
-													router.push(pathname + '?' + createQueryString('routeId', route.id));
-												}
-											}}
-										>
-											{route.authority} {route.name}
-										</button>
-									</li>
+										{route.authority} {route.name}
+									</button>
 								)}
 							</Listbox.Option>
 						))}
