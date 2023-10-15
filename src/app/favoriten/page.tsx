@@ -32,7 +32,7 @@ function SkeletonFavorite() {
 				<h2 className='skeleton'>Lorem, ipsum dolor.</h2>
 			</div>
 			<div className='grid gap-1'>
-				<div className='skeleton flex justify-between rounded bg-white/80 p-2 dark:bg-white/10'>Lorem ipsum dolor sit amet.</div>
+				<div className='skeleton bg-white/80 dark:bg-white/10 flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
 			</div>
 		</>
 	);

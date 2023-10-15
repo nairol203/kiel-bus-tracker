@@ -63,7 +63,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 						direction
 							? 'bg-primary dark:bg-darkMode-primary dark:text-text'
 							: 'bg-secondary dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
-					} flex items-center gap-2 px-2 py-1 rounded shadow transition duration-200`}
+					} flex items-center gap-2 rounded px-2 py-1 shadow transition duration-200`}
 				>
 					{direction ?? 'Richtung'}
 					<Image src='/chevron-down.svg' height={15} width={15} alt='Chevron down icon' className={direction ? '' : 'dark:invert'} />
@@ -77,14 +77,14 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 					leaveFrom='opacity-100'
 					leaveTo='opacity-0'
 				>
-					<Listbox.Options className='absolute mt-1 grid gap-2 bg-secondary dark:bg-darkMode-secondary shadow rounded max-h-96 overflow-y-auto w-60'>
+					<Listbox.Options className='absolute mt-1 grid max-h-96 w-60 gap-2 overflow-y-auto rounded bg-secondary shadow dark:bg-darkMode-secondary'>
 						{directions.map((_direction) => (
 							<Listbox.Option key={_direction} value={_direction} as={Fragment}>
 								{({ active }) => (
 									<li
 										className={`${active && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'} ${
 											direction == _direction && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'
-										} px-2 py-1 rounded text-start`}
+										} rounded px-2 py-1 text-start`}
 									>
 										{_direction}
 									</li>

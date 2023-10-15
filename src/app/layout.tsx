@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<main className='min-h-screen'>
 					<Providers>{children}</Providers>
 				</main>
-				<footer className='grid justify-center gap-2 p-4 text-sm text-gray-400 sm:flex sm:gap-1'>
+				<footer className='text-gray-400 grid justify-center gap-2 p-4 text-sm sm:flex sm:gap-1'>
 					<a href='https://nairol.me' target='_blank' rel='noreferrer' className='flex justify-center hover:underline'>
 						© 2023 nairol203
 					</a>

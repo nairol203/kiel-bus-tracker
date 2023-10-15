@@ -58,12 +58,12 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				<div className='flex'>
 					<h1 className='skeleton'>Lorem, ipsum do.</h1>
 				</div>
-				<div className='flex flex-wrap gap-2 mb-2'>
-					<button className='skeleton flex gap-2 z-10 rounded-full px-2 py-1 transition'>
+				<div className='mb-2 flex flex-wrap gap-2'>
+					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
 						Linie
 						<div className='h-[15px] w-[15px]' />
 					</button>
-					<button className='skeleton flex gap-2 z-10 rounded-full px-2 py-1 transition'>
+					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
 						Richtung
 						<div className='h-[15px] w-[15px]' />
 					</button>
@@ -87,7 +87,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 						<h1 className='line-clamp-1'>{busStop.stopName}</h1>
 						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 					</div>
-					<div className='flex gap-2 mb-2 flex-wrap'>
+					<div className='mb-2 flex flex-wrap gap-2'>
 						{<RouteFilter stop={busStop} />}
 						{!routeId && <DirectionFilter stop={busStop} />}
 					</div>
@@ -108,12 +108,12 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					<div className='mt-2 flex'>
 						<h1 className='skeleton'>Lorem, ipsum do.</h1>
 					</div>
-					<div className='flex flex-wrap gap-2 mb-2'>
-						<button className='skeleton flex gap-2 z-10 rounded-full px-2 py-1 transition'>
+					<div className='mb-2 flex flex-wrap gap-2'>
+						<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
 							Linie
 							<div className='h-[15px] w-[15px]' />
 						</button>
-						<button className='skeleton flex gap-2 z-10 rounded-full px-2 py-1 transition'>
+						<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
 							Richtung
 							<div className='h-[15px] w-[15px]' />
 						</button>
