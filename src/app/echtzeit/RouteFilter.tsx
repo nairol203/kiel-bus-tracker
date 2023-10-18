@@ -84,7 +84,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 						leaveFrom='opacity-100'
 						leaveTo='opacity-0'
 					>
-						{open && <span className='z-10 absolute inset-0 bg-text/20 backdrop-blur-sm md:hidden' />}
+						{open && <span className='z-10 absolute inset-0 bg-text/20 md:hidden' />}
 						<Listbox.Options className='z-20 absolute top-1/3 inset-x-0 bottom-0 md:inset-auto md:mt-1 md:max-h-96 md:w-60 overflow-y-auto rounded bg-secondary shadow-lg dark:bg-darkMode-secondary overscroll-contain'>
 							{routes.map((route) => (
 								<Listbox.Option key={route.id} value={route} as={Fragment}>
