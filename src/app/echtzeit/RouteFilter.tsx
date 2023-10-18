@@ -96,7 +96,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 								className={selectedRoute && selectedRoute.id !== 'all' ? 'invert dark:invert-0' : 'md:group-enabled:group-hover:invert dark:invert'}
 							/>
 						</Listbox.Button>
-						{open && <span className='z-10 absolute inset-0 backdrop-blur-sm' />}
+						{open && <span className='z-10 absolute inset-0 backdrop-blur-sm md:hidden' />}
 						<Transition
 							as={Fragment}
 							enter='transition ease-in duration-100'
@@ -106,7 +106,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 							leaveFrom='opacity-100'
 							leaveTo='opacity-0'
 						>
-							<Listbox.Options className='z-20 absolute bottom-0 left-0 right-0 top-1/3 md:mt-1 md:max-h-96 md:w-60 overflow-y-auto rounded bg-secondary shadow-2xl dark:bg-darkMode-secondary overscroll-contain'>
+							<Listbox.Options className='z-20 absolute top-1/3 inset-x-0 bottom-0 md:inset-auto md:mt-1 md:max-h-96 md:w-60 overflow-y-auto rounded bg-secondary shadow-lg dark:bg-darkMode-secondary overscroll-contain'>
 								{routes.map((route) => (
 									<Listbox.Option key={route.id} value={route} as={Fragment}>
 										{({ active }) => (
