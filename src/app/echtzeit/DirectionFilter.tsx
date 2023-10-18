@@ -59,59 +59,63 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 			as={Fragment}
 			disabled={directions.length <= 1}
 		>
-			<div className='md:relative'>
-				<Listbox.Button
-					className={`${
-						direction && direction !== 'Zeige alle Richtungen'
-							? 'bg-primary text-darkMode-text dark:bg-darkMode-primary dark:text-text'
-							: 'group bg-secondary dark:bg-darkMode-secondary md:enabled:hover:bg-accent md:enabled:hover:text-darkMode-text dark:md:enabled:hover:bg-darkMode-accent'
-					} flex items-center gap-2 rounded px-2 py-1 shadow transition duration-200`}
-				>
-					{direction ?? 'Richtung'}
-					<Image
-						src='/chevron-up-down.svg'
-						height={15}
-						width={15}
-						alt='Chevron down icon'
-						className={direction && direction !== 'Zeige alle Richtungen' ? 'invert dark:invert-0' : 'md:group-enabled:group-hover:invert dark:invert'}
-					/>
-				</Listbox.Button>
-
-				<Transition
-					as={Fragment}
-					enter='transition ease-in duration-100'
-					enterFrom='opacity-0'
-					enterTo='opacity-100'
-					leave='transition ease-in duration-100'
-					leaveFrom='opacity-100'
-					leaveTo='opacity-0'
-				>
-					<Listbox.Options className='absolute bottom-0 left-0 right-0 atop-48 md:mt-1 md:max-h-96 md:w-60 overflow-y-auto rounded bg-secondary shadow dark:bg-darkMode-secondary'>
-						{directions.map((_direction) => (
-							<Listbox.Option key={_direction} value={_direction} as={Fragment}>
-								{({ active }) => (
-									<li
-										className={`${active && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'} flex gap-2 p-3 md:px-2 md:py-1.5 text-start cursor-default`}
-									>
-										{direction === _direction || (!direction && _direction === 'Zeige alle Richtungen') ? (
-											<Image
-												src='/check.svg'
-												height={15}
-												width={15}
-												alt='Check Icon'
-												className={`${active ? 'invert' : ''} group-hover:invert dark:invert`}
-											/>
-										) : (
-											<span className='h-[15px] w-[15px]' />
-										)}
-										<span>{_direction}</span>
-									</li>
-								)}
-							</Listbox.Option>
-						))}
-					</Listbox.Options>
-				</Transition>
-			</div>
+			{({ open }) => (
+				<div className='md:relative'>
+					<Listbox.Button
+						className={`${
+							direction && direction !== 'Zeige alle Richtungen'
+								? 'bg-primary text-darkMode-text dark:bg-darkMode-primary dark:text-text'
+								: 'group bg-secondary dark:bg-darkMode-secondary md:enabled:hover:bg-accent md:enabled:hover:text-darkMode-text dark:md:enabled:hover:bg-darkMode-accent'
+						} flex items-center gap-2 rounded px-2 py-1 shadow transition duration-200`}
+					>
+						{direction ?? 'Richtung'}
+						<Image
+							src='/chevron-up-down.svg'
+							height={15}
+							width={15}
+							alt='Chevron down icon'
+							className={direction && direction !== 'Zeige alle Richtungen' ? 'invert dark:invert-0' : 'md:group-enabled:group-hover:invert dark:invert'}
+						/>
+					</Listbox.Button>
+					{open && <span className='z-10 absolute inset-0 backdrop-blur-sm' />}
+					<Transition
+						as={Fragment}
+						enter='transition ease-in duration-100'
+						enterFrom='opacity-0'
+						enterTo='opacity-100'
+						leave='transition ease-in duration-100'
+						leaveFrom='opacity-100'
+						leaveTo='opacity-0'
+					>
+						<Listbox.Options className='z-20 absolute bottom-0 left-0 right-0 top-1/3 md:mt-1 md:max-h-96 md:w-60 overflow-y-auto rounded bg-secondary shadow dark:bg-darkMode-secondary'>
+							{directions.map((_direction) => (
+								<Listbox.Option key={_direction} value={_direction} as={Fragment}>
+									{({ active }) => (
+										<li
+											className={`${
+												active && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'
+											} flex gap-2 p-3 md:px-2 md:py-1.5 text-start cursor-default`}
+										>
+											{direction === _direction || (!direction && _direction === 'Zeige alle Richtungen') ? (
+												<Image
+													src='/check.svg'
+													height={15}
+													width={15}
+													alt='Check Icon'
+													className={`${active ? 'invert' : ''} group-hover:invert dark:invert`}
+												/>
+											) : (
+												<span className='h-[15px] w-[15px]' />
+											)}
+											<span>{_direction}</span>
+										</li>
+									)}
+								</Listbox.Option>
+							))}
+						</Listbox.Options>
+					</Transition>
+				</div>
+			)}
 		</Listbox>
 	);
 }
