@@ -3,12 +3,6 @@ import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Fragment, useCallback } from 'react';
 
-function filterUniqueAndSortAscending(arr: string[]) {
-	const uniqueArr = Array.from(new Set(arr));
-	const sortedArr = uniqueArr.sort();
-	return sortedArr;
-}
-
 export default function RouteFilter({ stop }: { stop: KVGStops }) {
 	const router = useRouter();
 	const pathname = usePathname();
@@ -22,7 +16,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 		authority: '',
 		directions: [],
 		id: 'all',
-		name: 'Zeige alle Linien',
+		name: 'Alle Linien',
 		routeType: 'unkown',
 		shortName: '',
 	};
