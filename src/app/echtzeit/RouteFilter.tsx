@@ -66,17 +66,24 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 					}
 				}}
 				as={Fragment}
+				disabled={!routes.length}
 			>
 				<div className='relative'>
 					<Listbox.Button
 						className={`${
 							selectedRoute
 								? 'bg-primary text-darkMode-text dark:bg-darkMode-primary dark:text-text'
-								: 'bg-secondary dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+								: 'group bg-secondary dark:bg-darkMode-secondary md:enabled:hover:bg-accent md:enabled:hover:text-darkMode-text dark:md:enabled:hover:bg-darkMode-accent'
 						} flex items-center gap-2 rounded px-2 py-1 shadow transition duration-200`}
 					>
 						{selectedRoute ? `${selectedRoute.authority} ${selectedRoute.name}` : 'Linie'}
-						<Image src='/chevron-down.svg' height={15} width={15} alt='Chevron down icon' className={selectedRoute ? 'invert dark:invert-0' : 'dark:invert'} />
+						<Image
+							src='/chevron-up-down.svg'
+							height={15}
+							width={15}
+							alt='Chevron down icon'
+							className={selectedRoute ? 'invert dark:invert-0' : 'group-enabled:group-hover:invert dark:invert'}
+						/>
 					</Listbox.Button>
 					<Transition
 						as={Fragment}
