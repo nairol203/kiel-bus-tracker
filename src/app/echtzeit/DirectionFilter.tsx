@@ -15,7 +15,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 	const searchParams = useSearchParams();
 
 	const routeId = searchParams.get('routeId');
-	const direction = searchParams.get('direction');
+	const direction = searchParams.get('direction') ?? 'Zeige alle Richtungen';
 	let directions = routeId ? stop.routes.find((route) => route.id === routeId)!.directions : [''].concat(...stop.routes.map((route) => route.directions));
 
 	if (!routeId) {
@@ -23,6 +23,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 	}
 
 	directions = filterUniqueAndSortAscending(directions);
+	directions.unshift('Zeige alle Richtungen');
 
 	const createQueryString = useCallback(
 		(name: string, value: string) => {
@@ -48,8 +49,8 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 		<Listbox
 			value={direction}
 			onChange={(value) => {
-				if (!value) return;
-				if (direction === value) {
+				if (!value || direction === value) return;
+				if (value === 'Zeige alle Richtungen') {
 					router.push(pathname + '?' + removeQueryStrings(['direction']));
 				} else {
 					router.push(pathname + '?' + createQueryString('direction', value));
@@ -61,7 +62,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 			<div className='relative'>
 				<Listbox.Button
 					className={`${
-						direction
+						direction && direction !== 'Zeige alle Richtungen'
 							? 'bg-primary text-darkMode-text dark:bg-darkMode-primary dark:text-text'
 							: 'group bg-secondary dark:bg-darkMode-secondary md:enabled:hover:bg-accent md:enabled:hover:text-darkMode-text dark:md:enabled:hover:bg-darkMode-accent'
 					} flex items-center gap-2 rounded px-2 py-1 shadow transition duration-200`}
@@ -72,7 +73,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 						height={15}
 						width={15}
 						alt='Chevron down icon'
-						className={direction ? 'invert dark:invert-0' : 'group-enabled:group-hover:invert dark:invert'}
+						className={direction && direction !== 'Zeige alle Richtungen' ? 'invert dark:invert-0' : 'group-enabled:group-hover:invert dark:invert'}
 					/>
 				</Listbox.Button>
 
@@ -85,16 +86,23 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 					leaveFrom='opacity-100'
 					leaveTo='opacity-0'
 				>
-					<Listbox.Options className='absolute mt-1 grid max-h-96 w-60 gap-2 overflow-y-auto rounded bg-secondary shadow dark:bg-darkMode-secondary'>
+					<Listbox.Options className='absolute mt-1 max-h-96 w-60 overflow-y-auto rounded bg-secondary shadow dark:bg-darkMode-secondary'>
 						{directions.map((_direction) => (
 							<Listbox.Option key={_direction} value={_direction} as={Fragment}>
 								{({ active }) => (
-									<li
-										className={`${active && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'} ${
-											direction == _direction && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'
-										} rounded px-2 py-1 text-start`}
-									>
-										{_direction}
+									<li className={`${active && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'} flex gap-2 px-2 py-1.5 text-start cursor-default`}>
+										{direction === _direction || (!direction && _direction === 'Zeige alle Richtungen') ? (
+											<Image
+												src='/check.svg'
+												height={15}
+												width={15}
+												alt='Check Icon'
+												className={`${active ? 'invert' : ''} group-hover:invert dark:invert`}
+											/>
+										) : (
+											<span className='h-[15px] w-[15px]' />
+										)}
+										<span>{_direction}</span>
 									</li>
 								)}
 							</Listbox.Option>
