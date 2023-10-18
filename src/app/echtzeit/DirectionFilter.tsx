@@ -16,9 +16,12 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 
 	const routeId = searchParams.get('routeId');
 	const direction = searchParams.get('direction') ?? 'Zeige alle Richtungen';
-	let directions = routeId ? stop.routes.find((route) => route.id === routeId)!.directions : [''].concat(...stop.routes.map((route) => route.directions));
+	let directions =
+		routeId && stop.routes.find((route) => route.id === routeId)
+			? stop.routes.find((route) => route.id === routeId)!.directions
+			: [''].concat(...stop.routes.map((route) => route.directions));
 
-	if (!routeId) {
+	if (!routeId || !stop.routes.find((route) => route.id === routeId)) {
 		directions.shift();
 	}
 

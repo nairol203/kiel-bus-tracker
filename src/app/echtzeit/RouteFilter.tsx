@@ -30,12 +30,6 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 	const routes = [defaultRoute, ...(direction ? stop.routes.filter((route) => route.directions.includes(direction)) : stop.routes)];
 	const selectedRoute = stop.routes.find((route) => route.id === routeId) ?? defaultRoute;
 
-	let directions = routeId ? stop.routes.find((route) => route.id === routeId)!.directions : [];
-	if (!routeId) {
-		directions.shift();
-	}
-	directions = filterUniqueAndSortAscending(directions);
-
 	const createQueryString = useCallback(
 		(name: string, value: string) => {
 			const params = new URLSearchParams(searchParams);
@@ -62,7 +56,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 			onChange={(value) => {
 				if (!value || routeId === value.id) return;
 				if (value.id === 'all') {
-					router.push(pathname + '?' + removeQueryStrings(['routeId', 'direction']));
+					router.push(pathname + '?' + removeQueryStrings(['routeId']));
 				} else {
 					router.push(pathname + '?' + createQueryString('routeId', value.id));
 				}
