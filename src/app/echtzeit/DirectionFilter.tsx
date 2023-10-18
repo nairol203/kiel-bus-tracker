@@ -57,7 +57,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 				}
 			}}
 			as={Fragment}
-			disabled={!directions.length}
+			disabled={directions.length <= 1}
 		>
 			<div className='md:relative'>
 				<Listbox.Button
@@ -86,7 +86,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 					leaveFrom='opacity-100'
 					leaveTo='opacity-0'
 				>
-					<Listbox.Options className='absolute bottom-0 left-0 right-0 top-1/2 mt-1 md:max-h-96 md:w-60 overflow-y-auto rounded bg-secondary shadow dark:bg-darkMode-secondary'>
+					<Listbox.Options className='absolute bottom-0 left-0 right-0 top-48 mt-1 md:max-h-96 md:w-60 overflow-y-auto rounded bg-secondary shadow dark:bg-darkMode-secondary'>
 						{directions.map((_direction) => (
 							<Listbox.Option key={_direction} value={_direction} as={Fragment}>
 								{({ active }) => (
