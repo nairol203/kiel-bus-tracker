@@ -88,15 +88,15 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 						leaveFrom='opacity-100'
 						leaveTo='opacity-0'
 					>
-						{open && <span className='z-10 absolute inset-0 bg-text/20 md:hidden' />}
-						<Listbox.Options className='z-20 absolute top-1/3 inset-x-0 bottom-0 md:inset-auto md:mt-1 md:max-h-96 md:w-60 overflow-y-auto rounded bg-secondary shadow-lg dark:bg-darkMode-secondary overscroll-contain'>
+						{open && <span className='z-10 absolute inset-0 bg-text/30 md:hidden' />}
+						<Listbox.Options className='z-20 absolute max-h-96 inset-x-2 bottom-2 md:inset-auto md:mt-1 md:max-h-96 md:w-60 overflow-y-auto bg-secondary shadow-lg dark:bg-darkMode-secondary overscroll-contain pt-3 md:pt-0 rounded-2xl md:rounded'>
 							{directions.map((_direction) => (
 								<Listbox.Option key={_direction} value={_direction} as={Fragment}>
 									{({ active }) => (
 										<li
 											className={`${
-												active && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'
-											} flex gap-2 p-3 md:px-2 md:py-1.5 text-start cursor-default`}
+												active && 'md:bg-accent md:text-darkMode-text md:dark:bg-darkMode-accent'
+											} flex gap-3 p-3 md:px-2 md:py-1.5 text-start cursor-default`}
 										>
 											{direction === _direction || (!direction && _direction === 'Alle Richtungen') ? (
 												<Image
@@ -104,7 +104,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 													height={15}
 													width={15}
 													alt='Check Icon'
-													className={`${active ? 'invert' : ''} group-hover:invert dark:invert`}
+													className={`${active ? 'md:invert' : ''} md:group-hover:invert dark:invert`}
 												/>
 											) : (
 												<span className='h-[15px] w-[15px]' />
