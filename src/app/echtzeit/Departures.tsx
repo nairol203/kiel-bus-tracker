@@ -61,11 +61,11 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				</div>
 				<div className='mb-2 flex flex-wrap gap-2'>
 					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
-						Zeige alle Linien
+						Alle Linien
 						<div className='h-[15px] w-[15px]' />
 					</button>
 					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
-						Zeige alle Richtungen
+						Alle Richtungen
 						<div className='h-[15px] w-[15px]' />
 					</button>
 				</div>
@@ -112,11 +112,11 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				</div>
 				<div className='mb-2 flex flex-wrap gap-2'>
 					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
-						Zeige alle Linien
+						Alle Linien
 						<div className='h-[15px] w-[15px]' />
 					</button>
 					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
-						Zeige alle Richtungen
+						Alle Richtungen
 						<div className='h-[15px] w-[15px]' />
 					</button>
 				</div>
