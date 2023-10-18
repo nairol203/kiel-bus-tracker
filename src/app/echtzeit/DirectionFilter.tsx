@@ -73,7 +73,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 						height={15}
 						width={15}
 						alt='Chevron down icon'
-						className={direction && direction !== 'Zeige alle Richtungen' ? 'invert dark:invert-0' : 'group-enabled:group-hover:invert dark:invert'}
+						className={direction && direction !== 'Zeige alle Richtungen' ? 'invert dark:invert-0' : 'md:group-enabled:group-hover:invert dark:invert'}
 					/>
 				</Listbox.Button>
 
