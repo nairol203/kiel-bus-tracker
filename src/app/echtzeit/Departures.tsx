@@ -87,8 +87,8 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 				</div>
 				<div className='mb-2 flex flex-wrap gap-2'>
-					{<RouteFilter stop={busStop} />}
-					{!routeId && <DirectionFilter stop={busStop} />}
+					<RouteFilter stop={busStop} />
+					<DirectionFilter stop={busStop} />
 				</div>
 				{mutation.isLoading ? (
 					<div className='grid gap-1'>
