@@ -84,14 +84,14 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 						leaveFrom='opacity-100'
 						leaveTo='opacity-0'
 					>
-						{open && <span className='z-10 absolute inset-0 bg-text/30 md:hidden' />}
-						<Listbox.Options className='z-20 absolute top-1/3 inset-x-2 bottom-2 md:inset-auto md:mt-1 md:max-h-96 md:w-60 overflow-y-auto bg-background md:bg-secondary shadow-lg dark:bg-darkMode-background dark:md:bg-darkMode-secondary overscroll-contain pt-3 md:pt-0 rounded-2xl md:rounded'>
+						{open && <span className='z-10 absolute inset-0 bg-text/30 dark:bg-text/60 md:hidden' />}
+						<Listbox.Options className='z-20 absolute top-1/3 inset-x-0 bottom-0 md:inset-auto md:mt-1 md:max-h-96 md:w-60 overflow-y-auto bg-background md:bg-secondary shadow-lg dark:bg-darkMode-background dark:md:bg-darkMode-secondary overscroll-contain pt-3 md:pt-0 rounded-t-2xl md:rounded-t-sm md:rounded-sm'>
 							{routes.map((route) => (
 								<Listbox.Option key={route.id} value={route} as={Fragment}>
 									{({ active }) => (
 										<li
 											className={`${
-												active && 'md:bg-accent md:text-darkMode-text md:dark:bg-darkMode-accent'
+												active && 'md:bg-accent  md:text-darkMode-text md:dark:bg-darkMode-accent'
 											} group flex gap-3 p-3 md:px-2 md:py-1.5 text-start cursor-default`}
 										>
 											{routeId === route.id || (!routeId && route.id === 'all') ? (
