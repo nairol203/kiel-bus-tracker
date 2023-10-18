@@ -59,7 +59,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 			as={Fragment}
 			disabled={!directions.length}
 		>
-			<div className='relative'>
+			<div className='md:relative'>
 				<Listbox.Button
 					className={`${
 						direction && direction !== 'Zeige alle Richtungen'
@@ -86,11 +86,13 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 					leaveFrom='opacity-100'
 					leaveTo='opacity-0'
 				>
-					<Listbox.Options className='absolute mt-1 max-h-96 w-60 overflow-y-auto rounded bg-secondary shadow dark:bg-darkMode-secondary'>
+					<Listbox.Options className='absolute bottom-0 left-0 right-0 top-1/2 mt-1 md:max-h-96 md:w-60 overflow-y-auto rounded bg-secondary shadow dark:bg-darkMode-secondary'>
 						{directions.map((_direction) => (
 							<Listbox.Option key={_direction} value={_direction} as={Fragment}>
 								{({ active }) => (
-									<li className={`${active && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'} flex gap-2 px-2 py-1.5 text-start cursor-default`}>
+									<li
+										className={`${active && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'} flex gap-2 p-3 md:px-2 md:py-1.5 text-start cursor-default`}
+									>
 										{direction === _direction || (!direction && _direction === 'Zeige alle Richtungen') ? (
 											<Image
 												src='/check.svg'

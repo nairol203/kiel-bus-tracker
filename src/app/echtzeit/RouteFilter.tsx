@@ -78,7 +78,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 				as={Fragment}
 				disabled={!routes.length}
 			>
-				<div className='relative'>
+				<div className='md:relative'>
 					<Listbox.Button
 						className={`${
 							selectedRoute && selectedRoute.id !== 'all'
@@ -104,12 +104,14 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 						leaveFrom='opacity-100'
 						leaveTo='opacity-0'
 					>
-						<Listbox.Options className='absolute mt-1 max-h-96 w-60 overflow-y-auto rounded bg-secondary shadow dark:bg-darkMode-secondary'>
+						<Listbox.Options className='absolute bottom-0 left-0 right-0 top-1/2 mt-1 md:max-h-96 md:w-60 overflow-y-auto rounded bg-secondary shadow dark:bg-darkMode-secondary'>
 							{routes.map((route) => (
 								<Listbox.Option key={route.id} value={route} as={Fragment}>
 									{({ active }) => (
 										<li
-											className={`${active && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'} group flex gap-3 px-2 py-1.5 text-start cursor-default`}
+											className={`${
+												active && 'bg-accent text-darkMode-text dark:bg-darkMode-accent'
+											} group flex gap-3 p-3 md:px-2 md:py-1.5 text-start cursor-default`}
 										>
 											{routeId === route.id || (!routeId && route.id === 'all') ? (
 												<Image
