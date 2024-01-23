@@ -1,7 +1,9 @@
 'use server';
 
+import { API_BASE_URI } from '@/utils/api';
+
 export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string | null; direction?: string | null }): Promise<KVGStops> {
-	const endpoint = new URL('https://www.kvg-kiel.de/internetservice/services/passageInfo/stopPassages/stop');
+	const endpoint = new URL(`${API_BASE_URI}/internetservice/services/passageInfo/stopPassages/stop`);
 
 	endpoint.searchParams.append('stop', stopId);
 	endpoint.searchParams.append('mode', 'departure');
@@ -26,7 +28,7 @@ export async function getStopData({ stopId, routeId, direction }: { stopId: stri
 }
 
 export async function getTripInfo(tripId: string): Promise<StopInfo> {
-	const endpoint = new URL('https://kvg-kiel.de/internetservice/services/tripInfo/tripPassages');
+	const endpoint = new URL(`${API_BASE_URI}/internetservice/services/tripInfo/tripPassages`);
 
 	endpoint.searchParams.append('tripId', tripId);
 

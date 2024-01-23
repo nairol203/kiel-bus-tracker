@@ -1,3 +1,4 @@
+import { API_BASE_URI } from '@/utils/api';
 import Departures from './Departures';
 
 const ONE_DAY_IN_SECONDS = 86_400;
@@ -5,7 +6,7 @@ const ONE_DAY_IN_SECONDS = 86_400;
 const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
 
 async function searchByCharacter(character: string): Promise<StopsByCharacter> {
-	const endpoint = new URL('https://www.kvg-kiel.de/internetservice/services/lookup/stopsByCharacter');
+	const endpoint = new URL(`${API_BASE_URI}/internetservice/services/lookup/stopsByCharacter`);
 
 	endpoint.searchParams.append('character', character);
 
