@@ -133,9 +133,9 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		return (
 			<div className='mx-2 grid gap-2'>
 				<Searchbar allStops={stops} />
-				<div className='grid gap-2'>
+				<div className='grid gap-2 mt-2'>
 					<h1>Fehler</h1>
-					<span>Die Haltestelle konnte nicht gefunden werden.</span>
+					<span>Die Haltestelle konnte nicht geladen werden.</span>
 					<button
 						onClick={() => router.back()}
 						className='rounded bg-primary text-darkMode-text px-2.5 py-1.5 dark:bg-darkMode-primary dark:text-text md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'

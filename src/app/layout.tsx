@@ -1,7 +1,8 @@
 import React from 'react';
 import './globals.css';
 import Providers from '@/utils/Providers';
-import NavBar from './(components)/NavBar';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export const metadata = {
 	title: 'KVG Bus Tracker',
@@ -31,7 +32,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang='de'>
 			<body className='mx-auto max-w-3xl'>
-				<NavBar />
+				<header className='mx-auto flex items-center justify-between px-2 py-4'>
+					<Link href='/' className='flex items-center '>
+						<Image src='/bus.svg' className='mr-3 rounded-full dark:invert' alt='KVG Bus Tracker Logo' width={30} height={30} />
+						<span className='self-center whitespace-nowrap text-2xl font-semibold'>KVG Bus Tracker</span>
+					</Link>
+				</header>
 				<main className='min-h-screen'>
 					<Providers>{children}</Providers>
 				</main>
