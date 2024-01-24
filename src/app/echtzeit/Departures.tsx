@@ -23,7 +23,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 
 	useEffect(() => {
 		if (!stopId) {
-			queryClient.removeQueries(['stopData']);
+			queryClient.removeQueries({ queryKey: ['stopData'] });
 		} else {
 			mutation.mutate({ stopId, routeId, direction });
 		}
@@ -90,7 +90,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					<RouteFilter stop={busStop} />
 					<DirectionFilter stop={busStop} />
 				</div>
-				{mutation.isLoading ? (
+				{mutation.isPending ? (
 					<div className='grid gap-1'>
 						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
 						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
@@ -103,7 +103,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				)}
 			</div>
 		);
-	} else if (mutation.isLoading) {
+	} else if (mutation.isPending) {
 		return (
 			<div className='mx-2 grid gap-2'>
 				<Searchbar allStops={stops} />
