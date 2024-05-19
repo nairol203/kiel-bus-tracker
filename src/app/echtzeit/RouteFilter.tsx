@@ -31,7 +31,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 
 			return params.toString();
 		},
-		[searchParams]
+		[searchParams],
 	);
 
 	const removeQueryStrings = useCallback(
@@ -41,7 +41,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 
 			return params.toString();
 		},
-		[searchParams]
+		[searchParams],
 	);
 
 	return (
@@ -86,6 +86,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 					>
 						{open && <span className='z-10 absolute inset-0 bg-text/30 dark:bg-text/60 md:hidden' />}
 						<Listbox.Options className='z-20 absolute top-1/3 inset-x-0 bottom-0 md:inset-auto md:mt-1 md:max-h-96 md:w-60 overflow-y-auto bg-background md:bg-secondary shadow-lg dark:bg-darkMode-background dark:md:bg-darkMode-secondary overscroll-contain pt-3 md:pt-0 rounded-t-2xl md:rounded-t-sm md:rounded-sm'>
+							<h2 className='mx-4 my-2 md:hidden'>Linienfilter</h2>
 							{routes.map((route) => (
 								<Listbox.Option key={route.id} value={route} as={Fragment}>
 									{({ active }) => (
@@ -96,14 +97,20 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 										>
 											{routeId === route.id || (!routeId && route.id === 'all') ? (
 												<Image
-													src='/check.svg'
+													src='/circle-dot.svg'
 													height={15}
 													width={15}
 													alt='Check Icon'
 													className={`${active ? 'md:invert' : ''} md:group-hover:invert dark:invert`}
 												/>
 											) : (
-												<span className='h-[15px] w-[15px]' />
+												<Image
+													src='/circle.svg'
+													height={15}
+													width={15}
+													alt='Check Icon'
+													className={`${active ? 'md:invert' : ''} md:group-hover:invert dark:invert`}
+												/>
 											)}
 											<span>
 												{route.authority} {route.name}

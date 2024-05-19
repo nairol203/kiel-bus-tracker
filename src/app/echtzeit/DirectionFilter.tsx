@@ -35,7 +35,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 
 			return params.toString();
 		},
-		[searchParams]
+		[searchParams],
 	);
 
 	const removeQueryStrings = useCallback(
@@ -45,7 +45,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 
 			return params.toString();
 		},
-		[searchParams]
+		[searchParams],
 	);
 
 	return (
@@ -90,6 +90,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 					>
 						{open && <span className='z-10 absolute inset-0 bg-text/30 dark:bg-text/60 md:hidden' />}
 						<Listbox.Options className='z-20 absolute top-1/3 inset-x-0 bottom-0 md:inset-auto md:mt-1 md:max-h-96 md:w-60 overflow-y-auto bg-background md:bg-secondary shadow-lg dark:bg-darkMode-background dark:md:bg-darkMode-secondary overscroll-contain pt-3 md:pt-0 rounded-t-2xl md:rounded-t-sm md:rounded-sm'>
+							<h2 className='mx-4 my-2 md:hidden'>Richtungsfilter</h2>
 							{directions.map((_direction) => (
 								<Listbox.Option key={_direction} value={_direction} as={Fragment}>
 									{({ active }) => (
@@ -100,14 +101,20 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 										>
 											{direction === _direction || (!direction && _direction === 'Alle Richtungen') ? (
 												<Image
-													src='/check.svg'
+													src='/circle-dot.svg'
 													height={15}
 													width={15}
 													alt='Check Icon'
 													className={`${active ? 'md:invert' : ''} md:group-hover:invert dark:invert`}
 												/>
 											) : (
-												<span className='h-[15px] w-[15px]' />
+												<Image
+													src='/circle.svg'
+													height={15}
+													width={15}
+													alt='Check Icon'
+													className={`${active ? 'md:invert' : ''} md:group-hover:invert dark:invert`}
+												/>
 											)}
 											<span>{_direction}</span>
 										</li>
