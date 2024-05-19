@@ -1,7 +1,7 @@
 'use client';
 
 import useLocalStorage from '@/utils/useSessionStorage';
-import { Combobox, Transition } from '@headlessui/react';
+import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react';
 import Fuse from 'fuse.js';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -40,16 +40,16 @@ export default function Searchbar({ allStops }: { allStops: StopByCharacter[] })
 		>
 			<div className='relative'>
 				<div className='relative w-full'>
-					<Combobox.Input
+					<ComboboxInput
 						className='w-full rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary'
 						onChange={(event) => setQuery(event.target.value)}
 						// displayValue={(stop?: StopByCharacter) => stop?.name || ''}
 						placeholder='Suche nach einer Haltestelle'
 						autoFocus={!selectedStop}
 					/>
-					<Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2'>
+					<ComboboxButton className='absolute inset-y-0 right-0 flex items-center pr-2'>
 						<Image src='/chevron-down.svg' alt='Arrow Down Icon' height={20} width={20} aria-hidden='true' className='dark:invert' />
-					</Combobox.Button>
+					</ComboboxButton>
 				</div>
 				<Transition
 					as={Fragment}
@@ -60,23 +60,23 @@ export default function Searchbar({ allStops }: { allStops: StopByCharacter[] })
 					leaveFrom='opacity-100'
 					leaveTo='opacity-0'
 				>
-					<Combobox.Options className='absolute z-50 mt-1 w-full overflow-auto rounded bg-background shadow dark:bg-darkMode-background'>
+					<ComboboxOptions className='absolute z-50 mt-1 w-full overflow-auto rounded bg-background shadow dark:bg-darkMode-background'>
 						{filteredStops.length === 0 && query !== '' ? (
 							<li className='wrap rounded bg-secondary p-2 dark:bg-darkMode-secondary'>Keine Ergebnisse</li>
 						) : (
 							filteredStops.map((stop) => (
-								<Combobox.Option
+								<ComboboxOption
 									key={stop.id}
-									className={({ active }) =>
-										`${active ? 'bg-accent text-darkMode-text dark:bg-darkMode-accent' : 'bg-secondary dark:bg-darkMode-secondary'} cursor-pointer p-2`
+									className={({ focus }) =>
+										`${focus ? 'bg-accent text-darkMode-text dark:bg-darkMode-accent' : 'bg-secondary dark:bg-darkMode-secondary'} cursor-pointer p-2`
 									}
 									value={stop}
 								>
 									{stop.name}
-								</Combobox.Option>
+								</ComboboxOption>
 							))
 						)}
-					</Combobox.Options>
+					</ComboboxOptions>
 				</Transition>
 			</div>
 		</Combobox>
