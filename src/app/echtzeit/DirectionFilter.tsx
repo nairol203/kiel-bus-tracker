@@ -80,7 +80,6 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 							className={direction && direction !== 'Alle Richtungen' ? 'invert dark:invert-0' : 'md:group-enabled:group-hover:invert dark:invert'}
 						/>
 					</ListboxButton>
-					{open && <span className='z-10 absolute inset-0 bg-text/30 dark:bg-text/60 md:hidden' />}
 					<Transition
 						enter='transition ease-in duration-100'
 						enterFrom='opacity-0'
@@ -88,6 +87,16 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 						leave='transition ease-in duration-100'
 						leaveFrom='opacity-100'
 						leaveTo='opacity-0'
+					>
+						<span className='z-10 absolute inset-0 bg-text/30 dark:bg-text/60 md:hidden' />
+					</Transition>
+					<Transition
+						enter='transition ease-in duration-100'
+						enterFrom='translate-y-10'
+						enterTo='translate-y-0'
+						leave='transition ease-in duration-100'
+						leaveFrom='translate-y-0'
+						leaveTo='translate-y-10'
 					>
 						<ListboxOptions className='transition z-20 absolute top-1/3 inset-x-0 bottom-0 md:inset-auto md:mt-1 md:max-h-96 md:w-60 overflow-y-auto bg-background md:bg-secondary shadow-lg dark:bg-darkMode-background dark:md:bg-darkMode-secondary overscroll-contain pt-3 md:pt-0 rounded-t-2xl md:rounded-t-sm md:rounded-sm'>
 							<div className='md:hidden mx-4 my-2 flex justify-between'>
