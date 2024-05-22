@@ -54,20 +54,22 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		return (
 			<div className='mx-2 grid gap-2'>
 				<div className='skeleton'>
-					<input className='w-full rounded p-2' placeholder='Suche nach einer Haltestelle' disabled />
+					<input className='w-full rounded p-3' placeholder='Suche nach einer Haltestelle' disabled />
 				</div>
-				<div className='flex'>
-					<h1 className='skeleton'>Lorem, ipsum do.</h1>
-				</div>
-				<div className='mb-2 flex flex-wrap gap-2'>
-					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
-						Alle Linien
-						<div className='h-[15px] w-[15px]' />
+				<div className='grid grid-cols-2 gap-2 md:flex'>
+					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
+						<div className='h-[25px] w-[25px]' />
 					</button>
-					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
-						Alle Richtungen
-						<div className='h-[15px] w-[15px]' />
+					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
+						<div className='h-[25px] w-[25px]' />
 					</button>
+					<div className='flex justify-end col-span-2 md:ml-auto items-center'>
+						<div className='px-2.5 py-1'>
+							<span className='relative flex h-3 w-3'>
+								<span className='h-3 w-3 skeleton'></span>
+							</span>
+						</div>
+					</div>
 				</div>
 				<div className='grid gap-1'>
 					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
@@ -109,16 +111,11 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		return (
 			<div className='mx-2 grid gap-2'>
 				<Searchbar allStops={stops} />
-				<div className='mt-2 flex'>
-					<h1 className='skeleton'>Lorem, ipsum do.</h1>
-				</div>
-				<div className='mb-2 flex flex-wrap gap-2'>
-					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
-						Alle Linien
+				<div className='grid grid-cols-2 gap-2 md:flex'>
+					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
 						<div className='h-[15px] w-[15px]' />
 					</button>
-					<button className='skeleton z-10 flex gap-2 rounded-full px-2 py-1 transition'>
-						Alle Richtungen
+					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
 						<div className='h-[15px] w-[15px]' />
 					</button>
 				</div>
