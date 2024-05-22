@@ -42,7 +42,7 @@ export default function Searchbar({ allStops, currentStop }: { allStops: StopByC
 			<div className='relative'>
 				<div className='relative w-full'>
 					<ComboboxInput
-						className='w-full rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary'
+						className='w-full rounded bg-secondary p-3 text-lg shadow dark:bg-darkMode-secondary'
 						onChange={(event) => setQuery(event.target.value)}
 						displayValue={(stop?: StopByCharacter) => currentStop?.stopName || stop?.name || ''}
 						placeholder='Suche nach einer Haltestelle'
@@ -63,13 +63,13 @@ export default function Searchbar({ allStops, currentStop }: { allStops: StopByC
 				>
 					<ComboboxOptions className='absolute z-50 mt-1 w-full overflow-auto rounded bg-background shadow dark:bg-darkMode-background'>
 						{filteredStops.length === 0 && query !== '' ? (
-							<li className='wrap rounded bg-secondary p-2 dark:bg-darkMode-secondary'>Keine Ergebnisse</li>
+							<li className='wrap rounded bg-secondary p-2.5 dark:bg-darkMode-secondary'>Keine Ergebnisse</li>
 						) : (
 							filteredStops.map((stop) => (
 								<ComboboxOption
 									key={stop.id}
 									className={({ focus }) =>
-										`${focus ? 'bg-accent text-darkMode-text dark:bg-darkMode-accent' : 'bg-secondary dark:bg-darkMode-secondary'} cursor-pointer p-2`
+										`${focus ? 'bg-accent text-darkMode-text dark:bg-darkMode-accent' : 'bg-secondary dark:bg-darkMode-secondary'} cursor-pointer p-2.5`
 									}
 									value={stop}
 								>

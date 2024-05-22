@@ -68,7 +68,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 						direction && direction !== 'Alle Richtungen'
 							? 'bg-primary text-darkMode-text dark:bg-darkMode-primary dark:text-text'
 							: 'group bg-secondary dark:bg-darkMode-secondary md:enabled:hover:bg-accent md:enabled:hover:text-darkMode-text dark:md:enabled:hover:bg-darkMode-accent'
-					} flex items-center justify-between gap-2 rounded px-2 py-1 shadow transition duration-200`}
+					} flex items-center justify-between gap-2 rounded p-2 shadow transition duration-200`}
 				>
 					{direction ?? 'Richtung'}
 					<Image
@@ -107,7 +107,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 									<li
 										className={`${
 											focus && 'md:bg-accent  md:text-darkMode-text md:dark:bg-darkMode-accent'
-										} group flex gap-3 p-3 md:px-2 md:py-1.5 text-start cursor-default`}
+										} group flex gap-3 p-3 md:p-2 text-start cursor-default`}
 									>
 										{direction === _direction || (!direction && _direction === 'Alle Richtungen') ? (
 											<Image
