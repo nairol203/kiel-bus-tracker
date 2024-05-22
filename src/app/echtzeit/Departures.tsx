@@ -58,9 +58,11 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				</div>
 				<div className='grid grid-cols-2 gap-2 md:flex'>
 					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
+						Alle Linien
 						<div className='h-[25px] w-[25px]' />
 					</button>
 					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
+						Alle Richtungen
 						<div className='h-[25px] w-[25px]' />
 					</button>
 					<div className='flex justify-end col-span-2 md:ml-auto items-center'>
@@ -113,9 +115,11 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				<Searchbar allStops={stops} />
 				<div className='grid grid-cols-2 gap-2 md:flex'>
 					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
+						Alle Linien
 						<div className='h-[15px] w-[15px]' />
 					</button>
 					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
+						Alle Richtungen
 						<div className='h-[15px] w-[15px]' />
 					</button>
 				</div>
