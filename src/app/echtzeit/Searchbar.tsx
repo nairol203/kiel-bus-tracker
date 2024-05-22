@@ -12,6 +12,7 @@ export default function Searchbar({ allStops, currentStop }: { allStops: StopByC
 	const pathname = usePathname();
 
 	const [query, setQuery] = useState('');
+	const [disabled, setDisabled] = useState(false);
 	const [selectedStop, setSelectedStop] = useState<StopByCharacter | null>(null);
 	const [lastSearches, setLastSearches] = useLocalStorage<StopByCharacter[]>('lastSearches', []);
 
@@ -30,12 +31,17 @@ export default function Searchbar({ allStops, currentStop }: { allStops: StopByC
 	return (
 		<Combobox
 			immediate
+			disabled={disabled}
 			value={selectedStop}
 			onChange={(value) => {
 				setSelectedStop(value);
 				if (value) {
+					setDisabled(true);
 					updateQuery(value);
 					setLastSearches([...lastSearches, value]);
+					setTimeout(() => {
+						setDisabled(false);
+					}, 50);
 				}
 			}}
 		>
