@@ -81,15 +81,17 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 	} else if (busStop) {
 		return (
 			<div className='mx-2 grid gap-2'>
-				<Searchbar allStops={stops} />
-				<div className='mt-2 flex items-center justify-between'>
-					<h1 className='line-clamp-1'>{busStop.stopName}</h1>
-					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
-				</div>
-				<div className='mb-2 flex gap-2 flex-wrap'>
+				<Searchbar allStops={stops} currentStop={busStop} />
+				<div className='grid grid-cols-2 gap-2 md:flex'>
 					<RouteFilter stop={busStop} />
 					<DirectionFilter stop={busStop} />
+					<div className='flex justify-end col-span-2 md:ml-auto items-center'>
+						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
+					</div>
 				</div>
+				{/* <div className='mt-2 flex items-center justify-between'>
+					<h1 className='line-clamp-1'>{busStop.stopName}</h1>
+				</div> */}
 				{mutation.isPending ? (
 					<div className='grid gap-1'>
 						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
