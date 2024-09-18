@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						<Image src='/bus.svg' className='mr-3 rounded-full dark:invert' alt='KVG Bus Tracker Logo' width={30} height={30} />
 						<span className='self-center whitespace-nowrap text-2xl font-semibold'>KVG Bus Tracker</span>
 					</Link>
-					<PlausibleProvider domain='bus-beta.nairol.me' />
+					<PlausibleProvider domain='bus-beta.nairol.me' customDomain='https://analytics.nairol.me' selfHosted />
 				</header>
 				<main className='min-h-screen'>
 					<Providers>{children}</Providers>
