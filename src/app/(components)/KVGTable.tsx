@@ -9,7 +9,7 @@ function formatDepartureTime(a: NormalizedActual) {
 		return (
 			<>
 				<span className='flex justify-end row-span-2 text-xl items-center'>
-					{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
+					{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
 				</span>
 				<span className='text-sm col-span-2'>Planmäßig</span>
 			</>
