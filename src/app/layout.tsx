@@ -3,6 +3,7 @@ import './globals.css';
 import Providers from '@/utils/Providers';
 import Image from 'next/image';
 import Link from 'next/link';
+import PlausibleProvider from 'next-plausible';
 
 export const metadata = {
 	title: 'KVG Bus Tracker',
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						<Image src='/bus.svg' className='mr-3 rounded-full dark:invert' alt='KVG Bus Tracker Logo' width={30} height={30} />
 						<span className='self-center whitespace-nowrap text-2xl font-semibold'>KVG Bus Tracker</span>
 					</Link>
+					<PlausibleProvider domain='bus-beta.nairol.me' />
 				</header>
 				<main className='min-h-screen'>
 					<Providers>{children}</Providers>
