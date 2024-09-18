@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { getStopData } from '../(components)/actions';
 import HealthIndicator from '../(components)/HealthIndicator';
-import KVGTable from '../(components)/KVGTable';
+import KVGTable, { SkeletonKVGTable } from '../(components)/KVGTable';
 import DirectionFilter from './DirectionFilter';
 import RecommendedSearches from './RecommendedSearches';
 import RouteFilter from './RouteFilter';
@@ -74,11 +74,11 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					</div>
 				</div>
 				<div className='grid gap-1'>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
 				</div>
 			</div>
 		);
@@ -98,11 +98,11 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				</div> */}
 				{mutation.isPending ? (
 					<div className='grid gap-1'>
-						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-						<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+						<SkeletonKVGTable />
+						<SkeletonKVGTable />
+						<SkeletonKVGTable />
+						<SkeletonKVGTable />
+						<SkeletonKVGTable />
 					</div>
 				) : (
 					<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} />
@@ -124,11 +124,11 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					</button>
 				</div>
 				<div className='grid gap-1'>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
 				</div>
 			</div>
 		);

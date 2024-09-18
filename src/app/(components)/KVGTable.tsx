@@ -76,3 +76,14 @@ export default function KVGTable({
 		</div>
 	);
 }
+
+export function SkeletonKVGTable() {
+	return (
+		<div className='skeleton grid grid-cols-[35px_1fr_60px] gap-2 justify-between rounded p-2'>
+			<span>43</span>
+			<span>Kiel Hbf</span>
+			<span className='flex justify-end row-span-2 text-xl items-center'>22:26</span>
+			<span className='text-sm col-span-2'>Planmäßig</span>
+		</div>
+	);
+}
