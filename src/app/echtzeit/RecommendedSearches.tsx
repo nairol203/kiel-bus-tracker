@@ -32,7 +32,7 @@ export default function RecommendedSearches({ stops }: { stops: StopByCharacter[
 				<></>
 			)}
 			<div className='mt-2 grid gap-2'>
-				<h2>Trends bei Suchanfragen</h2>
+				<h2>Beliebte Suchanfragen</h2>
 				<Link
 					className='group flex gap-3	 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 					href={pathname + '?stop=2387'}
