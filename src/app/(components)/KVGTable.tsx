@@ -8,25 +8,25 @@ function formatDepartureTime(a: NormalizedActual) {
 	if (dateDiff >= -1 && dateDiff <= 1) {
 		return (
 			<>
-				<span className='flex justify-end'>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
+				<span className='flex justify-end'>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</span>
 				<span className='text-sm col-span-3 flex justify-end gap-1'>Planmäßig</span>
 			</>
 		);
 	} else if (dateDiff >= 2) {
 		return (
 			<>
-				<span className='flex items-end justify-end'>{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
+				<span className='flex items-end justify-end'>{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</span>
 				<span className='text-sm col-span-3 flex justify-end gap-1'>
-					{dateDiff} min verspätet <s>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</s>
+					{dateDiff} min verspätet <s>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</s>
 				</span>
 			</>
 		);
 	} else if (dateDiff <= 2) {
 		return (
 			<>
-				<span className='flex justify-end'>{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
+				<span className='flex justify-end'>{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</span>
 				<span className='text-sm col-span-3 flex justify-end gap-1'>
-					{dateDiff * -1} min früher <s>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</s>
+					{dateDiff * -1} min früher <s>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</s>
 				</span>
 			</>
 		);
