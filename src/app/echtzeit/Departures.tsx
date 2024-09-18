@@ -42,7 +42,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 			const res = await getStopData({ stopId, routeId, direction });
 			return res;
 		},
-		refetchInterval: 10_000,
+		refetchInterval: 15_000,
 	});
 
 	const mutation = useMutation({
