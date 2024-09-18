@@ -2,7 +2,40 @@ import Link from 'next/link';
 import { GeneralAlerts, RouteAlerts } from './alerts';
 
 function formatDepartureTime(a: Actual) {
-	return a.actualRelativeTime ? (a.actualRelativeTime > 60 ? `${Math.round(a.actualRelativeTime / 60)} min` : 'Sofort') : `${a.plannedTime} Uhr`;
+	// return a.actualRelativeTime ? (a.actualRelativeTime > 60 ? `${Math.round(a.actualRelativeTime / 60)} min` : 'Sofort') : `${a.plannedTime} Uhr`;
+	const plannedDate = new Date();
+	const [plannedHours, plannedMinutes] = a.plannedTime.split(':').map(Number);
+	plannedDate.setHours(plannedHours, plannedMinutes, 0, 0);
+
+	const actualDate = new Date(Date.now() + a.actualRelativeTime * 1000);
+	const dateDiff = Math.floor((actualDate.getTime() - plannedDate.getTime()) / 1000 / 60);
+
+	if (dateDiff >= -1 && dateDiff <= 1) {
+		return (
+			<>
+				<span className='flex justify-end'>{plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
+				<span className='text-sm col-span-3 flex justify-end gap-1'>Planmäßig</span>
+			</>
+		);
+	} else if (dateDiff >= 2) {
+		return (
+			<>
+				<span className='flex items-end justify-end'>{actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
+				<span className='text-sm col-span-3 flex justify-end gap-1'>
+					{dateDiff} min verspätet <s>{plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</s>
+				</span>
+			</>
+		);
+	} else if (dateDiff <= 2) {
+		return (
+			<>
+				<span className='flex justify-end'>{actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
+				<span className='text-sm col-span-3 flex justify-end gap-1'>
+					{dateDiff * -1} min früher <s>{plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</s>
+				</span>
+			</>
+		);
+	}
 }
 
 export default function KVGTable({
@@ -28,14 +61,12 @@ export default function KVGTable({
 				data.actual.map((actual, index) => (
 					<Link
 						href={`/trip/${actual.tripId}`}
-						className='flex justify-between rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						className='grid grid-cols-[35px_1fr_1fr] justify-between rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 						key={`${index}-${actual.tripId}`}
 					>
-						<div className='flex gap-4'>
-							<span>{actual.patternText}</span>
-							<span>{actual.direction}</span>
-						</div>
-						<span>{isPaused ? actual.actualTime : formatDepartureTime(actual)}</span>
+						<span>{actual.patternText}</span>
+						<span>{actual.direction}</span>
+						{formatDepartureTime(actual)}
 					</Link>
 				))
 			) : (
