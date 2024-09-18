@@ -60,7 +60,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 			}}
 		>
 			{directions.map((_direction) => (
-				<option value={_direction}>{_direction}</option>
+				<option key={_direction} value={_direction}>{_direction}</option>
 			))}
 		</Select>
 	);

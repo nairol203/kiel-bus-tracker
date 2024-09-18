@@ -55,7 +55,7 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 			}}
 		>
 			{routes.map((route) => (
-				<option value={route.id}>
+				<option key={route.id} value={route.id}>
 					{route.authority} {route.name}
 				</option>
 			))}
