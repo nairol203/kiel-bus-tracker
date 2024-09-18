@@ -1,6 +1,7 @@
 'use server';
 
 import { API_BASE_URI } from '@/utils/api';
+import moment from 'moment';
 
 export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string | null; direction?: string | null }): Promise<NormalizedKVGStops | undefined> {
 	const endpoint = new URL(`${API_BASE_URI}/internetservice/services/passageInfo/stopPassages/stop`);
@@ -28,24 +29,12 @@ export async function getStopData({ stopId, routeId, direction }: { stopId: stri
 		const data: KVGStops = await res.json();
 
 		const normalizedActual: NormalizedActual[] = data.actual.map((actual) => {
-			const plannedDate = new Date();
-			const [plannedHours, plannedMinutes] = actual.plannedTime.split(':').map(Number);
-			// I have to substract 2 from Hours because of timezones... UTC+2
-			plannedDate.setHours(plannedHours - 2, plannedMinutes, 0, 0);
-
-			let actualDate: Date;
-			if (actual.actualTime) {
-				actualDate = new Date();
-				const [actualHours, actualMinutes] = actual.actualTime.split(':').map(Number);
-				// I have to substract 2 from Hours because of timezones... UTC+2
-				actualDate.setHours(actualHours - 2, actualMinutes, 0, 0);
-			} else {
-				actualDate = new Date(Date.now() + actual.actualRelativeTime * 1000);
-			}
+			const actualMoment = actual.actualRelativeTime ? moment.unix(moment.now() / 1000 + actual.actualRelativeTime) : moment(actual.actualTime, ['HH:mm']);
+			const plannedMoment = moment(actual.plannedTime, ['HH:mm']);
 
 			return {
-				actualDate,
-				plannedDate,
+				actualDate: new Date(actualMoment.toDate()),
+				plannedDate: new Date(plannedMoment.toDate()),
 				patternText: actual.patternText,
 				direction: actual.direction,
 				routeId: actual.routeId,
