@@ -9,7 +9,7 @@ function filterUniqueAndSortAscending(arr: string[]) {
 	return sortedArr;
 }
 
-export default function DirectionFilter({ stop }: { stop: KVGStops }) {
+export default function DirectionFilter({ stop }: { stop: NormalizedKVGStops }) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();

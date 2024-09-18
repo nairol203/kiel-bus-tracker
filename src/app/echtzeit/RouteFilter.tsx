@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Fragment, useCallback } from 'react';
 
-export default function RouteFilter({ stop }: { stop: KVGStops }) {
+export default function RouteFilter({ stop }: { stop: NormalizedKVGStops }) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();

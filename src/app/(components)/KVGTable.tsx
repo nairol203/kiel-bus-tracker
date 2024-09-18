@@ -1,37 +1,32 @@
 import Link from 'next/link';
 import { GeneralAlerts, RouteAlerts } from './alerts';
 
-function formatDepartureTime(a: Actual) {
+function formatDepartureTime(a: NormalizedActual) {
 	// return a.actualRelativeTime ? (a.actualRelativeTime > 60 ? `${Math.round(a.actualRelativeTime / 60)} min` : 'Sofort') : `${a.plannedTime} Uhr`;
-	const plannedDate = new Date();
-	const [plannedHours, plannedMinutes] = a.plannedTime.split(':').map(Number);
-	plannedDate.setHours(plannedHours, plannedMinutes, 0, 0);
-
-	const actualDate = new Date(Date.now() + a.actualRelativeTime * 1000);
-	const dateDiff = Math.floor((actualDate.getTime() - plannedDate.getTime()) / 1000 / 60);
+	const dateDiff = Math.floor((a.actualDate.getTime() - a.plannedDate.getTime()) / 1000 / 60);
 
 	if (dateDiff >= -1 && dateDiff <= 1) {
 		return (
 			<>
-				<span className='flex justify-end'>{plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
+				<span className='flex justify-end'>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
 				<span className='text-sm col-span-3 flex justify-end gap-1'>Planmäßig</span>
 			</>
 		);
 	} else if (dateDiff >= 2) {
 		return (
 			<>
-				<span className='flex items-end justify-end'>{actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
+				<span className='flex items-end justify-end'>{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
 				<span className='text-sm col-span-3 flex justify-end gap-1'>
-					{dateDiff} min verspätet <s>{plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</s>
+					{dateDiff} min verspätet <s>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</s>
 				</span>
 			</>
 		);
 	} else if (dateDiff <= 2) {
 		return (
 			<>
-				<span className='flex justify-end'>{actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
+				<span className='flex justify-end'>{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
 				<span className='text-sm col-span-3 flex justify-end gap-1'>
-					{dateDiff * -1} min früher <s>{plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</s>
+					{dateDiff * -1} min früher <s>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</s>
 				</span>
 			</>
 		);
@@ -46,7 +41,7 @@ export default function KVGTable({
 	showGeneralAlerts = true,
 	showRouteAlerts = true,
 }: {
-	data: KVGStops;
+	data: NormalizedKVGStops;
 	isPaused: boolean;
 	routeId?: string;
 	direction?: string;

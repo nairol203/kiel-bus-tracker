@@ -2,7 +2,7 @@
 
 import { API_BASE_URI } from '@/utils/api';
 
-export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string | null; direction?: string | null }): Promise<KVGStops | undefined> {
+export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string | null; direction?: string | null }): Promise<NormalizedKVGStops | undefined> {
 	const endpoint = new URL(`${API_BASE_URI}/internetservice/services/passageInfo/stopPassages/stop`);
 
 	endpoint.searchParams.append('stop', stopId);
@@ -25,7 +25,36 @@ export async function getStopData({ stopId, routeId, direction }: { stopId: stri
 			cache: 'no-store',
 		});
 
-		return res.json();
+		const data: KVGStops = await res.json();
+
+		const normalizedActual: NormalizedActual[] = data.actual.map((actual) => {
+			const plannedDate = new Date();
+			const [plannedHours, plannedMinutes] = actual.plannedTime.split(':').map(Number);
+			plannedDate.setHours(plannedHours, plannedMinutes, 0, 0);
+
+			const actualDate = new Date(Date.now() + actual.actualRelativeTime * 1000);
+
+			return {
+				actualDate,
+				plannedDate,
+				patternText: actual.patternText,
+				direction: actual.direction,
+				routeId: actual.routeId,
+				tripId: actual.tripId,
+				vehicleId: actual.vehicleId,
+			};
+		});
+
+		const normalizedKVGStops: NormalizedKVGStops = {
+			actual: normalizedActual,
+			directions: data.directions,
+			generalAlerts: data.generalAlerts,
+			routes: data.routes,
+			stopName: data.stopName,
+			stopShortName: data.stopShortName,
+		};
+
+		return normalizedKVGStops;
 	} catch (error) {
 		console.error(error);
 	}

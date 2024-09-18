@@ -24,6 +24,25 @@ interface Actual {
 	vehicleId: string;
 }
 
+interface NormalizedKVGStops {
+	actual: NormalizedActual[];
+	directions: any[];
+	generalAlerts: GeneralAlert[];
+	routes: Route[];
+	stopName: string;
+	stopShortName: string;
+}
+
+interface NormalizedActual {
+	plannedDate: Date;
+	actualDate: Date;
+	patternText: string;
+	direction: string;
+	routeId: string;
+	tripId: string;
+	vehicleId: string;
+}
+
 interface GeneralAlert {
 	title: string;
 }

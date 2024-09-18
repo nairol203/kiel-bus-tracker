@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { Fragment, useMemo, useState } from 'react';
 
-export default function Searchbar({ allStops, currentStop }: { allStops: StopByCharacter[]; currentStop?: KVGStops }) {
+export default function Searchbar({ allStops, currentStop }: { allStops: StopByCharacter[]; currentStop?: NormalizedKVGStops }) {
 	const router = useRouter();
 	const pathname = usePathname();
 
