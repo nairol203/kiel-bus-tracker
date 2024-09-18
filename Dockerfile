@@ -38,6 +38,11 @@ RUN \
 FROM base AS runner
 WORKDIR /app
 
+RUN apk add --no-cache tzdata
+ENV TZ=Europe/Berlin
+RUN cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime && echo "Europe/Berlin" > /etc/timezone
+
+
 ENV NODE_ENV production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 ENV NEXT_TELEMETRY_DISABLED 1
