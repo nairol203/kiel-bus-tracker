@@ -8,15 +8,19 @@ function formatDepartureTime(a: NormalizedActual) {
 	if (dateDiff >= -1 && dateDiff <= 1) {
 		return (
 			<>
-				<span className='flex justify-end'>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</span>
-				<span className='text-sm col-span-3 flex justify-end gap-1'>Planmäßig</span>
+				<span className='flex justify-end row-span-2 text-xl items-center'>
+					{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
+				</span>
+				<span className='text-sm col-span-2'>Planmäßig</span>
 			</>
 		);
 	} else if (dateDiff >= 2) {
 		return (
 			<>
-				<span className='flex items-end justify-end'>{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</span>
-				<span className='text-sm col-span-3 flex justify-end gap-1'>
+				<span className='flex justify-end row-span-2 text-xl items-center'>
+					{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
+				</span>
+				<span className='text-sm col-span-2'>
 					{dateDiff} min verspätet <s>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</s>
 				</span>
 			</>
@@ -24,8 +28,10 @@ function formatDepartureTime(a: NormalizedActual) {
 	} else if (dateDiff <= 2) {
 		return (
 			<>
-				<span className='flex justify-end'>{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</span>
-				<span className='text-sm col-span-3 flex justify-end gap-1'>
+				<span className='flex justify-end row-span-2 text-xl items-center'>
+					{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
+				</span>
+				<span className='text-sm col-span-2'>
 					{dateDiff * -1} min früher <s>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</s>
 				</span>
 			</>
@@ -56,11 +62,11 @@ export default function KVGTable({
 				data.actual.map((actual, index) => (
 					<Link
 						href={`/trip/${actual.tripId}`}
-						className='grid grid-cols-[35px_1fr_1fr] justify-between rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						className='grid grid-cols-[35px_1fr_1fr] gap-2 justify-between rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 						key={`${index}-${actual.tripId}`}
 					>
-						<span>{actual.patternText}</span>
-						<span>{actual.direction}</span>
+						<span className='bg-accent rounded-lg text-center'>{actual.patternText}</span>
+						<span className='whitespace-nowrap'>{actual.direction}</span>
 						{formatDepartureTime(actual)}
 					</Link>
 				))

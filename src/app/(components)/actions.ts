@@ -30,9 +30,18 @@ export async function getStopData({ stopId, routeId, direction }: { stopId: stri
 		const normalizedActual: NormalizedActual[] = data.actual.map((actual) => {
 			const plannedDate = new Date();
 			const [plannedHours, plannedMinutes] = actual.plannedTime.split(':').map(Number);
-			plannedDate.setHours(plannedHours, plannedMinutes, 0, 0);
+			// I have to substract 2 from Hours because of timezones... UTC+2
+			plannedDate.setHours(plannedHours - 2, plannedMinutes, 0, 0);
 
-			const actualDate = new Date(Date.now() + actual.actualRelativeTime * 1000);
+			let actualDate: Date;
+			if (actual.actualTime) {
+				actualDate = new Date();
+				const [actualHours, actualMinutes] = actual.actualTime.split(':').map(Number);
+				// I have to substract 2 from Hours because of timezones... UTC+2
+				actualDate.setHours(actualHours - 2, actualMinutes, 0, 0);
+			} else {
+				actualDate = new Date(Date.now() + actual.actualRelativeTime * 1000);
+			}
 
 			return {
 				actualDate,
