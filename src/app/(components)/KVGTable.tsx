@@ -62,10 +62,10 @@ export default function KVGTable({
 				data.actual.map((actual, index) => (
 					<Link
 						href={`/trip/${actual.tripId}`}
-						className='grid grid-cols-[35px_1fr_1fr] gap-2 justify-between rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						className='grid grid-cols-[35px_1fr_60px] gap-2 justify-between rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 						key={`${index}-${actual.tripId}`}
 					>
-						<span className='bg-accent rounded-lg text-center'>{actual.patternText}</span>
+						<span className='bg-accent text-darkMode-text rounded-lg text-center'>{actual.patternText}</span>
 						<span className='whitespace-nowrap'>{actual.direction}</span>
 						{formatDepartureTime(actual)}
 					</Link>
