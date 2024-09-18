@@ -3,9 +3,9 @@ name: Build and Deploy the Image
 on:
     workflow_dispatch: # To have the ability to run the workflow manually
     push:
-        branches: [main]
+        branches: [main, prod]
     pull_request:
-        branches: [main]
+        branches: [main, prod]
 
 env:
     REGISTRY: ghcr.io
