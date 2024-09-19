@@ -59,7 +59,7 @@ export async function getStopData({ stopId, routeId, direction }: { stopId: stri
 	}
 }
 
-export async function getTripInfo(tripId: string): Promise<StopInfo | undefined> {
+export async function getTripInfo(tripId: string): Promise<NormalizedStopInfo | undefined> {
 	const endpoint = new URL(`${API_BASE_URI}/internetservice/services/tripInfo/tripPassages`);
 
 	endpoint.searchParams.append('tripId', tripId);
@@ -73,7 +73,37 @@ export async function getTripInfo(tripId: string): Promise<StopInfo | undefined>
 			cache: 'no-store',
 		});
 
-		return res.json();
+		const data: StopInfo = await res.json();
+
+		const normalizedActual: NormalizedStopInfoActual[] = data.actual.map((actual) => ({
+			actualDate: new Date(moment(actual.actualTime, ['HH:mm']).toDate()),
+			plannedDate: new Date(moment(actual.plannedTime, ['HH:mm']).toDate()),
+			status: actual.status,
+			stop: actual.stop,
+			stopSequenceNumber: actual.stop_seq_num,
+		}));
+
+		const normalizedOld: NormalizedOldStopInfo[] = data.old.map((actual) => {
+			const data: NormalizedOldStopInfo = {
+				status: actual.status,
+				stop: actual.stop,
+				stopSequenceNumber: actual.stop_seq_num,
+			};
+
+			if (actual.actualTime) data.actualDate = new Date(moment(actual.actualTime, ['HH:mm']).toDate());
+			if (actual.plannedTime) data.plannedDate = new Date(moment(actual.plannedTime, ['HH:mm']).toDate());
+
+			return data;
+		});
+
+		const normalizedStopInfo: NormalizedStopInfo = {
+			actual: normalizedActual,
+			directionText: data.directionText,
+			old: normalizedOld,
+			routeName: data.routeName,
+		};
+
+		return normalizedStopInfo;
 	} catch (error) {
 		console.error(error);
 	}

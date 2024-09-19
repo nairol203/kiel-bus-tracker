@@ -1,32 +1,21 @@
 'use client';
 
+import { useBusStore } from '@/stores/bus-store';
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getTripInfo } from 'src/app/(components)/actions';
 import HealthIndicator from 'src/app/(components)/HealthIndicator';
 
-function timeToDate(time: string) {
-	const [hours, minutes] = time.split(':').map(Number);
-
-	const date = new Date();
-
-	if (hours < date.getHours()) {
-		date.setDate(date.getDate() + 1);
-	}
-
-	date.setHours(hours);
-	date.setMinutes(minutes);
-	date.setSeconds(0);
-	date.setMilliseconds(0);
-
-	return date;
-}
-
 function formatTimeDifference(date: Date, old = false) {
 	const currentTime = new Date();
 	const timeDifferenceMin = Math.floor((old ? currentTime.getTime() - date.getTime() : date.getTime() - currentTime.getTime()) / 1000 / 60);
 
+	if (old) {
+		return `vor ${timeDifferenceMin} min`;
+	}
 	if (timeDifferenceMin <= 0) {
 		return 'Sofort';
 	} else {
@@ -49,6 +38,8 @@ export default function Page({ params }: { params: { tripId: string } }) {
 		},
 		refetchInterval: 10_000,
 	});
+
+	const { useRelativeTimes } = useBusStore();
 
 	if (isError) {
 		return (
@@ -88,7 +79,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 	}
 
 	return (
-		<div className='mx-2 grid gap-2'>
+		<div className='mx-2 grid gap-3'>
 			<div className='flex items-center justify-between'>
 				<h1>
 					{tripInfo.routeName} {tripInfo.directionText}
@@ -100,11 +91,15 @@ export default function Page({ params }: { params: { tripId: string } }) {
 					{tripInfo.actual.map((a) => (
 						<Link
 							href={`/echtzeit?stop=${a.stop.shortName}`}
-							key={a.stop_seq_num}
+							key={a.stopSequenceNumber}
 							className='flex justify-between rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 						>
 							<span>{a.stop.name}</span>
-							{a.status !== 'STOPPING' && <span>{isPaused ? a.actualTime || a.plannedTime : formatTimeDifference(timeToDate(a.actualTime || a.plannedTime))}</span>}
+							{a.status === 'STOPPING'
+								? 'Sofort'
+								: useRelativeTimes
+									? formatTimeDifference(a.actualDate || a.plannedDate)
+									: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
 						</Link>
 					))}
 				</div>
@@ -118,6 +113,30 @@ export default function Page({ params }: { params: { tripId: string } }) {
 						Zurück
 					</button>
 				</>
+			)}
+			{!!tripInfo.old.length && (
+				<Disclosure as="div">
+					<DisclosureButton className='group flex justify-between gap-4 mb-1 w-full md:w-auto rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'>
+						<span>Bereits angefahrende Haltestellen</span>
+						<Image src='/chevron-down.svg' alt='Pfeil der nach unten zeigt' width={20} height={20} className='shrink-0 dark:invert group-data-[open]:rotate-180' />
+					</DisclosureButton>
+					<DisclosurePanel transition className='grid gap-1 origin-top transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0'>
+						{tripInfo.old.toReversed().map((a) => (
+							<Link
+								href={`/echtzeit?stop=${a.stop.shortName}`}
+								key={`old_${a.stopSequenceNumber}`}
+								className='flex justify-between rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+							>
+								<span>{a.stop.name}</span>
+								{a.actualDate
+									? useRelativeTimes
+										? formatTimeDifference(a.actualDate, true)
+										: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })
+									: ''}
+							</Link>
+						))}
+					</DisclosurePanel>
+				</Disclosure>
 			)}
 		</div>
 	);

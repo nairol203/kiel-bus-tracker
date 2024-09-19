@@ -66,7 +66,7 @@ export default function KVGTable({
 	showGeneralAlerts?: boolean;
 	showRouteAlerts?: boolean;
 }) {
-	const { relativeTimes: useRelativeTimes } = useBusStore();
+	const { useRelativeTimes } = useBusStore();
 
 	return (
 		<div className='grid gap-1'>

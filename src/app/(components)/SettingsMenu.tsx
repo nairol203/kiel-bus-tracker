@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 export default function SettingsMenu() {
 	const [isOpen, setIsOpen] = useState(false);
-	const { relativeTimes: useRelativeTimes, toggleRelativeTimes } = useBusStore();
+	const { useRelativeTimes, toggleRelativeTimes } = useBusStore();
 
 	return (
 		<>
