@@ -65,10 +65,10 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 						Alle Richtungen
 						<div className='h-[25px] w-[25px]' />
 					</button>
-					<div className='flex justify-end col-span-2 md:ml-auto items-center'>
+					<div className='col-span-2 flex items-center justify-end md:ml-auto'>
 						<div className='px-2.5 py-1'>
 							<span className='relative flex h-3 w-3'>
-								<span className='h-3 w-3 skeleton'></span>
+								<span className='skeleton h-3 w-3'></span>
 							</span>
 						</div>
 					</div>
@@ -89,7 +89,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				<div className='grid grid-cols-2 gap-2 md:flex'>
 					<RouteFilter stop={busStop} />
 					<DirectionFilter stop={busStop} />
-					<div className='flex justify-end col-span-2 md:ml-auto items-center'>
+					<div className='col-span-2 flex items-center justify-end md:ml-auto'>
 						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 					</div>
 				</div>
@@ -136,12 +136,12 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		return (
 			<div className='mx-2 grid gap-2'>
 				<Searchbar allStops={stops} />
-				<div className='grid gap-2 mt-2'>
+				<div className='mt-2 grid gap-2'>
 					<h1>Fehler</h1>
 					<span>Die Haltestelle konnte nicht geladen werden.</span>
 					<button
 						onClick={() => router.back()}
-						className='rounded bg-primary text-darkMode-text px-2.5 py-1.5 dark:bg-darkMode-primary dark:text-text md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						className='rounded bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
 					>
 						Zurück
 					</button>

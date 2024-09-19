@@ -51,7 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<a href='https://nairol.me' target='_blank' rel='noreferrer' className='flex justify-center hover:underline'>
 						© 2024 nairol.me
 					</a>
-					<span className='sm:before:mr-1 sm:before:content-["•"] text-center'>Not affiliated with KVG Kieler Verkehrsgesellschaft mbH</span>
+					<span className='text-center sm:before:mr-1 sm:before:content-["•"]'>Not affiliated with KVG Kieler Verkehrsgesellschaft mbH</span>
 				</footer>
 			</body>
 		</html>

@@ -47,7 +47,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 				<span>Die Fahrt konnte nicht gefunden werden.</span>
 				<button
 					onClick={() => router.back()}
-					className='rounded bg-primary text-darkMode-text px-2.5 py-1.5 dark:bg-darkMode-primary dark:text-text md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+					className='rounded bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
 				>
 					Zurück
 				</button>
@@ -81,7 +81,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 		<div className='mx-2 grid gap-3'>
 			<div className='flex items-center justify-between'>
 				<h1 className='flex gap-2'>
-					<span className='px-2 bg-accent dark:bg-darkMode-accent text-darkMode-text rounded-lg text-center'>{tripInfo.routeName}</span>
+					<span className='rounded-lg bg-accent px-2 text-center text-darkMode-text dark:bg-darkMode-accent'>{tripInfo.routeName}</span>
 					<span>{tripInfo.directionText}</span>
 				</h1>
 				<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
@@ -92,7 +92,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 						<Link
 							href={`/echtzeit?stop=${a.stop.shortName}`}
 							key={a.stopSequenceNumber}
-							className='flex justify-between rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+							className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
 						>
 							<span>{a.stop.name}</span>
 							{a.status === 'STOPPING'
@@ -108,7 +108,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 					<span>Der Bus hat die Endstation erreicht.</span>
 					<button
 						onClick={() => router.back()}
-						className='rounded bg-primary text-darkMode-text px-2.5 py-1.5 dark:bg-darkMode-primary dark:text-text md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						className='rounded bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
 					>
 						Zurück
 					</button>
@@ -116,16 +116,16 @@ export default function Page({ params }: { params: { tripId: string } }) {
 			)}
 			{!!tripInfo.old.length && (
 				<Disclosure as='div'>
-					<DisclosureButton className='group flex justify-between gap-4 mb-1 w-full md:w-auto rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'>
+					<DisclosureButton className='group mb-1 flex w-full justify-between gap-4 rounded bg-secondary p-2 shadow md:w-auto md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'>
 						<span>Bereits angefahrende Haltestellen</span>
-						<Image src='/chevron-down.svg' alt='Pfeil der nach unten zeigt' width={20} height={20} className='shrink-0 dark:invert group-data-[open]:rotate-180' />
+						<Image src='/chevron-down.svg' alt='Pfeil der nach unten zeigt' width={20} height={20} className='shrink-0 group-data-[open]:rotate-180 dark:invert' />
 					</DisclosureButton>
-					<DisclosurePanel transition className='grid gap-1 origin-top transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0'>
+					<DisclosurePanel transition className='grid origin-top gap-1 transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0'>
 						{tripInfo.old.toReversed().map((a) => (
 							<Link
 								href={`/echtzeit?stop=${a.stop.shortName}`}
 								key={`old_${a.stopSequenceNumber}`}
-								className='flex justify-between rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+								className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
 							>
 								<span>{a.stop.name}</span>
 								{a.actualDate

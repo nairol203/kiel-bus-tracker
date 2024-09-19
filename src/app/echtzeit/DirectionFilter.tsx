@@ -49,7 +49,7 @@ export default function DirectionFilter({ stop }: { stop: NormalizedKVGStops }) 
 
 	return (
 		<Select
-			className='bg-secondary dark:bg-darkMode-secondary flex items-center justify-between gap-2 rounded p-2 shadow transition duration-200'
+			className='flex items-center justify-between gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary'
 			onChange={(e) => {
 				if (!e.target.value || direction === e.target.value) return;
 				if (e.target.value === 'Alle Richtungen') {
