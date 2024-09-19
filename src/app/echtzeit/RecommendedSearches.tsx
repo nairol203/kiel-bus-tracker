@@ -1,12 +1,12 @@
 'use client';
 
-import useLocalStorage from '@/utils/useSessionStorage';
+import { useBusStore } from '@/stores/bus-store';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function RecommendedSearches({ stops }: { stops: StopByCharacter[] }) {
-	const [lastSearches] = useLocalStorage<StopByCharacter[]>('lastSearches', []);
+	const { lastSearches } = useBusStore();
 	const pathname = usePathname();
 
 	return (

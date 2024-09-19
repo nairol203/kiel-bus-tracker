@@ -60,7 +60,9 @@ export default function DirectionFilter({ stop }: { stop: NormalizedKVGStops }) 
 			}}
 		>
 			{directions.map((_direction) => (
-				<option key={_direction} value={_direction}>{_direction}</option>
+				<option key={_direction} value={_direction}>
+					{_direction}
+				</option>
 			))}
 		</Select>
 	);

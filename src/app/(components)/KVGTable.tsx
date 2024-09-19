@@ -1,3 +1,4 @@
+import { useBusStore } from '@/stores/bus-store';
 import Link from 'next/link';
 import { GeneralAlerts, RouteAlerts } from './alerts';
 
@@ -53,7 +54,6 @@ function formatDepartureTime(a: NormalizedActual, isPaused: boolean, useRelative
 export default function KVGTable({
 	data,
 	isPaused,
-	useRelativeTimes,
 	direction,
 	routeId,
 	showGeneralAlerts = true,
@@ -61,12 +61,13 @@ export default function KVGTable({
 }: {
 	data: NormalizedKVGStops;
 	isPaused: boolean;
-	useRelativeTimes: boolean;
 	routeId?: string;
 	direction?: string;
 	showGeneralAlerts?: boolean;
 	showRouteAlerts?: boolean;
 }) {
+	const { relativeTimes: useRelativeTimes } = useBusStore();
+
 	return (
 		<div className='grid gap-1'>
 			{showGeneralAlerts && <GeneralAlerts data={data} />}
@@ -75,10 +76,10 @@ export default function KVGTable({
 				data.actual.map((actual, index) => (
 					<Link
 						href={`/trip/${actual.tripId}`}
-						className='grid grid-cols-[35px_1fr_65px] gap-2 justify-between rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						className='grid grid-cols-[35px_1fr_75px] gap-2 justify-between rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 						key={`${index}-${actual.tripId}`}
 					>
-						<span className='bg-accent text-darkMode-text rounded-lg text-center'>{actual.patternText}</span>
+						<span className='bg-accent dark:bg-darkMode-accent text-darkMode-text rounded-lg text-center'>{actual.patternText}</span>
 						<span className='whitespace-nowrap'>{actual.direction}</span>
 						{formatDepartureTime(actual, isPaused, useRelativeTimes)}
 					</Link>
@@ -92,7 +93,7 @@ export default function KVGTable({
 
 export function SkeletonKVGTable() {
 	return (
-		<div className='skeleton grid grid-cols-[35px_1fr_60px] gap-2 justify-between rounded p-2'>
+		<div className='skeleton grid grid-cols-[35px_1fr_75px] gap-2 justify-between rounded p-2'>
 			<span>43</span>
 			<span>Kiel Hbf</span>
 			<span className='flex justify-end row-span-2 text-xl items-center'>22:26</span>
