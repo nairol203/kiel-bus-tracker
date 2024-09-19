@@ -1,6 +1,7 @@
 'use client';
 
 import { queryClient } from '@/utils/Providers';
+import useLocalStorage from '@/utils/useSessionStorage';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
@@ -16,6 +17,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
+	const [useRelativeTimes, _] = useLocalStorage<boolean>('useRelativeTimes', true);
 
 	const stopId = searchParams.get('stop');
 	const routeId = searchParams.get('routeId') ?? undefined;
@@ -105,7 +107,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 						<SkeletonKVGTable />
 					</div>
 				) : (
-					<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} />
+					<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} useRelativeTimes={useRelativeTimes} />
 				)}
 			</div>
 		);

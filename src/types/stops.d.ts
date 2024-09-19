@@ -36,6 +36,7 @@ interface NormalizedKVGStops {
 interface NormalizedActual {
 	plannedDate: Date;
 	actualDate: Date;
+	actualRelativeTime: number;
 	patternText: string;
 	direction: string;
 	routeId: string;

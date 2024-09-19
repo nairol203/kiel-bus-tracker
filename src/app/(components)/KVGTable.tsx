@@ -1,15 +1,18 @@
 import Link from 'next/link';
 import { GeneralAlerts, RouteAlerts } from './alerts';
 
-function formatDepartureTime(a: NormalizedActual) {
-	// return a.actualRelativeTime ? (a.actualRelativeTime > 60 ? `${Math.round(a.actualRelativeTime / 60)} min` : 'Sofort') : `${a.plannedTime} Uhr`;
+function formatDepartureTime(a: NormalizedActual, isPaused: boolean, useRelativeTimes: boolean) {
 	const dateDiff = Math.floor((a.actualDate.getTime() - a.plannedDate.getTime()) / 1000 / 60);
 
 	if (dateDiff >= -1 && dateDiff <= 1) {
 		return (
 			<>
 				<span className='flex justify-end row-span-2 text-xl items-center'>
-					{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
+					{!isPaused && useRelativeTimes
+						? a.actualRelativeTime > 60
+							? `${Math.round(a.actualRelativeTime / 60)} min`
+							: 'Sofort'
+						: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
 				</span>
 				<span className='text-sm col-span-2'>Planmäßig</span>
 			</>
@@ -18,7 +21,11 @@ function formatDepartureTime(a: NormalizedActual) {
 		return (
 			<>
 				<span className='flex justify-end row-span-2 text-xl items-center'>
-					{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
+					{!isPaused && useRelativeTimes
+						? a.actualRelativeTime > 60
+							? `${Math.round(a.actualRelativeTime / 60)} min`
+							: 'Sofort'
+						: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
 				</span>
 				<span className='text-sm col-span-2'>
 					{dateDiff} min verspätet <s>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</s>
@@ -29,7 +36,11 @@ function formatDepartureTime(a: NormalizedActual) {
 		return (
 			<>
 				<span className='flex justify-end row-span-2 text-xl items-center'>
-					{a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
+					{!isPaused && useRelativeTimes
+						? a.actualRelativeTime > 60
+							? `${Math.round(a.actualRelativeTime / 60)} min`
+							: 'Sofort'
+						: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
 				</span>
 				<span className='text-sm col-span-2'>
 					{dateDiff * -1} min früher <s>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</s>
@@ -42,6 +53,7 @@ function formatDepartureTime(a: NormalizedActual) {
 export default function KVGTable({
 	data,
 	isPaused,
+	useRelativeTimes,
 	direction,
 	routeId,
 	showGeneralAlerts = true,
@@ -49,6 +61,7 @@ export default function KVGTable({
 }: {
 	data: NormalizedKVGStops;
 	isPaused: boolean;
+	useRelativeTimes: boolean;
 	routeId?: string;
 	direction?: string;
 	showGeneralAlerts?: boolean;
@@ -62,12 +75,12 @@ export default function KVGTable({
 				data.actual.map((actual, index) => (
 					<Link
 						href={`/trip/${actual.tripId}`}
-						className='grid grid-cols-[35px_1fr_60px] gap-2 justify-between rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+						className='grid grid-cols-[35px_1fr_65px] gap-2 justify-between rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 						key={`${index}-${actual.tripId}`}
 					>
 						<span className='bg-accent text-darkMode-text rounded-lg text-center'>{actual.patternText}</span>
 						<span className='whitespace-nowrap'>{actual.direction}</span>
-						{formatDepartureTime(actual)}
+						{formatDepartureTime(actual, isPaused, useRelativeTimes)}
 					</Link>
 				))
 			) : (

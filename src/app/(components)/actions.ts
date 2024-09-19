@@ -33,8 +33,9 @@ export async function getStopData({ stopId, routeId, direction }: { stopId: stri
 			const plannedMoment = moment(actual.plannedTime, ['HH:mm']);
 
 			return {
-				actualDate: new Date(actualMoment.toDate()),
 				plannedDate: new Date(plannedMoment.toDate()),
+				actualDate: new Date(actualMoment.toDate()),
+				actualRelativeTime: actual.actualRelativeTime,
 				patternText: actual.patternText,
 				direction: actual.direction,
 				routeId: actual.routeId,

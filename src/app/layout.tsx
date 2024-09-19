@@ -1,9 +1,10 @@
 import React from 'react';
 import './globals.css';
 import Providers from '@/utils/Providers';
+import PlausibleProvider from 'next-plausible';
 import Image from 'next/image';
 import Link from 'next/link';
-import PlausibleProvider from 'next-plausible';
+import SettingsMenu from './(components)/SettingsMenu';
 
 export const metadata = {
 	title: 'KVG Bus Tracker',
@@ -32,13 +33,16 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang='de'>
+			<head>
+				<PlausibleProvider domain='bus-beta.nairol.me' customDomain='https://analytics.nairol.me' selfHosted />
+			</head>
 			<body className='mx-auto max-w-3xl'>
 				<header className='mx-auto flex items-center justify-between px-2 py-4'>
 					<Link href='/' className='flex items-center '>
 						<Image src='/bus.svg' className='mr-3 rounded-full dark:invert' alt='KVG Bus Tracker Logo' width={30} height={30} />
 						<span className='self-center whitespace-nowrap text-2xl font-semibold'>KVG Bus Tracker</span>
 					</Link>
-					<PlausibleProvider domain='bus-beta.nairol.me' customDomain='https://analytics.nairol.me' selfHosted />
+					<SettingsMenu />
 				</header>
 				<main className='min-h-screen'>
 					<Providers>{children}</Providers>
