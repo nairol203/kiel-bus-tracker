@@ -77,21 +77,19 @@ export async function getTripInfo(tripId: string): Promise<NormalizedStopInfo | 
 
 		const normalizedActual: NormalizedStopInfoActual[] = data.actual.map((actual) => ({
 			actualDate: new Date(moment(actual.actualTime, ['HH:mm']).toDate()),
-			plannedDate: new Date(moment(actual.plannedTime, ['HH:mm']).toDate()),
 			status: actual.status,
 			stop: actual.stop,
-			stopSequenceNumber: actual.stop_seq_num,
+			stopSequenceNumber: +actual.stop_seq_num,
 		}));
 
 		const normalizedOld: NormalizedOldStopInfo[] = data.old.map((actual) => {
 			const data: NormalizedOldStopInfo = {
 				status: actual.status,
 				stop: actual.stop,
-				stopSequenceNumber: actual.stop_seq_num,
+				stopSequenceNumber: +actual.stop_seq_num,
 			};
 
 			if (actual.actualTime) data.actualDate = new Date(moment(actual.actualTime, ['HH:mm']).toDate());
-			if (actual.plannedTime) data.plannedDate = new Date(moment(actual.plannedTime, ['HH:mm']).toDate());
 
 			return data;
 		});

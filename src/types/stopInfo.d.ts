@@ -14,7 +14,6 @@ interface NormalizedStopInfo {
 
 interface StopInfoActual {
 	actualTime: string;
-	plannedTime: string;
 	status: 'STOPPING' | 'PREDICTED' | 'PLANNED';
 	stop: Stop;
 	stop_seq_num: string;
@@ -22,15 +21,13 @@ interface StopInfoActual {
 
 interface NormalizedStopInfoActual {
 	actualDate: Date;
-	plannedDate: Date;
 	status: 'STOPPING' | 'PREDICTED' | 'PLANNED';
 	stop: Stop;
-	stopSequenceNumber: string;
+	stopSequenceNumber: number;
 }
 
 interface OldStopInfo {
-	actualTime?: string;
-	plannedTime?: string;
+	actualTime: string;
 	status: 'DEPARTED';
 	stop: Stop;
 	stop_seq_num: string;
@@ -41,7 +38,7 @@ interface NormalizedOldStopInfo {
 	plannedDate?: Date;
 	status: 'DEPARTED';
 	stop: Stop;
-	stopSequenceNumber: string;
+	stopSequenceNumber: number;
 }
 
 interface Stop {

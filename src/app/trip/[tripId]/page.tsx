@@ -86,6 +86,11 @@ export default function Page({ params }: { params: { tripId: string } }) {
 				</h1>
 				<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 			</div>
+			{!!tripInfo.actual.length && (
+				<span>
+					{tripInfo.actual[0].stopSequenceNumber - 1}/{tripInfo.actual[tripInfo.actual.length - 1].stopSequenceNumber} Haltestellen angefahren
+				</span>
+			)}
 			{tripInfo.actual.length ? (
 				<div className='grid gap-1'>
 					{tripInfo.actual.map((a) => (
@@ -98,7 +103,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 							{a.status === 'STOPPING'
 								? 'Sofort'
 								: useRelativeTimes
-									? formatTimeDifference(a.actualDate || a.plannedDate)
+									? formatTimeDifference(a.actualDate)
 									: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
 						</Link>
 					))}
@@ -116,7 +121,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 			)}
 			{!!tripInfo.old.length && (
 				<Disclosure as='div'>
-					<DisclosureButton className='group mb-1 flex w-full justify-between gap-4 rounded bg-secondary p-2 shadow md:w-auto md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'>
+					<DisclosureButton className='group mb-1 flex w-full justify-between gap-4 rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'>
 						<span>Bereits angefahrende Haltestellen</span>
 						<Image src='/chevron-down.svg' alt='Pfeil der nach unten zeigt' width={20} height={20} className='shrink-0 group-data-[open]:rotate-180 dark:invert' />
 					</DisclosureButton>
