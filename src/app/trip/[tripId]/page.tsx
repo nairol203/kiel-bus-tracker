@@ -15,8 +15,7 @@ function formatTimeDifference(date: Date, old = false) {
 
 	if (old) {
 		return `vor ${timeDifferenceMin} min`;
-	}
-	if (timeDifferenceMin <= 0) {
+	} else if (timeDifferenceMin <= 0) {
 		return 'Sofort';
 	} else {
 		return `${timeDifferenceMin} min`;
@@ -81,8 +80,9 @@ export default function Page({ params }: { params: { tripId: string } }) {
 	return (
 		<div className='mx-2 grid gap-3'>
 			<div className='flex items-center justify-between'>
-				<h1>
-					{tripInfo.routeName} {tripInfo.directionText}
+				<h1 className='flex gap-2'>
+					<span className='px-2 bg-accent dark:bg-darkMode-accent text-darkMode-text rounded-lg text-center'>{tripInfo.routeName}</span>
+					<span>{tripInfo.directionText}</span>
 				</h1>
 				<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 			</div>
@@ -115,7 +115,7 @@ export default function Page({ params }: { params: { tripId: string } }) {
 				</>
 			)}
 			{!!tripInfo.old.length && (
-				<Disclosure as="div">
+				<Disclosure as='div'>
 					<DisclosureButton className='group flex justify-between gap-4 mb-1 w-full md:w-auto rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'>
 						<span>Bereits angefahrende Haltestellen</span>
 						<Image src='/chevron-down.svg' alt='Pfeil der nach unten zeigt' width={20} height={20} className='shrink-0 dark:invert group-data-[open]:rotate-180' />
