@@ -15,24 +15,25 @@ export default function SettingsMenu() {
 				<Image src='/gear.svg' alt='Settings Icon' height={20} width={20} className='shrink-0 dark:invert' />
 			</button>
 			<Dialog open={isOpen} onClose={() => setIsOpen(false)} className='relative z-50'>
-				<DialogBackdrop className='fixed inset-0 bg-text/30' />
+				<DialogBackdrop className='fixed inset-0 bg-text/30 dark:bg-text/80' />
 				<div className='fixed inset-0 flex w-screen items-center justify-center p-4'>
-					<DialogPanel className='max-w-lg min-w-80 min-h-80 space-y-4 rounded bg-darkMode-text p-4'>
+					<DialogPanel className='max-w-lg min-w-80 min-h-80 space-y-4 rounded bg-secondary dark:bg-darkMode-secondary p-4'>
 						<div className='flex gap-2 justify-between'>
 							<DialogTitle className='font-bold'>Einstellungen</DialogTitle>
 							<CloseButton>
 								<Image src='/xmark.svg' alt='Close Icon' height={20} width={20} className='shrink-0 dark:invert' />
 							</CloseButton>
 						</div>
-						<div className='flex justify-between items-center gap-2'>
-							<span>Benutze relative Zeiten</span>
+						<div className='grid grid-cols-[1fr_2.75rem] justify-between items-center gap-2'>
+							<h3 >Dynamische Abfahrtzeiten</h3>
 							<Switch
 								checked={useRelativeTimes}
 								onChange={setRelativeTimes}
-								className='group inline-flex h-6 w-11 items-center rounded-full bg-primary transition data-[checked]:bg-accent'
+								className='row-span-2 group inline-flex h-6 w-11 items-center rounded-full bg-primary transition data-[checked]:bg-accent'
 							>
 								<span className='size-4 translate-x-1 rounded-full bg-darkMode-text transition group-data-[checked]:translate-x-6' />
 							</Switch>
+							<span className='text-sm'>Die Abfahrtzeiten werden in Minuten statt in einer festen Uhrzeit angezeigt</span>
 						</div>
 					</DialogPanel>
 				</div>
