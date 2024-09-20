@@ -22,5 +22,5 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 }
 
 export default async function Page({ params, searchParams }: Props) {
-	return <Trip params={params} searchParams={searchParams} />;
+	return <Trip tripId={params.tripId} />;
 }

@@ -22,12 +22,7 @@ function formatTimeDifference(date: Date, old = false) {
 	}
 }
 
-type Props = {
-	params: { tripId: string };
-	searchParams: {};
-};
-
-export default function Trip({ params }: Props) {
+export default function Trip({ tripId }: { tripId: string }) {
 	const router = useRouter();
 	const {
 		data: tripInfo,
@@ -37,7 +32,7 @@ export default function Trip({ params }: Props) {
 	} = useQuery({
 		queryKey: ['tripInfo'],
 		queryFn: async () => {
-			const res = await getTripInfo(params.tripId);
+			const res = await getTripInfo(tripId);
 			return res;
 		},
 		refetchInterval: 10_000,
