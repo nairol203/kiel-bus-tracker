@@ -1,4 +1,6 @@
 import { API_BASE_URI } from '@/utils/api';
+import { Metadata, ResolvingMetadata } from 'next';
+import { getStopData } from '../(components)/actions';
 import Departures from './Departures';
 
 const ONE_DAY_IN_SECONDS = 86_400;
@@ -27,7 +29,26 @@ async function searchByCharacter(character: string): Promise<StopsByCharacter | 
 	}
 }
 
-export default async function Searchbar() {
+type Props = {
+	params: {};
+	searchParams: { stop?: string; routeId?: string; direction?: string };
+};
+
+export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+	const { direction, routeId, stop: stopId } = searchParams;
+
+	if (!stopId) {
+		return {};
+	}
+
+	const data = await getStopData({ stopId, direction, routeId });
+
+	return {
+		title: `${data ? `${data.stopName} | KVG Bus Tracker` : 'KVG Bus Tracker'}`,
+	};
+}
+
+export default async function Searchbar({ params, searchParams }: Props) {
 	const stops: StopByCharacter[] = [];
 
 	for (const letter of alphabet) {
