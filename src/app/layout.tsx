@@ -38,8 +38,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			</head>
 			<body className='mx-auto max-w-3xl'>
 				<header className='mx-auto flex items-center justify-between px-2 py-4'>
-					<Link href='/' className='flex items-center '>
-						<Image src='/bus.svg' className='mr-3 rounded-full dark:invert' alt='KVG Bus Tracker Logo' width={30} height={30} />
+					<Link href='/' className='flex gap-2 items-center '>
+						<Image src='/icon.svg' alt='KVG Bus Tracker Logo' width={30} height={30} />
 						<span className='self-center whitespace-nowrap text-2xl font-semibold'>KVG Bus Tracker</span>
 					</Link>
 					<SettingsMenu />
