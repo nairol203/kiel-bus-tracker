@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang='de'>
 			<head>
-				<PlausibleProvider domain='bus-beta.nairol.me' customDomain='https://analytics.nairol.me' selfHosted />
+				<PlausibleProvider domain='bus.nairol.me' customDomain='https://analytics.nairol.me' selfHosted />
 			</head>
 			<body className='mx-auto max-w-3xl'>
 				<header className='mx-auto flex items-center justify-between px-2 py-4'>

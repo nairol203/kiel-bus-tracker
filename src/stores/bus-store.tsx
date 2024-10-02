@@ -17,7 +17,7 @@ export const useBusStore = create(
 	persist<BusStore>(
 		(set) => ({
 			lastSearches: [],
-			useRelativeTimes: true,
+			useRelativeTimes: false,
 			setLastSearches: (searchString) => set((state) => ({ lastSearches: [...state.lastSearches.slice(0, 10), searchString] })),
 			toggleRelativeTimes: () => set((state) => ({ useRelativeTimes: !state.useRelativeTimes })),
 		}),
