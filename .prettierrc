@@ -1,6 +1,5 @@
 {
 	"plugins": ["@ianvs/prettier-plugin-sort-imports"],
-	"pluginSearchDirs": false,
 	"useTabs": true,
 	"tabWidth": 4,
 	"singleQuote": true,

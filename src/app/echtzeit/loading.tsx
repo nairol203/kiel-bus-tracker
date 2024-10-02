@@ -6,7 +6,7 @@ export default function Loading() {
 			</div>
 			<div className='grid gap-2'>
 				<div className='flex'>
-					<h2 className='skeleton'>Trends bei Suchanfragen</h2>
+					<h2 className='skeleton'>Beliebte Suchanfragen</h2>
 				</div>
 				<div className='skeleton flex gap-3 rounded p-2 '>
 					<div className='h-5 w-5' />

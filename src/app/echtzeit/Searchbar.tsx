@@ -1,20 +1,20 @@
 'use client';
 
-import useLocalStorage from '@/utils/useSessionStorage';
+import { useBusStore } from '@/stores/bus-store';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react';
 import Fuse from 'fuse.js';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { Fragment, useMemo, useState } from 'react';
 
-export default function Searchbar({ allStops, currentStop }: { allStops: StopByCharacter[]; currentStop?: KVGStops }) {
+export default function Searchbar({ allStops, currentStop }: { allStops: StopByCharacter[]; currentStop?: NormalizedKVGStops }) {
 	const router = useRouter();
 	const pathname = usePathname();
 
 	const [query, setQuery] = useState('');
 	const [disabled, setDisabled] = useState(false);
 	const [selectedStop, setSelectedStop] = useState<StopByCharacter | null>(null);
-	const [lastSearches, setLastSearches] = useLocalStorage<StopByCharacter[]>('lastSearches', []);
+	const { setLastSearches } = useBusStore();
 
 	const filteredStops = useMemo(() => {
 		const fuse = new Fuse(allStops, {
@@ -38,7 +38,7 @@ export default function Searchbar({ allStops, currentStop }: { allStops: StopByC
 				if (value) {
 					setDisabled(true);
 					updateQuery(value);
-					setLastSearches([...lastSearches, value]);
+					setLastSearches(value);
 					setTimeout(() => {
 						setDisabled(false);
 					}, 50);

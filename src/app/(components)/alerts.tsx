@@ -12,7 +12,7 @@ function filterIdenticalAlerts<T extends GeneralAlert | RouteAlert>(alerts: T[])
 	return uniqueAlerts;
 }
 
-export function GeneralAlerts({ data }: { data: KVGStops }) {
+export function GeneralAlerts({ data }: { data: NormalizedKVGStops }) {
 	return (
 		<>
 			{filterIdenticalAlerts(data.generalAlerts).map((alert, index) => (
@@ -25,7 +25,7 @@ export function GeneralAlerts({ data }: { data: KVGStops }) {
 	);
 }
 
-export function RouteAlerts({ data, direction, routeId }: { data: KVGStops; routeId?: string; direction?: string }) {
+export function RouteAlerts({ data, direction, routeId }: { data: NormalizedKVGStops; routeId?: string; direction?: string }) {
 	return (
 		<>
 			{data.routes
@@ -35,7 +35,7 @@ export function RouteAlerts({ data, direction, routeId }: { data: KVGStops; rout
 						.filter((alert) => (direction ? alert.direction.includes(direction) : true))
 						.map((alert, index) => (
 							<div
-								className='grid gap-1 rounded bg-primary p-2 text-darkMode-text dark:bg-darkMode-primary dark:text-text md:flex md:justify-between'
+								className='grid gap-1 rounded bg-primary p-2 text-darkMode-text md:flex md:justify-between dark:bg-darkMode-primary dark:text-text'
 								key={`alert-${index}-${data.stopShortName}`}
 							>
 								<div className='flex gap-4'>
@@ -47,7 +47,7 @@ export function RouteAlerts({ data, direction, routeId }: { data: KVGStops; rout
 									<span>{alert.title}</span>
 								</div>
 							</div>
-						))
+						)),
 				)}
 		</>
 	);

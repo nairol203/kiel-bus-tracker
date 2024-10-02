@@ -1,124 +1,26 @@
-'use client';
-
-import { useQuery } from '@tanstack/react-query';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Metadata, ResolvingMetadata } from 'next';
 import { getTripInfo } from 'src/app/(components)/actions';
-import HealthIndicator from 'src/app/(components)/HealthIndicator';
+import Trip from './Trip';
 
-function timeToDate(time: string) {
-	const [hours, minutes] = time.split(':').map(Number);
+type Props = {
+	params: { tripId: string };
+	searchParams: {};
+};
 
-	const date = new Date();
+export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+	const { tripId } = params;
 
-	if (hours < date.getHours()) {
-		date.setDate(date.getDate() + 1);
+	if (!tripId) {
+		return {};
 	}
 
-	date.setHours(hours);
-	date.setMinutes(minutes);
-	date.setSeconds(0);
-	date.setMilliseconds(0);
+	const data = await getTripInfo(tripId);
 
-	return date;
+	return {
+		title: `${data ? `${data.routeName} ${data.directionText} | KVG Bus Tracker` : 'KVG Bus Tracker'}`,
+	};
 }
 
-function formatTimeDifference(date: Date, old = false) {
-	const currentTime = new Date();
-	const timeDifferenceMin = Math.floor((old ? currentTime.getTime() - date.getTime() : date.getTime() - currentTime.getTime()) / 1000 / 60);
-
-	if (timeDifferenceMin <= 0) {
-		return 'Sofort';
-	} else {
-		return `${timeDifferenceMin} min`;
-	}
-}
-
-export default function Page({ params }: { params: { tripId: string } }) {
-	const router = useRouter();
-	const {
-		data: tripInfo,
-		isFetching,
-		isError,
-		isPaused,
-	} = useQuery({
-		queryKey: ['tripInfo'],
-		queryFn: async () => {
-			const res = await getTripInfo(params.tripId);
-			return res;
-		},
-		refetchInterval: 10_000,
-	});
-
-	if (isError) {
-		return (
-			<div className='mx-2 grid gap-2'>
-				<h1>Fehler</h1>
-				<span>Die Fahrt konnte nicht gefunden werden.</span>
-				<button
-					onClick={() => router.back()}
-					className='rounded bg-primary text-darkMode-text px-2.5 py-1.5 dark:bg-darkMode-primary dark:text-text md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
-				>
-					Zurück
-				</button>
-			</div>
-		);
-	}
-
-	if (!tripInfo) {
-		return (
-			<div className='mx-2 grid gap-2'>
-				<div className='flex items-center justify-between'>
-					<h1 className='skeleton'>Lorem ipsum dolor sit.</h1>
-					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
-				</div>
-				<div className='grid gap-1'>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-				</div>
-			</div>
-		);
-	}
-
-	return (
-		<div className='mx-2 grid gap-2'>
-			<div className='flex items-center justify-between'>
-				<h1>
-					{tripInfo.routeName} {tripInfo.directionText}
-				</h1>
-				<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
-			</div>
-			{tripInfo.actual.length ? (
-				<div className='grid gap-1'>
-					{tripInfo.actual.map((a) => (
-						<Link
-							href={`/echtzeit?stop=${a.stop.shortName}`}
-							key={a.stop_seq_num}
-							className='flex justify-between rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
-						>
-							<span>{a.stop.name}</span>
-							{a.status !== 'STOPPING' && <span>{isPaused ? a.actualTime || a.plannedTime : formatTimeDifference(timeToDate(a.actualTime || a.plannedTime))}</span>}
-						</Link>
-					))}
-				</div>
-			) : (
-				<>
-					<span>Der Bus hat die Endstation erreicht.</span>
-					<button
-						onClick={() => router.back()}
-						className='rounded bg-primary text-darkMode-text px-2.5 py-1.5 dark:bg-darkMode-primary dark:text-text md:hover:bg-accent md:hover:text-darkMode-text dark:md:hover:bg-darkMode-accent'
-					>
-						Zurück
-					</button>
-				</>
-			)}
-		</div>
-	);
+export default async function Page({ params, searchParams }: Props) {
+	return <Trip tripId={params.tripId} />;
 }
