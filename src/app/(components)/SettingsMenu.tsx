@@ -1,13 +1,15 @@
 'use client';
 
 import { useBusStore } from '@/stores/bus-store';
-import { CloseButton, Dialog, DialogBackdrop, DialogPanel, DialogTitle, Switch } from '@headlessui/react';
+import { CloseButton, Dialog, DialogBackdrop, DialogPanel, DialogTitle, Select, Switch } from '@headlessui/react';
+import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import { useState } from 'react';
 
 export default function SettingsMenu() {
 	const [isOpen, setIsOpen] = useState(false);
 	const { useRelativeTimes, toggleRelativeTimes } = useBusStore();
+	const { theme, setTheme } = useTheme();
 
 	return (
 		<>
@@ -24,6 +26,24 @@ export default function SettingsMenu() {
 								<Image src='/xmark.svg' alt='Close Icon' height={24} width={24} className='h-6 shrink-0 dark:invert' />
 							</CloseButton>
 						</div>
+						<div className='grid grid-cols-[1fr_6.5rem] items-center justify-between gap-1'>
+							<h3>Darstellungsmodus</h3>
+							<Select
+								className='row-span-2 flex items-center justify-between gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary'
+								onChange={(e) => setTheme(e.target.value)}
+							>
+								<option key='light' value='light' selected={theme === 'light'}>
+									Hell
+								</option>
+								<option key='dark' value='dark' selected={theme === 'dark'}>
+									Dunkel
+								</option>
+								<option key='system' value='system' selected={theme === 'system'}>
+									System
+								</option>
+							</Select>
+							<span className='text-sm'>Legt den Darstellungsmodus für die Website fest.</span>
+						</div>
 						<div className='grid grid-cols-[1fr_2.75rem] items-center justify-between gap-1'>
 							<h3>Dynamische Abfahrtzeiten</h3>
 							<Switch
@@ -33,7 +53,7 @@ export default function SettingsMenu() {
 							>
 								<span className='size-4 translate-x-1 rounded-full bg-darkMode-text transition group-data-[checked]:translate-x-6' />
 							</Switch>
-							<span className='text-sm'>Die Abfahrtzeiten werden in Minuten statt zu einer festen Uhrzeit angezeigt</span>
+							<span className='text-sm'>Die Abfahrtzeiten werden in Minuten statt zu einer festen Uhrzeit angezeigt.</span>
 						</div>
 					</DialogPanel>
 				</div>

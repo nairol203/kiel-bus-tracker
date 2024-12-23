@@ -2,6 +2,7 @@ import React from 'react';
 import './globals.css';
 import Providers from '@/utils/Providers';
 import PlausibleProvider from 'next-plausible';
+import { ThemeProvider } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
 import SettingsMenu from './(components)/SettingsMenu';
@@ -32,27 +33,29 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang='de'>
+		<html lang='de' suppressHydrationWarning>
 			<head>
 				<PlausibleProvider domain='bus.nairol.me' customDomain='https://analytics.nairol.me' selfHosted />
 			</head>
 			<body className='mx-auto max-w-3xl'>
-				<header className='mx-auto flex items-center justify-between px-2 py-4'>
-					<Link href='/' className='flex gap-2 items-center '>
-						<Image src='/icon.svg' alt='KVG Bus Tracker Logo' width={30} height={30} />
-						<span className='self-center whitespace-nowrap text-2xl font-semibold'>KVG Bus Tracker</span>
-					</Link>
-					<SettingsMenu />
-				</header>
-				<main className='min-h-screen'>
-					<Providers>{children}</Providers>
-				</main>
-				<footer className='text-gray-400 grid justify-center gap-2 p-4 text-sm sm:flex sm:gap-1'>
-					<a href='https://nairol.me' target='_blank' rel='noreferrer' className='flex justify-center hover:underline'>
-						© 2024 nairol.me
-					</a>
-					<span className='text-center sm:before:mr-1 sm:before:content-["•"]'>Not affiliated with KVG Kieler Verkehrsgesellschaft mbH</span>
-				</footer>
+				<ThemeProvider attribute="class">
+					<header className='mx-auto flex items-center justify-between px-2 py-4'>
+						<Link href='/' className='flex gap-2 items-center '>
+							<Image src='/icon.svg' alt='KVG Bus Tracker Logo' width={30} height={30} />
+							<span className='self-center whitespace-nowrap text-2xl font-semibold'>KVG Bus Tracker</span>
+						</Link>
+						<SettingsMenu />
+					</header>
+					<main className='min-h-screen'>
+						<Providers>{children}</Providers>
+					</main>
+					<footer className='text-gray-400 grid justify-center gap-2 p-4 text-sm sm:flex sm:gap-1'>
+						<a href='https://nairol.me' target='_blank' rel='noreferrer' className='flex justify-center hover:underline'>
+							© 2024 nairol.me
+						</a>
+						<span className='text-center sm:before:mr-1 sm:before:content-["•"]'>Not affiliated with KVG Kieler Verkehrsgesellschaft mbH</span>
+					</footer>
+				</ThemeProvider>
 			</body>
 		</html>
 	);
