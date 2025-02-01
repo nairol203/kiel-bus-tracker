@@ -26,6 +26,11 @@ export async function getStopData({ stopId, routeId, direction }: { stopId: stri
 			cache: 'no-store',
 		});
 
+		if (!res.ok) {
+			console.log(await res.text().catch(() => "res.text() failed"));
+			throw new Error(`Request for ${res.url} failed with status code ${res.status} ${res.statusText}`);
+		}
+
 		const data: KVGStops = await res.json();
 
 		const normalizedActual: NormalizedActual[] = data.actual.map((actual) => {
@@ -72,6 +77,11 @@ export async function getTripInfo(tripId: string): Promise<NormalizedStopInfo | 
 			},
 			cache: 'no-store',
 		});
+
+		if (!res.ok) {
+			console.log(await res.text().catch(() => "res.text() failed"));
+			throw new Error(`Request for ${res.url} failed with status code ${res.status} ${res.statusText}`);
+		}
 
 		const data: StopInfo = await res.json();
 

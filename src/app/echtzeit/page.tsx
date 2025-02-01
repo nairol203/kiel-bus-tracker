@@ -23,6 +23,11 @@ async function searchByCharacter(character: string): Promise<StopsByCharacter | 
 			},
 		});
 
+		if (!res.ok) {
+			console.log(await res.text().catch(() => 'res.text() failed'));
+			throw new Error(`Request for ${res.url} failed with status code ${res.status} ${res.statusText}`);
+		}
+
 		return res.json();
 	} catch (error) {
 		console.error(error);
