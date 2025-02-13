@@ -53,6 +53,7 @@ export default function RouteFilter({ stop }: { stop: NormalizedKVGStops }) {
 					router.push(pathname + '?' + createQueryString('routeId', e.target.value));
 				}
 			}}
+			defaultValue={routeId ?? defaultRoute.id}
 		>
 			{routes.map((route) => (
 				<option key={route.id} value={route.id}>
