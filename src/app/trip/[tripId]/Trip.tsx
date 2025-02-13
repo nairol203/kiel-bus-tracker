@@ -2,6 +2,7 @@
 
 import { getTripInfo } from '@/app/(components)/actions';
 import { useBusStore } from '@/stores/bus-store';
+import { queryClient } from '@/utils/Providers';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
@@ -44,10 +45,16 @@ export default function Trip({ tripId }: { tripId: string }) {
 		return (
 			<div className='mx-2 grid gap-2'>
 				<h1>Fehler</h1>
-				<span>Die Fahrt konnte nicht gefunden werden.</span>
+				<span>Die Fahrt konnte nicht geladen werden.</span>
+				<button
+					onClick={() => queryClient.refetchQueries({ queryKey: ['tripInfo'] })}
+					className='rounded bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
+				>
+					Erneut versuchen
+				</button>
 				<button
 					onClick={() => router.back()}
-					className='rounded bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
+					className='rounded bg-secondary px-2.5 py-1.5 text-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 				>
 					Zurück
 				</button>
@@ -93,6 +100,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 			)}
 			{tripInfo.actual.length ? (
 				<div className='grid gap-1'>
+					<h2>Nächste Haltestellen</h2>
 					{tripInfo.actual.map((a) => (
 						<Link
 							href={`/echtzeit?stop=${a.stop.shortName}`}

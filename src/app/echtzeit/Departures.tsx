@@ -21,12 +21,12 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 	const routeId = searchParams.get('routeId') ?? undefined;
 	const direction = searchParams.get('direction') ?? undefined;
 
+	if (!stopId) {
+		throw new Error(`Departures: stopId is not defined, this should not happen`);
+	}
+
 	useEffect(() => {
-		if (!stopId) {
-			queryClient.removeQueries({ queryKey: ['stopData'] });
-		} else {
-			mutation.mutate({ stopId, routeId, direction });
-		}
+		mutation.mutate({ stopId, routeId, direction });
 	}, [pathname, searchParams, stopId, routeId, direction]);
 
 	const {
@@ -35,15 +35,17 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		isError,
 		isPaused,
 		isLoading,
+		status,
 	} = useQuery({
 		queryKey: ['stopData'],
 		queryFn: async () => {
-			if (!stopId) return null;
 			const res = await getStopData({ stopId, routeId, direction });
 			return res;
 		},
 		refetchInterval: 15_000,
 	});
+
+	console.log(status, busStop, stopId);
 
 	const mutation = useMutation({
 		mutationFn: getStopData,
@@ -140,8 +142,14 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 					<h1>Fehler</h1>
 					<span>Die Haltestelle konnte nicht geladen werden.</span>
 					<button
-						onClick={() => router.back()}
+						onClick={() => queryClient.refetchQueries({ queryKey: ['stopData'] })}
 						className='rounded bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
+					>
+						Erneut versuchen
+					</button>
+					<button
+						onClick={() => router.push('/echtzeit')}
+						className='rounded bg-secondary px-2.5 py-1.5 text-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 					>
 						Zurück
 					</button>

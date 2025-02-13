@@ -1,6 +1,7 @@
 'use client';
 
 import { useBusStore } from '@/stores/bus-store';
+import { queryClient } from '@/utils/Providers';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react';
 import Fuse from 'fuse.js';
 import Image from 'next/image';
@@ -26,6 +27,7 @@ export default function Searchbar({ allStops, currentStop }: { allStops: StopByC
 
 	function updateQuery(selectedStop: StopByCharacter) {
 		router.push(pathname + `?stop=${selectedStop.number}`);
+		queryClient.removeQueries({ queryKey: ['stopData'] });
 	}
 
 	return (
