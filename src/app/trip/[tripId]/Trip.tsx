@@ -87,7 +87,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 		);
 	}
 
-	const ConnectingBus: React.FC<{ stopId: string; tripId: string }> = ({ stopId, tripId }) => {
+	const ConnectingBus: React.FC<{}> = () => {
 		const {
 			data: busStop,
 			isFetching,
@@ -95,7 +95,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 			isPaused,
 		} = useQuery({
 			queryKey: ['connectingBus'],
-			queryFn: () => getStopData({ stopId }),
+			queryFn: () => getStopData({ stopId: tripInfo.actual[0].stop.shortName }),
 			refetchInterval: 10_000,
 		});
 
@@ -103,7 +103,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 
 		const filteredStop: NormalizedKVGStops = {
 			...busStop,
-			actual: busStop.actual.filter((a) => a.tripId !== tripId && a.actualRelativeTime < 600).slice(0, 5),
+			actual: busStop.actual.filter((a) => a.tripId !== tripId && a.actualRelativeTime < 600 && a.actualDate > tripInfo.actual[0].actualDate).slice(0, 5),
 		};
 
 		if (!filteredStop.actual.length) return;
@@ -119,40 +119,73 @@ export default function Trip({ tripId }: { tripId: string }) {
 		);
 	};
 
+	const NextStops: React.FC<{}> = () => {
+		return (
+			<div className='grid gap-2'>
+				<div className='flex items-center justify-between'>
+					<h2>Nächste Haltestellen</h2>
+					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
+				</div>
+				<div className='grid gap-1'>
+					{tripInfo.actual.map((a) => (
+						<Link
+							href={`/echtzeit?stop=${a.stop.shortName}`}
+							key={a.stopSequenceNumber}
+							className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+						>
+							<span>{a.stop.name}</span>
+							{a.status === 'STOPPING'
+								? 'Sofort'
+								: useRelativeTimes
+									? formatTimeDifference(a.actualDate)
+									: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
+						</Link>
+					))}
+				</div>
+			</div>
+		);
+	};
+
 	return (
 		<div className='mx-2 grid gap-3'>
 			<h1 className='flex gap-2'>
 				<span className='rounded-lg bg-accent px-2 text-center text-darkMode-text dark:bg-darkMode-accent'>{tripInfo.routeName}</span>
 				<span>{tripInfo.directionText}</span>
 			</h1>
-			{/* {!!tripInfo.actual.length && (
-				<span>
-					{tripInfo.actual[0].stopSequenceNumber - 1}/{tripInfo.actual[tripInfo.actual.length - 1].stopSequenceNumber} Haltestellen angefahren
-				</span>
-			)} */}
 			{tripInfo.actual.length ? (
 				<>
-					<ConnectingBus stopId={tripInfo.actual[0].stop.shortName} tripId={tripId} />
-					<div className='flex items-center justify-between'>
-						<h2>Nächste Haltestelle</h2>
-						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
-					</div>
-					<div className='grid gap-1'>
-						{tripInfo.actual.map((a) => (
-							<Link
-								href={`/echtzeit?stop=${a.stop.shortName}`}
-								key={a.stopSequenceNumber}
-								className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
-							>
-								<span>{a.stop.name}</span>
-								{a.status === 'STOPPING'
-									? 'Sofort'
-									: useRelativeTimes
-										? formatTimeDifference(a.actualDate)
-										: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
-							</Link>
-						))}
-					</div>
+					<ConnectingBus />
+					<NextStops />
+					{!!tripInfo.old.length && (
+						<Disclosure as='div'>
+							<DisclosureButton className='group mb-1 flex w-full justify-between gap-4 rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'>
+								<span>Bereits angefahrende Haltestellen</span>
+								<Image
+									src='/chevron-down.svg'
+									alt='Pfeil der nach unten zeigt'
+									width={20}
+									height={20}
+									className='shrink-0 group-data-[open]:rotate-180 dark:invert'
+								/>
+							</DisclosureButton>
+							<DisclosurePanel transition className='grid origin-top gap-1 transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0'>
+								{tripInfo.old.toReversed().map((a) => (
+									<Link
+										href={`/echtzeit?stop=${a.stop.shortName}`}
+										key={`old_${a.stopSequenceNumber}`}
+										className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+									>
+										<span>{a.stop.name}</span>
+										{a.actualDate
+											? useRelativeTimes
+												? formatTimeDifference(a.actualDate, true)
+												: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })
+											: ''}
+									</Link>
+								))}
+							</DisclosurePanel>
+						</Disclosure>
+					)}
 				</>
 			) : (
 				<>
@@ -164,30 +197,6 @@ export default function Trip({ tripId }: { tripId: string }) {
 						Zurück
 					</button>
 				</>
-			)}
-			{!!tripInfo.old.length && (
-				<Disclosure as='div'>
-					<DisclosureButton className='group mb-1 flex w-full justify-between gap-4 rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'>
-						<span>Bereits angefahrende Haltestellen</span>
-						<Image src='/chevron-down.svg' alt='Pfeil der nach unten zeigt' width={20} height={20} className='shrink-0 group-data-[open]:rotate-180 dark:invert' />
-					</DisclosureButton>
-					<DisclosurePanel transition className='grid origin-top gap-1 transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0'>
-						{tripInfo.old.toReversed().map((a) => (
-							<Link
-								href={`/echtzeit?stop=${a.stop.shortName}`}
-								key={`old_${a.stopSequenceNumber}`}
-								className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
-							>
-								<span>{a.stop.name}</span>
-								{a.actualDate
-									? useRelativeTimes
-										? formatTimeDifference(a.actualDate, true)
-										: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })
-									: ''}
-							</Link>
-						))}
-					</DisclosurePanel>
-				</Disclosure>
 			)}
 		</div>
 	);
