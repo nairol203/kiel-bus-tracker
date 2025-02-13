@@ -35,7 +35,6 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		isError,
 		isPaused,
 		isLoading,
-		status,
 	} = useQuery({
 		queryKey: ['stopData'],
 		queryFn: async () => {
@@ -44,8 +43,6 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		},
 		refetchInterval: 15_000,
 	});
-
-	console.log(status, busStop, stopId);
 
 	const mutation = useMutation({
 		mutationFn: getStopData,
