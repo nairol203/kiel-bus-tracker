@@ -1,6 +1,7 @@
 'use client';
 
-import { getTripInfo } from '@/app/(components)/actions';
+import { getStopData, getTripInfo } from '@/app/(components)/actions';
+import KVGTable from '@/app/(components)/KVGTable';
 import { useBusStore } from '@/stores/bus-store';
 import { queryClient } from '@/utils/Providers';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
@@ -8,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import React from 'react';
 import HealthIndicator from 'src/app/(components)/HealthIndicator';
 
 function formatTimeDifference(date: Date, old = false) {
@@ -34,6 +36,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 		queryKey: ['tripInfo'],
 		queryFn: async () => {
 			const res = await getTripInfo(tripId);
+			queryClient.invalidateQueries({ queryKey: ['connectingBus'] });
 			return res;
 		},
 		refetchInterval: 10_000,
@@ -84,38 +87,73 @@ export default function Trip({ tripId }: { tripId: string }) {
 		);
 	}
 
+	const ConnectingBus: React.FC<{ stopId: string; tripId: string }> = ({ stopId, tripId }) => {
+		const {
+			data: busStop,
+			isFetching,
+			isError,
+			isPaused,
+		} = useQuery({
+			queryKey: ['connectingBus'],
+			queryFn: () => getStopData({ stopId }),
+			refetchInterval: 10_000,
+		});
+
+		if (!busStop) return;
+
+		const filteredStop: NormalizedKVGStops = {
+			...busStop,
+			actual: busStop.actual.filter((a) => a.tripId !== tripId && a.actualRelativeTime < 600).slice(0, 5),
+		};
+
+		if (!filteredStop.actual.length) return;
+
+		return (
+			<div className='grid gap-2'>
+				<div className='flex items-center justify-between'>
+					<h2>Anschluss Busse für {tripInfo.actual[0].stop.name}</h2>
+					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
+				</div>
+				<KVGTable data={filteredStop} isPaused={isPaused} />
+			</div>
+		);
+	};
+
 	return (
 		<div className='mx-2 grid gap-3'>
-			<div className='flex items-center justify-between'>
-				<h1 className='flex gap-2'>
-					<span className='rounded-lg bg-accent px-2 text-center text-darkMode-text dark:bg-darkMode-accent'>{tripInfo.routeName}</span>
-					<span>{tripInfo.directionText}</span>
-				</h1>
-				<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
-			</div>
-			{!!tripInfo.actual.length && (
+			<h1 className='flex gap-2'>
+				<span className='rounded-lg bg-accent px-2 text-center text-darkMode-text dark:bg-darkMode-accent'>{tripInfo.routeName}</span>
+				<span>{tripInfo.directionText}</span>
+			</h1>
+			{/* {!!tripInfo.actual.length && (
 				<span>
 					{tripInfo.actual[0].stopSequenceNumber - 1}/{tripInfo.actual[tripInfo.actual.length - 1].stopSequenceNumber} Haltestellen angefahren
 				</span>
-			)}
+			)} */}
 			{tripInfo.actual.length ? (
-				<div className='grid gap-1'>
-					<h2>Nächste Haltestellen</h2>
-					{tripInfo.actual.map((a) => (
-						<Link
-							href={`/echtzeit?stop=${a.stop.shortName}`}
-							key={a.stopSequenceNumber}
-							className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
-						>
-							<span>{a.stop.name}</span>
-							{a.status === 'STOPPING'
-								? 'Sofort'
-								: useRelativeTimes
-									? formatTimeDifference(a.actualDate)
-									: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
-						</Link>
-					))}
-				</div>
+				<>
+					<ConnectingBus stopId={tripInfo.actual[0].stop.shortName} tripId={tripId} />
+					<div className='flex items-center justify-between'>
+						<h2>Nächste Haltestelle</h2>
+						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
+					</div>
+					<div className='grid gap-1'>
+						{tripInfo.actual.map((a) => (
+							<Link
+								href={`/echtzeit?stop=${a.stop.shortName}`}
+								key={a.stopSequenceNumber}
+								className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+							>
+								<span>{a.stop.name}</span>
+								{a.status === 'STOPPING'
+									? 'Sofort'
+									: useRelativeTimes
+										? formatTimeDifference(a.actualDate)
+										: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
+							</Link>
+						))}
+					</div>
+				</>
 			) : (
 				<>
 					<span>Der Bus hat die Endstation erreicht.</span>
