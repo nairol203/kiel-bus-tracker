@@ -58,6 +58,7 @@ export default function DirectionFilter({ stop }: { stop: NormalizedKVGStops }) 
 					router.push(pathname + '?' + createQueryString('direction', e.target.value));
 				}
 			}}
+			defaultValue={direction}
 		>
 			{directions.map((_direction) => (
 				<option key={_direction} value={_direction}>
