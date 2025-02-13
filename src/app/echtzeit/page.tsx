@@ -2,6 +2,8 @@ import { API_BASE_URI } from '@/utils/api';
 import { Metadata, ResolvingMetadata } from 'next';
 import { getStopData } from '../(components)/actions';
 import Departures from './Departures';
+import RecommendedSearches from './RecommendedSearches';
+import Searchbar from './Searchbar';
 
 const ONE_DAY_IN_SECONDS = 86_400;
 
@@ -22,6 +24,11 @@ async function searchByCharacter(character: string): Promise<StopsByCharacter | 
 				revalidate: ONE_DAY_IN_SECONDS,
 			},
 		});
+
+		if (!res.ok) {
+			console.log(await res.text().catch(() => 'res.text() failed'));
+			throw new Error(`Request for ${res.url} failed with status code ${res.status} ${res.statusText}`);
+		}
 
 		return res.json();
 	} catch (error) {
@@ -48,7 +55,7 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 	};
 }
 
-export default async function Searchbar({ params, searchParams }: Props) {
+export default async function Page({ params, searchParams }: Props) {
 	const stops: StopByCharacter[] = [];
 
 	for (const letter of alphabet) {
@@ -57,5 +64,14 @@ export default async function Searchbar({ params, searchParams }: Props) {
 		stops.push(...result.stops);
 	}
 
-	return <Departures stops={stops} />;
+	if (searchParams.stop) {
+		return <Departures stops={stops} />;
+	}
+
+	return (
+		<div className='mx-2 grid gap-2'>
+			<Searchbar allStops={stops} />
+			<RecommendedSearches stops={stops} />
+		</div>
+	);
 }

@@ -8,7 +8,6 @@ import { getStopData } from '../(components)/actions';
 import HealthIndicator from '../(components)/HealthIndicator';
 import KVGTable, { SkeletonKVGTable } from '../(components)/KVGTable';
 import DirectionFilter from './DirectionFilter';
-import RecommendedSearches from './RecommendedSearches';
 import RouteFilter from './RouteFilter';
 import Searchbar from './Searchbar';
 
@@ -17,16 +16,12 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 
-	const stopId = searchParams.get('stop');
+	const stopId = searchParams.get('stop') as string;
 	const routeId = searchParams.get('routeId') ?? undefined;
 	const direction = searchParams.get('direction') ?? undefined;
 
 	useEffect(() => {
-		if (!stopId) {
-			queryClient.removeQueries({ queryKey: ['stopData'] });
-		} else {
-			mutation.mutate({ stopId, routeId, direction });
-		}
+		mutation.mutate({ stopId, routeId, direction });
 	}, [pathname, searchParams, stopId, routeId, direction]);
 
 	const {
@@ -38,7 +33,6 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 	} = useQuery({
 		queryKey: ['stopData'],
 		queryFn: async () => {
-			if (!stopId) return null;
 			const res = await getStopData({ stopId, routeId, direction });
 			return res;
 		},
@@ -93,9 +87,6 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 					</div>
 				</div>
-				{/* <div className='mt-2 flex items-center justify-between'>
-					<h1 className='line-clamp-1'>{busStop.stopName}</h1>
-				</div> */}
 				{mutation.isPending ? (
 					<div className='grid gap-1'>
 						<SkeletonKVGTable />
@@ -132,28 +123,27 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				</div>
 			</div>
 		);
-	} else if (isError) {
-		return (
-			<div className='mx-2 grid gap-2'>
-				<Searchbar allStops={stops} />
-				<div className='mt-2 grid gap-2'>
-					<h1>Fehler</h1>
-					<span>Die Haltestelle konnte nicht geladen werden.</span>
-					<button
-						onClick={() => router.back()}
-						className='rounded bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
-					>
-						Zurück
-					</button>
-				</div>
-			</div>
-		);
 	}
 
 	return (
 		<div className='mx-2 grid gap-2'>
 			<Searchbar allStops={stops} />
-			<RecommendedSearches stops={stops} />
+			<div className='mt-2 grid gap-2'>
+				<h1>Fehler</h1>
+				<span>Die Haltestelle konnte nicht geladen werden.</span>
+				<button
+					onClick={() => queryClient.refetchQueries({ queryKey: ['stopData'] })}
+					className='rounded bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
+				>
+					Erneut versuchen
+				</button>
+				<button
+					onClick={() => router.push('/echtzeit')}
+					className='rounded bg-secondary px-2.5 py-1.5 text-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+				>
+					Zurück
+				</button>
+			</div>
 		</div>
 	);
 }
