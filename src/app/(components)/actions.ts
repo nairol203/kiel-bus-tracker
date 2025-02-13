@@ -6,6 +6,10 @@ import moment from 'moment';
 export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string | null; direction?: string | null }): Promise<NormalizedKVGStops | undefined> {
 	const endpoint = new URL(`${API_BASE_URI}/internetservice/services/passageInfo/stopPassages/stop`);
 
+	if (!stopId) {
+		throw new Error(`getStopData(): No stopId provided but required.`);
+	}
+
 	endpoint.searchParams.append('stop', stopId);
 	endpoint.searchParams.append('mode', 'departure');
 
@@ -27,7 +31,7 @@ export async function getStopData({ stopId, routeId, direction }: { stopId: stri
 		});
 
 		if (!res.ok) {
-			console.log(await res.text().catch(() => "res.text() failed"));
+			console.log(await res.text().catch(() => 'res.text() failed'));
 			throw new Error(`Request for ${res.url} failed with status code ${res.status} ${res.statusText}`);
 		}
 
@@ -67,6 +71,10 @@ export async function getStopData({ stopId, routeId, direction }: { stopId: stri
 export async function getTripInfo(tripId: string): Promise<NormalizedStopInfo | undefined> {
 	const endpoint = new URL(`${API_BASE_URI}/internetservice/services/tripInfo/tripPassages`);
 
+	if (!tripId) {
+		throw new Error(`getTripInfo(): No tripId provided but required.`);
+	}
+
 	endpoint.searchParams.append('tripId', tripId);
 
 	try {
@@ -79,7 +87,7 @@ export async function getTripInfo(tripId: string): Promise<NormalizedStopInfo | 
 		});
 
 		if (!res.ok) {
-			console.log(await res.text().catch(() => "res.text() failed"));
+			console.log(await res.text().catch(() => 'res.text() failed'));
 			throw new Error(`Request for ${res.url} failed with status code ${res.status} ${res.statusText}`);
 		}
 
