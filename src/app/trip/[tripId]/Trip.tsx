@@ -103,7 +103,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 
 		const filteredStop: NormalizedKVGStops = {
 			...busStop,
-			actual: busStop.actual.filter((a) => a.tripId !== tripId && a.actualRelativeTime < 600 && a.actualDate > tripInfo.actual[0].actualDate).slice(0, 5),
+			actual: busStop.actual.filter((a) => tripInfo.routeName !== a.patternText && a.actualRelativeTime < 1800 && a.actualDate > tripInfo.actual[0].actualDate).slice(0, 5),
 		};
 
 		if (!filteredStop.actual.length) return;
