@@ -35,8 +35,8 @@ export default function Trip({ tripId }: { tripId: string }) {
 	} = useQuery({
 		queryKey: ['tripInfo'],
 		queryFn: async () => {
-			const res = await getTripInfo(tripId);
 			queryClient.invalidateQueries({ queryKey: ['connectingBus'] });
+			const res = await getTripInfo(tripId);
 			return res;
 		},
 		refetchInterval: 10_000,
@@ -115,6 +115,15 @@ export default function Trip({ tripId }: { tripId: string }) {
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 				</div>
 				<KVGTable data={filteredStop} isPaused={isPaused} />
+				{busStop.actual.filter((a) => tripInfo.routeName !== a.patternText && a.actualRelativeTime < 1800 && a.actualDate > tripInfo.actual[0].actualDate).length !==
+					filteredStop.actual.length && (
+					<Link
+						className='rounded text-center bg-secondary p-2 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+						href={`/echtzeit?stop=${tripInfo.actual[0].stop.shortName}`}
+					>
+						Mehr anzeigen
+					</Link>
+				)}
 			</div>
 		);
 	};
