@@ -54,7 +54,7 @@ export default function Searchbar({ allStops, currentStop }: { allStops: StopByC
 						onChange={(event) => setQuery(event.target.value)}
 						displayValue={(stop?: StopByCharacter) => (currentStop ? currentStop?.stopName || stop?.name || '' : '')}
 						placeholder='Suche nach einer Haltestelle'
-						autoFocus={!selectedStop}
+						// autoFocus={!selectedStop}
 					/>
 					<ComboboxButton className='absolute inset-y-0 right-0 flex items-center pr-2'>
 						<Image src='/magnifying-glass.svg' alt='magnifying-glass Icon' height={20} width={20} aria-hidden='true' className='dark:invert' />
