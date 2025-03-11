@@ -55,7 +55,7 @@ export default function DirectionFilter({ stop }: { stop: NormalizedKVGStops }) 
 				if (e.target.value === 'Alle Richtungen') {
 					router.push(pathname + '?' + removeQueryStrings(['direction']));
 				} else {
-					router.push(pathname + '?' + createQueryString('direction', e.target.value));
+					router.replace(pathname + '?' + createQueryString('direction', e.target.value));
 				}
 			}}
 			defaultValue={direction}

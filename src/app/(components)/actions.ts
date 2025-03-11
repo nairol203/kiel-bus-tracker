@@ -5,7 +5,7 @@ import moment from 'moment';
 
 export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string | null; direction?: string | null }): Promise<NormalizedKVGStops | undefined> {
 	const endpoint = new URL(`${API_BASE_URI}/internetservice/services/passageInfo/stopPassages/stop`);
-
+	console.log('FETCHING!');
 	if (!stopId) {
 		throw new Error(`getStopData(): No stopId provided but required.`);
 	}

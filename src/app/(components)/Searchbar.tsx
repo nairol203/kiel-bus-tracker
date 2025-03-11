@@ -2,15 +2,15 @@
 
 import { useBusStore } from '@/stores/bus-store';
 import { queryClient } from '@/utils/Providers';
+import { stops } from '@/utils/stops';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react';
 import Fuse from 'fuse.js';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Fragment, useMemo, useState } from 'react';
 
-export default function Searchbar({ allStops, currentStop }: { allStops: StopByCharacter[]; currentStop?: NormalizedKVGStops }) {
+export default function Searchbar({ currentStop }: { currentStop?: NormalizedKVGStops }) {
 	const router = useRouter();
-	const pathname = usePathname();
 
 	const [query, setQuery] = useState('');
 	const [disabled, setDisabled] = useState(false);
@@ -18,15 +18,15 @@ export default function Searchbar({ allStops, currentStop }: { allStops: StopByC
 	const { setLastSearches } = useBusStore();
 
 	const filteredStops = useMemo(() => {
-		const fuse = new Fuse(allStops, {
+		const fuse = new Fuse(stops, {
 			keys: ['name'],
 		});
 		const result = fuse.search(query.trim());
 		return result.map((item) => item.item).slice(0, 10);
-	}, [query, allStops]);
+	}, [query, stops]);
 
 	function updateQuery(selectedStop: StopByCharacter) {
-		router.push(pathname + `?stop=${selectedStop.number}`);
+		router.push(`/stop/${selectedStop.number}`);
 		queryClient.removeQueries({ queryKey: ['stopData'] });
 	}
 
