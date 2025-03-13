@@ -119,7 +119,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 					filteredStop.actual.length && (
 					<Link
 						className='rounded text-center bg-secondary p-2 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
-						href={`/echtzeit?stop=${tripInfo.actual[0].stop.shortName}`}
+						href={`/stop/${tripInfo.actual[0].stop.shortName}`}
 					>
 						Mehr anzeigen
 					</Link>
@@ -138,7 +138,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 				<div className='grid gap-1'>
 					{tripInfo.actual.map((a) => (
 						<Link
-							href={`/echtzeit?stop=${a.stop.shortName}`}
+							href={`/stop/${a.stop.shortName}`}
 							key={a.stopSequenceNumber}
 							className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
 						>
@@ -180,7 +180,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 							<DisclosurePanel transition className='grid origin-top gap-1 transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0'>
 								{tripInfo.old.toReversed().map((a) => (
 									<Link
-										href={`/echtzeit?stop=${a.stop.shortName}`}
+										href={`/stop/${a.stop.shortName}`}
 										key={`old_${a.stopSequenceNumber}`}
 										className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
 									>
