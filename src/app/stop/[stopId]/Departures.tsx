@@ -7,15 +7,20 @@ import KVGTable, { SkeletonKVGTable } from '@/app/(components)/KVGTable';
 import RouteFilter from '@/app/(components)/RouteFilter';
 import Searchbar from '@/app/(components)/Searchbar';
 import { queryClient } from '@/utils/Providers';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Departures({ stopId }: { stopId: string }) {
 	const searchParams = useSearchParams();
 
 	const routeId = searchParams.get('routeId');
 	const direction = searchParams.get('direction');
+
+	useEffect(() => {
+		mutation.mutate({ stopId, routeId, direction });
+	}, [searchParams, stopId, routeId, direction]);
 
 	const {
 		data: busStop,
@@ -25,8 +30,13 @@ export default function Departures({ stopId }: { stopId: string }) {
 		isLoading,
 	} = useQuery({
 		queryKey: ['stopData'],
-		queryFn: async () => getStopData({ stopId }),
+		queryFn: async () => getStopData({ stopId, direction, routeId }),
 		refetchInterval: 15_000,
+	});
+
+	const mutation = useMutation({
+		mutationFn: getStopData,
+		onSuccess: (data) => queryClient.setQueryData(['stopData'], data),
 	});
 
 	if (isLoading) {
@@ -72,7 +82,40 @@ export default function Departures({ stopId }: { stopId: string }) {
 						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 					</div>
 				</div>
-				<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} />
+				{mutation.isPending ? (
+					<div className='grid gap-1'>
+						<SkeletonKVGTable />
+						<SkeletonKVGTable />
+						<SkeletonKVGTable />
+						<SkeletonKVGTable />
+						<SkeletonKVGTable />
+					</div>
+				) : (
+					<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} />
+				)}
+			</div>
+		);
+	} else if (mutation.isPending) {
+		return (
+			<div className='mx-2 grid gap-2'>
+				<Searchbar />
+				<div className='grid grid-cols-2 gap-2 md:flex'>
+					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
+						Alle Linien
+						<div className='h-[15px] w-[15px]' />
+					</button>
+					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
+						Alle Richtungen
+						<div className='h-[15px] w-[15px]' />
+					</button>
+				</div>
+				<div className='grid gap-1'>
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+				</div>
 			</div>
 		);
 	}
