@@ -17,8 +17,6 @@ export default function Departures({ stopId }: { stopId: string }) {
 	const routeId = searchParams.get('routeId');
 	const direction = searchParams.get('direction');
 
-	console.log('rerendered!', routeId, direction);
-
 	const {
 		data: busStop,
 		isFetching,
