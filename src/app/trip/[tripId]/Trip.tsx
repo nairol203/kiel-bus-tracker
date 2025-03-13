@@ -96,7 +96,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 		} = useQuery({
 			queryKey: ['connectingBus'],
 			queryFn: () => getStopData({ stopId: tripInfo.actual[0].stop.shortName }),
-			refetchInterval: 10_000,
+			refetchInterval: 15_000,
 		});
 
 		if (!busStop) return;
