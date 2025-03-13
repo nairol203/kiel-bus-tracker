@@ -129,26 +129,52 @@ export default function Trip({ tripId }: { tripId: string }) {
 	};
 
 	const NextStops: React.FC<{}> = () => {
+		const stops = [...tripInfo.old, ...tripInfo.actual];
+
+		function formatStatus(status: 'STOPPING' | 'PREDICTED' | 'PLANNED' | 'DEPARTED') {
+			switch (status) {
+				case 'STOPPING':
+					return 'Hält';
+				case 'PLANNED':
+				case 'PREDICTED':
+					return 'Planmäßig';
+				case 'DEPARTED':
+					return 'Abgefahren';
+			}
+		}
+
 		return (
 			<div className='grid gap-2'>
 				<div className='flex items-center justify-between'>
 					<h2>Nächste Haltestellen</h2>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 				</div>
-				<div className='grid gap-1'>
-					{tripInfo.actual.map((a) => (
-						<Link
-							href={`/stop/${a.stop.shortName}`}
-							key={a.stopSequenceNumber}
-							className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
-						>
-							<span>{a.stop.name}</span>
-							{a.status === 'STOPPING'
-								? 'Sofort'
-								: useRelativeTimes
-									? formatTimeDifference(a.actualDate)
-									: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
-						</Link>
+				<div className='grid grid-cols-[1.25rem_1fr] gap-x-4'>
+					{stops.map((a, index) => (
+						<>
+							<div
+								className={`flex items-center justify-center row-span-2 ${a.status === 'DEPARTED' ? 'bg-accent/50' : 'bg-accent'} ${index === tripInfo.actual.length - 1 ? 'ronded-b-full' : ''}`}
+							>
+								<div className={`w-2 h-2 bg-secondary rounded-full`}></div>
+							</div>
+							<Link href={`/stop/${a.stop.shortName}`} key={a.stopSequenceNumber} className='flex justify-between items-center p-2'>
+								<span>
+									{a.stop.name}
+									<br />
+									<span className='text-sm'>{formatStatus(a.status)}</span>
+								</span>
+								{a.actualDate && (
+									<span>
+										{a.status === 'STOPPING'
+											? 'Sofort'
+											: useRelativeTimes
+												? formatTimeDifference(a.actualDate)
+												: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
+									</span>
+								)}
+							</Link>
+							<div className='border-t border-primary' />
+						</>
 					))}
 				</div>
 			</div>
@@ -163,38 +189,8 @@ export default function Trip({ tripId }: { tripId: string }) {
 			</h1>
 			{tripInfo.actual.length ? (
 				<>
-					<ConnectingBus />
+					{/* <ConnectingBus /> */}
 					<NextStops />
-					{!!tripInfo.old.length && (
-						<Disclosure as='div'>
-							<DisclosureButton className='group mb-1 flex w-full justify-between gap-4 rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'>
-								<span>Bereits angefahrende Haltestellen</span>
-								<Image
-									src='/chevron-down.svg'
-									alt='Pfeil der nach unten zeigt'
-									width={20}
-									height={20}
-									className='shrink-0 group-data-[open]:rotate-180 dark:invert'
-								/>
-							</DisclosureButton>
-							<DisclosurePanel transition className='grid origin-top gap-1 transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0'>
-								{tripInfo.old.toReversed().map((a) => (
-									<Link
-										href={`/stop/${a.stop.shortName}`}
-										key={`old_${a.stopSequenceNumber}`}
-										className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
-									>
-										<span>{a.stop.name}</span>
-										{a.actualDate
-											? useRelativeTimes
-												? formatTimeDifference(a.actualDate, true)
-												: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })
-											: ''}
-									</Link>
-								))}
-							</DisclosurePanel>
-						</Disclosure>
-					)}
 				</>
 			) : (
 				<>
