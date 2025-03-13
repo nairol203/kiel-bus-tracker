@@ -8,7 +8,7 @@ function formatDepartureTime(a: NormalizedActual, isPaused: boolean, useRelative
 	if (dateDiff >= -1 && dateDiff <= 1) {
 		return (
 			<>
-				<span className='row-span-2 flex items-center justify-end text-xl'>
+				<span className='row-span-2 flex items-center justify-end'>
 					{!isPaused && useRelativeTimes
 						? a.actualRelativeTime > 60
 							? `${Math.round(a.actualRelativeTime / 60)} min`
@@ -21,7 +21,7 @@ function formatDepartureTime(a: NormalizedActual, isPaused: boolean, useRelative
 	} else if (dateDiff >= 2) {
 		return (
 			<>
-				<span className='row-span-2 flex items-center justify-end text-xl'>
+				<span className='row-span-2 flex items-center justify-end'>
 					{!isPaused && useRelativeTimes
 						? a.actualRelativeTime > 60
 							? `${Math.round(a.actualRelativeTime / 60)} min`
@@ -36,7 +36,7 @@ function formatDepartureTime(a: NormalizedActual, isPaused: boolean, useRelative
 	} else if (dateDiff <= 2) {
 		return (
 			<>
-				<span className='row-span-2 flex items-center justify-end text-xl'>
+				<span className='row-span-2 flex items-center justify-end'>
 					{!isPaused && useRelativeTimes
 						? a.actualRelativeTime > 60
 							? `${Math.round(a.actualRelativeTime / 60)} min`
@@ -74,15 +74,14 @@ export default function KVGTable({
 			{showRouteAlerts && <RouteAlerts data={data} direction={direction} routeId={routeId} />}
 			{data.actual.length ? (
 				data.actual.map((actual, index) => (
-					<Link
-						href={`/trip/${actual.tripId}`}
-						className='grid grid-cols-[35px_1fr_75px] justify-between gap-2 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
-						key={`${index}-${actual.tripId}`}
-					>
-						<span className='rounded-lg bg-accent text-center text-darkMode-text dark:bg-darkMode-accent'>{actual.patternText}</span>
-						<span className='whitespace-nowrap'>{actual.direction}</span>
-						{formatDepartureTime(actual, isPaused, useRelativeTimes)}
-					</Link>
+					<>
+						<Link href={`/trip/${actual.tripId}`} className='grid grid-cols-[35px_1fr_75px] justify-between gap-2 p-2' key={`${index}-${actual.tripId}`}>
+							<span className='rounded-lg bg-accent text-center text-darkMode-text dark:bg-darkMode-accent'>{actual.patternText}</span>
+							<span className='whitespace-nowrap'>{actual.direction}</span>
+							{formatDepartureTime(actual, isPaused, useRelativeTimes)}
+						</Link>
+						<div className='border-t border-primary' />
+					</>
 				))
 			) : (
 				<div className='rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary'>Keine Daten</div>
@@ -96,7 +95,7 @@ export function SkeletonKVGTable() {
 		<div className='skeleton grid grid-cols-[35px_1fr_75px] justify-between gap-2 rounded p-2'>
 			<span>43</span>
 			<span>Kiel Hbf</span>
-			<span className='row-span-2 flex items-center justify-end text-xl'>22:26</span>
+			<span className='row-span-2 flex items-center justify-end'>22:26</span>
 			<span className='col-span-2 text-sm'>Planmäßig</span>
 		</div>
 	);
