@@ -149,7 +149,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 					<h2>Nächste Haltestellen</h2>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 				</div>
-				<div className='grid grid-cols-[1.25rem_1fr] gap-x-4'>
+				<div className='grid grid-cols-[1.25rem_1fr] gap-x-2'>
 					{stops.map((a, index) => (
 						<>
 							<div
@@ -165,11 +165,9 @@ export default function Trip({ tripId }: { tripId: string }) {
 								</span>
 								{a.actualDate && (
 									<span>
-										{a.status === 'STOPPING'
-											? 'Sofort'
-											: useRelativeTimes
-												? formatTimeDifference(a.actualDate)
-												: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
+										{useRelativeTimes
+											? formatTimeDifference(a.actualDate, a.status === 'DEPARTED')
+											: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
 									</span>
 								)}
 							</Link>
