@@ -80,11 +80,11 @@ export default function KVGTable({
 							<span className='whitespace-nowrap'>{actual.direction}</span>
 							{formatDepartureTime(actual, isPaused, useRelativeTimes)}
 						</Link>
-						<div className='border-t border-primary' />
+						{data.actual.length - 1 !== index && <div className='border-t border-primary' />}
 					</>
 				))
 			) : (
-				<div className='rounded bg-secondary p-2 shadow dark:bg-darkMode-secondary'>Keine Daten</div>
+				<div className='p-2'>Keine Daten</div>
 			)}
 		</div>
 	);

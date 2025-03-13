@@ -22,7 +22,7 @@ export default function RecommendedSearches() {
 									<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='md:group-hover:invert dark:invert' />
 									{stop.name}
 								</Link>
-								<div className='border-t border-primary' />
+								{lastSearches.length - 1 !== index && <div className='border-t border-primary' />}
 							</>
 						))}
 				</div>
@@ -55,7 +55,6 @@ export default function RecommendedSearches() {
 					<Image src='/arrow-up-trend.svg' height={20} width={20} alt='Clock rotate left icon' className='md:group-hover:invert dark:invert' />
 					{stops.find((stop) => stop.number === '1317')?.name || 'Unbekannte Haltestelle'}
 				</Link>
-				<div className='border-t border-primary' />
 			</div>
 		</>
 	);
