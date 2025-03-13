@@ -117,7 +117,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 				<KVGTable data={filteredStop} isPaused={isPaused} />
 				{busStop.actual.filter((a) => tripInfo.routeName !== a.patternText && a.actualRelativeTime < 1800 && a.actualDate > tripInfo.actual[0].actualDate).length !==
 					filteredStop.actual.length && (
-					<Link className='rounded text-center p-2' href={`/stop/${tripInfo.actual[0].stop.shortName}`}>
+					<Link className='rounded text-center p-2 bg-secondary dark:bg-darkMode-secondary shadow' href={`/stop/${tripInfo.actual[0].stop.shortName}`}>
 						Mehr anzeigen
 					</Link>
 				)}
