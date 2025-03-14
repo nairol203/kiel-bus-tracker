@@ -117,7 +117,10 @@ export default function Trip({ tripId }: { tripId: string }) {
 				<KVGTable data={filteredStop} isPaused={isPaused} />
 				{busStop.actual.filter((a) => tripInfo.routeName !== a.patternText && a.actualRelativeTime < 1800 && a.actualDate > tripInfo.actual[0].actualDate).length !==
 					filteredStop.actual.length && (
-					<Link className='rounded text-center p-2 bg-secondary dark:bg-darkMode-secondary shadow' href={`/stop/${tripInfo.actual[0].stop.shortName}`}>
+					<Link
+						className='rounded text-center p-2 bg-secondary shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+						href={`/stop/${tripInfo.actual[0].stop.shortName}`}
+					>
 						Mehr anzeigen
 					</Link>
 				)}
@@ -134,7 +137,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 					return 'Hält';
 				case 'PLANNED':
 				case 'PREDICTED':
-					return 'Planmäßig';
+					return 'Geplant';
 				case 'DEPARTED':
 					return 'Abgefahren';
 			}
@@ -150,11 +153,15 @@ export default function Trip({ tripId }: { tripId: string }) {
 					{stops.map((a, index) => (
 						<>
 							<div
-								className={`flex items-center justify-center row-span-2 ${a.status === 'DEPARTED' ? 'bg-accent/50' : 'bg-accent'} ${index === tripInfo.actual.length - 1 ? 'ronded-b-full' : ''}`}
+								className={`flex items-center justify-center ${a.status === 'DEPARTED' ? 'bg-accent/50' : 'bg-accent'} ${index === 0 ? 'rounded-t-full mt-1' : ''}  ${index === stops.length - 1 ? 'rounded-b-full mb-1' : ''}`}
 							>
 								<div className={`w-2 h-2 bg-secondary rounded-full`}></div>
 							</div>
-							<Link href={`/stop/${a.stop.shortName}`} key={a.stopSequenceNumber} className='flex justify-between items-center p-2'>
+							<Link
+								href={`/stop/${a.stop.shortName}`}
+								key={a.stopSequenceNumber}
+								className={`flex items-center justify-between gap-2 rounded bg-secondary p-2 my-1 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent ${a.status === 'DEPARTED' ? 'opacity-50' : ''}`}
+							>
 								<span>
 									{a.stop.name}
 									<br />
@@ -168,7 +175,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 									</span>
 								)}
 							</Link>
-							{stops.length - 1 !== index && <div className='border-t border-primary' />}
+							{/* {stops.length - 1 !== index && <div className='border-t border-primary' />} */}
 						</>
 					))}
 				</div>

@@ -69,19 +69,20 @@ export default function KVGTable({
 	const { useRelativeTimes } = useBusStore();
 
 	return (
-		<div className='grid'>
+		<div className='grid gap-2'>
 			{showGeneralAlerts && <GeneralAlerts data={data} />}
 			{showRouteAlerts && <RouteAlerts data={data} direction={direction} routeId={routeId} />}
 			{data.actual.length ? (
 				data.actual.map((actual, index) => (
-					<>
-						<Link href={`/trip/${actual.tripId}`} className='grid grid-cols-[35px_1fr_75px] justify-between gap-2 p-2' key={`${index}-${actual.tripId}`}>
-							<span className='rounded-lg bg-accent text-center text-darkMode-text dark:bg-darkMode-accent'>{actual.patternText}</span>
-							<span className='whitespace-nowrap'>{actual.direction}</span>
-							{formatDepartureTime(actual, isPaused, useRelativeTimes)}
-						</Link>
-						{data.actual.length - 1 !== index && <div className='border-t border-primary' />}
-					</>
+					<Link
+						href={`/trip/${actual.tripId}`}
+						className='grid grid-cols-[35px_1fr_75px] justify-between gap-2 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+						key={`${index}-${actual.tripId}`}
+					>
+						<span className='rounded-lg bg-accent text-center text-darkMode-text dark:bg-darkMode-accent'>{actual.patternText}</span>
+						<span className='whitespace-nowrap'>{actual.direction}</span>
+						{formatDepartureTime(actual, isPaused, useRelativeTimes)}
+					</Link>
 				))
 			) : (
 				<div className='p-2'>Keine Daten</div>
