@@ -1,12 +1,10 @@
 'use client';
 
 import { getStopData, getTripInfo } from '@/app/(components)/actions';
-import KVGTable from '@/app/(components)/KVGTable';
+import KVGTable, { SkeletonKVGTable } from '@/app/(components)/KVGTable';
 import { useBusStore } from '@/stores/bus-store';
 import { queryClient } from '@/utils/Providers';
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -35,7 +33,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 			const res = await getTripInfo(tripId);
 			return res;
 		},
-		refetchInterval: 10_000,
+		refetchInterval: 15_000,
 	});
 
 	const { useRelativeTimes } = useBusStore();
@@ -63,21 +61,31 @@ export default function Trip({ tripId }: { tripId: string }) {
 
 	if (!tripInfo) {
 		return (
-			<div className='mx-2 grid gap-2'>
+			<div className='mx-2 grid gap-3'>
+				<h1 className='flex gap-2'>
+					<span className='rounded-lg px-2 skeleton'>00</span>
+					<span className='skeleton'>Lorem ipsum.</span>
+				</h1>
 				<div className='flex items-center justify-between'>
-					<h1 className='skeleton'>Lorem ipsum dolor sit.</h1>
+					<h2 className='skeleton'>Lorem ipsum dolor sit.</h2>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 				</div>
 				<div className='grid gap-1'>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+				</div>
+				<div className='flex items-center justify-between'>
+					<h2 className='skeleton'>Lorem ipsum dolor sit.</h2>
+					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
+				</div>
+				<div className='grid gap-1'>
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
 				</div>
 			</div>
 		);
@@ -105,7 +113,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 		if (!filteredStop.actual.length) return;
 
 		return (
-			<div className='grid gap-2'>
+			<div className='grid gap-1'>
 				<div className='flex items-center justify-between'>
 					<h2>Anschluss Busse für {tripInfo.actual[0].stop.name}</h2>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
@@ -140,7 +148,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 		}
 
 		return (
-			<div className='grid gap-2'>
+			<div className='grid gap-1'>
 				<div className='flex items-center justify-between'>
 					<h2>Nächste Haltestellen</h2>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
@@ -149,14 +157,14 @@ export default function Trip({ tripId }: { tripId: string }) {
 					{stops.map((a, index) => (
 						<>
 							<div
-								className={`flex items-center justify-center ${a.status === 'DEPARTED' ? 'bg-accent/50' : 'bg-accent'} ${index === 0 ? 'rounded-t-full mt-1' : ''}  ${index === stops.length - 1 ? 'rounded-b-full mb-1' : ''}`}
+								className={`flex items-center justify-center ${a.status === 'DEPARTED' ? 'bg-accent/50' : 'bg-accent'} ${index === 0 ? 'rounded-t-full mt-0.5' : ''}  ${index === stops.length - 1 ? 'rounded-b-full mb-0.5' : ''}`}
 							>
 								<div className={`w-2 h-2 bg-secondary rounded-full`}></div>
 							</div>
 							<Link
 								href={`/stop/${a.stop.shortName}`}
 								key={a.stopSequenceNumber}
-								className={`flex items-center justify-between gap-2 rounded bg-secondary p-2 my-1 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent ${a.status === 'DEPARTED' ? 'opacity-50' : ''}`}
+								className={`flex items-center justify-between gap-2 rounded bg-secondary p-2 my-0.5 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent ${a.status === 'DEPARTED' ? 'opacity-50' : ''}`}
 							>
 								<span>
 									{a.stop.name}
@@ -165,7 +173,6 @@ export default function Trip({ tripId }: { tripId: string }) {
 								</span>
 								{a.actualDate && <span>{getTimeDisplay(a.actualDate, useRelativeTimes, isPaused, a.status === 'DEPARTED')}</span>}
 							</Link>
-							{/* {stops.length - 1 !== index && <div className='border-t border-primary' />} */}
 						</>
 					))}
 				</div>
