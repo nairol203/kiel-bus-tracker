@@ -1,55 +1,7 @@
 import { useBusStore } from '@/stores/bus-store';
 import Link from 'next/link';
 import { GeneralAlerts, RouteAlerts } from './alerts';
-
-function formatDepartureTime(a: NormalizedActual, isPaused: boolean, useRelativeTimes: boolean) {
-	const dateDiff = Math.floor((a.actualDate.getTime() - a.plannedDate.getTime()) / 1000 / 60);
-
-	if (dateDiff >= -1 && dateDiff <= 1) {
-		return (
-			<>
-				<span className='row-span-2 flex items-center justify-end'>
-					{!isPaused && useRelativeTimes
-						? a.actualRelativeTime > 60
-							? `${Math.round(a.actualRelativeTime / 60)} min`
-							: 'Sofort'
-						: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
-				</span>
-				<span className='col-span-2 text-sm'>Planmäßig</span>
-			</>
-		);
-	} else if (dateDiff >= 2) {
-		return (
-			<>
-				<span className='row-span-2 flex items-center justify-end'>
-					{!isPaused && useRelativeTimes
-						? a.actualRelativeTime > 60
-							? `${Math.round(a.actualRelativeTime / 60)} min`
-							: 'Sofort'
-						: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
-				</span>
-				<span className='col-span-2 text-sm'>
-					{dateDiff} min verspätet <s>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</s>
-				</span>
-			</>
-		);
-	} else if (dateDiff <= 2) {
-		return (
-			<>
-				<span className='row-span-2 flex items-center justify-end'>
-					{!isPaused && useRelativeTimes
-						? a.actualRelativeTime > 60
-							? `${Math.round(a.actualRelativeTime / 60)} min`
-							: 'Sofort'
-						: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
-				</span>
-				<span className='col-span-2 text-sm'>
-					{dateDiff * -1} min früher <s>{a.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</s>
-				</span>
-			</>
-		);
-	}
-}
+import BusStatus from './BusStatus';
 
 export default function KVGTable({
 	data,
@@ -69,7 +21,7 @@ export default function KVGTable({
 	const { useRelativeTimes } = useBusStore();
 
 	return (
-		<div className='grid gap-2'>
+		<div className='grid gap-1'>
 			{showGeneralAlerts && <GeneralAlerts data={data} />}
 			{showRouteAlerts && <RouteAlerts data={data} direction={direction} routeId={routeId} />}
 			{data.actual.length ? (
@@ -81,7 +33,7 @@ export default function KVGTable({
 					>
 						<span className='rounded-lg bg-accent text-center text-darkMode-text dark:bg-darkMode-accent'>{actual.patternText}</span>
 						<span className='whitespace-nowrap'>{actual.direction}</span>
-						{formatDepartureTime(actual, isPaused, useRelativeTimes)}
+						<BusStatus data={actual} isPaused={isPaused} useRelative={useRelativeTimes} />
 					</Link>
 				))
 			) : (

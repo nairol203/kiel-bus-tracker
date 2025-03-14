@@ -12,17 +12,13 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import HealthIndicator from 'src/app/(components)/HealthIndicator';
 
-function formatTimeDifference(date: Date, old = false) {
-	const currentTime = new Date();
-	const timeDifferenceMin = Math.floor((old ? currentTime.getTime() - date.getTime() : date.getTime() - currentTime.getTime()) / 1000 / 60);
-
-	if (old) {
-		return `vor ${timeDifferenceMin} min`;
-	} else if (timeDifferenceMin <= 0) {
-		return 'Sofort';
-	} else {
-		return `${timeDifferenceMin} min`;
+function getTimeDisplay(date: Date, useRelative: boolean, isPaused: boolean, departed = false) {
+	if (isPaused || !useRelative) {
+		return date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
 	}
+	const timeDifferenceMin = Math.floor(((new Date().getTime() - date.getTime()) * (departed ? 1 : -1)) / 60000);
+	if (departed) return `vor ${timeDifferenceMin} min`;
+	return timeDifferenceMin < 1 ? 'Sofort' : `${timeDifferenceMin} min`;
 }
 
 export default function Trip({ tripId }: { tripId: string }) {
@@ -167,13 +163,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 									<br />
 									<span className='text-sm'>{formatStatus(a.status)}</span>
 								</span>
-								{a.actualDate && (
-									<span>
-										{useRelativeTimes
-											? formatTimeDifference(a.actualDate, a.status === 'DEPARTED')
-											: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
-									</span>
-								)}
+								{a.actualDate && <span>{getTimeDisplay(a.actualDate, useRelativeTimes, isPaused, a.status === 'DEPARTED')}</span>}
 							</Link>
 							{/* {stops.length - 1 !== index && <div className='border-t border-primary' />} */}
 						</>
