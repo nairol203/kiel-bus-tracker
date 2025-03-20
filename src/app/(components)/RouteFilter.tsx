@@ -22,25 +22,7 @@ export default function RouteFilter({ stop }: { stop: NormalizedKVGStops }) {
 
 	const routes = [defaultRoute, ...(direction ? stop.routes.filter((route) => route.directions.includes(direction)) : stop.routes)];
 
-	const createQueryString = useCallback(
-		(name: string, value: string) => {
-			const params = new URLSearchParams(searchParams);
-			params.set(name, value);
-
-			return params.toString();
-		},
-		[searchParams],
-	);
-
-	const removeQueryStrings = useCallback(
-		(names: string[]) => {
-			const params = new URLSearchParams(searchParams);
-			names.forEach((name) => params.delete(name));
-
-			return params.toString();
-		},
-		[searchParams],
-	);
+	const updatedSearchParams = new URLSearchParams(searchParams);
 
 	return (
 		<Select
@@ -48,9 +30,11 @@ export default function RouteFilter({ stop }: { stop: NormalizedKVGStops }) {
 			onChange={(e) => {
 				if (!e.target.value || routeId === e.target.value) return;
 				if (e.target.value === 'all') {
-					router.push(pathname + '?' + removeQueryStrings(['routeId']));
+					updatedSearchParams.delete('routeId');
+					router.push(pathname + '?' + updatedSearchParams.toString());
 				} else {
-					router.push(pathname + '?' + createQueryString('routeId', e.target.value));
+					updatedSearchParams.set('routeId', e.target.value);
+					router.push(pathname + '?' + updatedSearchParams.toString());
 				}
 			}}
 			defaultValue={routeId ?? defaultRoute.id}

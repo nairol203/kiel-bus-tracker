@@ -1,28 +1,26 @@
 'use client';
 
+import { getStopData } from '@/app/(components)/actions';
+import DirectionFilter from '@/app/(components)/DirectionFilter';
+import HealthIndicator from '@/app/(components)/HealthIndicator';
+import KVGTable, { SkeletonKVGTable } from '@/app/(components)/KVGTable';
+import RouteFilter from '@/app/(components)/RouteFilter';
+import Searchbar from '@/app/(components)/Searchbar';
 import { queryClient } from '@/utils/Providers';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { getStopData } from '../(components)/actions';
-import HealthIndicator from '../(components)/HealthIndicator';
-import KVGTable, { SkeletonKVGTable } from '../(components)/KVGTable';
-import DirectionFilter from './DirectionFilter';
-import RouteFilter from './RouteFilter';
-import Searchbar from './Searchbar';
 
-export default function Departures({ stops }: { stops: StopByCharacter[] }) {
-	const router = useRouter();
-	const pathname = usePathname();
+export default function Departures({ stopId }: { stopId: string }) {
 	const searchParams = useSearchParams();
 
-	const stopId = searchParams.get('stop') as string;
-	const routeId = searchParams.get('routeId') ?? undefined;
-	const direction = searchParams.get('direction') ?? undefined;
+	const routeId = searchParams.get('routeId');
+	const direction = searchParams.get('direction');
 
 	useEffect(() => {
 		mutation.mutate({ stopId, routeId, direction });
-	}, [pathname, searchParams, stopId, routeId, direction]);
+	}, [searchParams, stopId, routeId, direction]);
 
 	const {
 		data: busStop,
@@ -32,10 +30,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 		isLoading,
 	} = useQuery({
 		queryKey: ['stopData'],
-		queryFn: async () => {
-			const res = await getStopData({ stopId, routeId, direction });
-			return res;
-		},
+		queryFn: async () => getStopData({ stopId, direction, routeId }),
 		refetchInterval: 15_000,
 	});
 
@@ -79,7 +74,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 	} else if (busStop) {
 		return (
 			<div className='mx-2 grid gap-2'>
-				<Searchbar allStops={stops} currentStop={busStop} />
+				<Searchbar currentStop={busStop} />
 				<div className='grid grid-cols-2 gap-2 md:flex'>
 					<RouteFilter stop={busStop} />
 					<DirectionFilter stop={busStop} />
@@ -103,7 +98,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 	} else if (mutation.isPending) {
 		return (
 			<div className='mx-2 grid gap-2'>
-				<Searchbar allStops={stops} />
+				<Searchbar />
 				<div className='grid grid-cols-2 gap-2 md:flex'>
 					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
 						Alle Linien
@@ -127,7 +122,7 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 
 	return (
 		<div className='mx-2 grid gap-2'>
-			<Searchbar allStops={stops} />
+			<Searchbar />
 			<div className='mt-2 grid gap-2'>
 				<h1>Fehler</h1>
 				<span>Die Haltestelle konnte nicht geladen werden.</span>
@@ -137,12 +132,12 @@ export default function Departures({ stops }: { stops: StopByCharacter[] }) {
 				>
 					Erneut versuchen
 				</button>
-				<button
-					onClick={() => router.push('/echtzeit')}
-					className='rounded bg-secondary px-2.5 py-1.5 text-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+				<Link
+					href='/'
+					className='text-center rounded bg-secondary px-2.5 py-1.5 text-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 				>
-					Zurück
-				</button>
+					Zurück zur Startseite
+				</Link>
 			</div>
 		</div>
 	);

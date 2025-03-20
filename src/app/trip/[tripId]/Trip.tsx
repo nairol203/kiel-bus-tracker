@@ -1,28 +1,22 @@
 'use client';
 
 import { getStopData, getTripInfo } from '@/app/(components)/actions';
-import KVGTable from '@/app/(components)/KVGTable';
+import KVGTable, { SkeletonKVGTable } from '@/app/(components)/KVGTable';
 import { useBusStore } from '@/stores/bus-store';
 import { queryClient } from '@/utils/Providers';
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import HealthIndicator from 'src/app/(components)/HealthIndicator';
 
-function formatTimeDifference(date: Date, old = false) {
-	const currentTime = new Date();
-	const timeDifferenceMin = Math.floor((old ? currentTime.getTime() - date.getTime() : date.getTime() - currentTime.getTime()) / 1000 / 60);
-
-	if (old) {
-		return `vor ${timeDifferenceMin} min`;
-	} else if (timeDifferenceMin <= 0) {
-		return 'Sofort';
-	} else {
-		return `${timeDifferenceMin} min`;
+function getTimeDisplay(date: Date, useRelative: boolean, isPaused: boolean, departed = false) {
+	if (isPaused || !useRelative) {
+		return date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
 	}
+	const timeDifferenceMin = Math.floor(((new Date().getTime() - date.getTime()) * (departed ? 1 : -1)) / 60000);
+	if (departed) return `vor ${timeDifferenceMin} min`;
+	return timeDifferenceMin < 1 ? 'Sofort' : `${timeDifferenceMin} min`;
 }
 
 export default function Trip({ tripId }: { tripId: string }) {
@@ -39,7 +33,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 			const res = await getTripInfo(tripId);
 			return res;
 		},
-		refetchInterval: 10_000,
+		refetchInterval: 15_000,
 	});
 
 	const { useRelativeTimes } = useBusStore();
@@ -67,21 +61,31 @@ export default function Trip({ tripId }: { tripId: string }) {
 
 	if (!tripInfo) {
 		return (
-			<div className='mx-2 grid gap-2'>
+			<div className='mx-2 grid gap-3'>
+				<h1 className='flex gap-2'>
+					<span className='rounded-lg px-2 skeleton'>00</span>
+					<span className='skeleton'>Lorem ipsum.</span>
+				</h1>
 				<div className='flex items-center justify-between'>
-					<h1 className='skeleton'>Lorem ipsum dolor sit.</h1>
+					<h2 className='skeleton'>Lorem ipsum dolor sit.</h2>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 				</div>
 				<div className='grid gap-1'>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
-					<div className='skeleton flex justify-between rounded p-2'>Lorem ipsum dolor sit amet.</div>
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+				</div>
+				<div className='flex items-center justify-between'>
+					<h2 className='skeleton'>Lorem ipsum dolor sit.</h2>
+					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
+				</div>
+				<div className='grid gap-1'>
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
 				</div>
 			</div>
 		);
@@ -96,7 +100,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 		} = useQuery({
 			queryKey: ['connectingBus'],
 			queryFn: () => getStopData({ stopId: tripInfo.actual[0].stop.shortName }),
-			refetchInterval: 10_000,
+			refetchInterval: 15_000,
 		});
 
 		if (!busStop) return;
@@ -109,7 +113,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 		if (!filteredStop.actual.length) return;
 
 		return (
-			<div className='grid gap-2'>
+			<div className='grid gap-1'>
 				<div className='flex items-center justify-between'>
 					<h2>Anschluss Busse für {tripInfo.actual[0].stop.name}</h2>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
@@ -118,8 +122,8 @@ export default function Trip({ tripId }: { tripId: string }) {
 				{busStop.actual.filter((a) => tripInfo.routeName !== a.patternText && a.actualRelativeTime < 1800 && a.actualDate > tripInfo.actual[0].actualDate).length !==
 					filteredStop.actual.length && (
 					<Link
-						className='rounded text-center bg-secondary p-2 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
-						href={`/echtzeit?stop=${tripInfo.actual[0].stop.shortName}`}
+						className='rounded text-center p-2 bg-secondary shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+						href={`/stop/${tripInfo.actual[0].stop.shortName}`}
 					>
 						Mehr anzeigen
 					</Link>
@@ -129,26 +133,47 @@ export default function Trip({ tripId }: { tripId: string }) {
 	};
 
 	const NextStops: React.FC<{}> = () => {
+		const stops = [...tripInfo.old, ...tripInfo.actual];
+
+		function formatStatus(status: 'STOPPING' | 'PREDICTED' | 'PLANNED' | 'DEPARTED') {
+			switch (status) {
+				case 'STOPPING':
+					return 'Hält';
+				case 'PLANNED':
+				case 'PREDICTED':
+					return 'Geplant';
+				case 'DEPARTED':
+					return 'Abgefahren';
+			}
+		}
+
 		return (
-			<div className='grid gap-2'>
+			<div className='grid gap-1'>
 				<div className='flex items-center justify-between'>
 					<h2>Nächste Haltestellen</h2>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 				</div>
-				<div className='grid gap-1'>
-					{tripInfo.actual.map((a) => (
-						<Link
-							href={`/echtzeit?stop=${a.stop.shortName}`}
-							key={a.stopSequenceNumber}
-							className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
-						>
-							<span>{a.stop.name}</span>
-							{a.status === 'STOPPING'
-								? 'Sofort'
-								: useRelativeTimes
-									? formatTimeDifference(a.actualDate)
-									: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}
-						</Link>
+				<div className='grid grid-cols-[1.25rem_1fr] gap-x-2'>
+					{stops.map((a, index) => (
+						<>
+							<div
+								className={`flex items-center justify-center ${a.status === 'DEPARTED' ? 'bg-accent/50' : 'bg-accent'} ${index === 0 ? 'rounded-t-full mt-0.5' : ''}  ${index === stops.length - 1 ? 'rounded-b-full mb-0.5' : ''}`}
+							>
+								<div className={`w-2 h-2 bg-secondary rounded-full`}></div>
+							</div>
+							<Link
+								href={`/stop/${a.stop.shortName}`}
+								key={a.stopSequenceNumber}
+								className={`flex items-center justify-between gap-2 rounded bg-secondary p-2 my-0.5 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent ${a.status === 'DEPARTED' ? 'opacity-50' : ''}`}
+							>
+								<span>
+									{a.stop.name}
+									<br />
+									<span className='text-sm'>{formatStatus(a.status)}</span>
+								</span>
+								{a.actualDate && <span>{getTimeDisplay(a.actualDate, useRelativeTimes, isPaused, a.status === 'DEPARTED')}</span>}
+							</Link>
+						</>
 					))}
 				</div>
 			</div>
@@ -165,36 +190,6 @@ export default function Trip({ tripId }: { tripId: string }) {
 				<>
 					<ConnectingBus />
 					<NextStops />
-					{!!tripInfo.old.length && (
-						<Disclosure as='div'>
-							<DisclosureButton className='group mb-1 flex w-full justify-between gap-4 rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'>
-								<span>Bereits angefahrende Haltestellen</span>
-								<Image
-									src='/chevron-down.svg'
-									alt='Pfeil der nach unten zeigt'
-									width={20}
-									height={20}
-									className='shrink-0 group-data-[open]:rotate-180 dark:invert'
-								/>
-							</DisclosureButton>
-							<DisclosurePanel transition className='grid origin-top gap-1 transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0'>
-								{tripInfo.old.toReversed().map((a) => (
-									<Link
-										href={`/echtzeit?stop=${a.stop.shortName}`}
-										key={`old_${a.stopSequenceNumber}`}
-										className='flex justify-between rounded bg-secondary p-2 shadow md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
-									>
-										<span>{a.stop.name}</span>
-										{a.actualDate
-											? useRelativeTimes
-												? formatTimeDifference(a.actualDate, true)
-												: a.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })
-											: ''}
-									</Link>
-								))}
-							</DisclosurePanel>
-						</Disclosure>
-					)}
 				</>
 			) : (
 				<>

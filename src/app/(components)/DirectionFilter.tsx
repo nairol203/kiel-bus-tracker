@@ -27,25 +27,7 @@ export default function DirectionFilter({ stop }: { stop: NormalizedKVGStops }) 
 	directions = filterUniqueAndSortAscending(directions);
 	directions.unshift('Alle Richtungen');
 
-	const createQueryString = useCallback(
-		(name: string, value: string) => {
-			const params = new URLSearchParams(searchParams);
-			params.set(name, value);
-
-			return params.toString();
-		},
-		[searchParams],
-	);
-
-	const removeQueryStrings = useCallback(
-		(names: string[]) => {
-			const params = new URLSearchParams(searchParams);
-			names.forEach((name) => params.delete(name));
-
-			return params.toString();
-		},
-		[searchParams],
-	);
+	const updatedSearchParams = new URLSearchParams(searchParams);
 
 	return (
 		<Select
@@ -53,9 +35,11 @@ export default function DirectionFilter({ stop }: { stop: NormalizedKVGStops }) 
 			onChange={(e) => {
 				if (!e.target.value || direction === e.target.value) return;
 				if (e.target.value === 'Alle Richtungen') {
-					router.push(pathname + '?' + removeQueryStrings(['direction']));
+					updatedSearchParams.delete('direction');
+					router.push(pathname + '?' + updatedSearchParams.toString());
 				} else {
-					router.push(pathname + '?' + createQueryString('direction', e.target.value));
+					updatedSearchParams.set('direction', e.target.value);
+					router.push(pathname + '?' + updatedSearchParams.toString());
 				}
 			}}
 			defaultValue={direction}

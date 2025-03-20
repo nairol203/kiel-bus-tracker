@@ -4,10 +4,9 @@ import Trip from './Trip';
 
 type Props = {
 	params: { tripId: string };
-	searchParams: {};
 };
 
-export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { tripId } = params;
 
 	if (!tripId) {
@@ -17,10 +16,10 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 	const data = await getTripInfo(tripId);
 
 	return {
-		title: `${data ? `${data.routeName} ${data.directionText} | KVG Bus Tracker` : 'KVG Bus Tracker'}`,
+		title: `${data?.routeName && data.directionText ? `${data.routeName} ${data.directionText} | KVG Bus Tracker` : 'KVG Bus Tracker'}`,
 	};
 }
 
-export default async function Page({ params, searchParams }: Props) {
+export default async function Page({ params }: Props) {
 	return <Trip tripId={params.tripId} />;
 }

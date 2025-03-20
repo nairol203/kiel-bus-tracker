@@ -25,7 +25,7 @@ export function GeneralAlerts({ data }: { data: NormalizedKVGStops }) {
 	);
 }
 
-export function RouteAlerts({ data, direction, routeId }: { data: NormalizedKVGStops; routeId?: string; direction?: string }) {
+export function RouteAlerts({ data, direction, routeId }: { data: NormalizedKVGStops; routeId?: string | null; direction?: string | null }) {
 	return (
 		<>
 			{data.routes
