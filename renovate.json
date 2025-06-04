@@ -1,18 +1,12 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:best-practises",
+    ":semanticCommits",
+    ":dependencyDashboard",
+    ":security:only-security-updates"
   ],
-  "assignees": ["nairol203"],
-  "packageRules": [
-    {
-      "enabled": false,
-      "matchPackageNames": [
-        "*"
-      ]
-    }
-  ],
-  "vulnerabilityAlerts": {
-    "enabled": true
-  },
-  "osvVulnerabilityAlerts": true
+  "assignees": [
+    "nairol203"
+  ]
 }
