@@ -1,12 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:best-practices",
-    ":semanticCommits",
-    ":dependencyDashboard",
+    "github>nairol203/renovate-config",
     "security:only-security-updates"
-  ],
-  "assignees": [
-    "nairol203"
   ]
 }
