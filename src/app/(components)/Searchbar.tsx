@@ -48,7 +48,7 @@ export default function Searchbar({ currentStop }: { currentStop?: NormalizedKVG
 					}, 50);
 					plausible('search', {
 						props: {
-							searchQuery: value,
+							searchQuery: `${value.number} (${value.name})`,
 						},
 					});
 				}
