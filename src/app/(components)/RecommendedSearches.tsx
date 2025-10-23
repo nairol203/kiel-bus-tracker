@@ -47,7 +47,7 @@ export default function RecommendedSearches() {
 					onClick={() =>
 						plausible('recommendedStop', {
 							props: {
-								searchQuery: `2387 ${stops.find((stop) => stop.number === '2387')?.name || 'Unbekannte Haltestelle'}`,
+								searchQuery: `2387 (${stops.find((stop) => stop.number === '2387')?.name || 'Unbekannte Haltestelle'})`,
 							},
 						})
 					}
@@ -61,7 +61,7 @@ export default function RecommendedSearches() {
 					onClick={() =>
 						plausible('recommendedStop', {
 							props: {
-								searchQuery: `1624 ${stops.find((stop) => stop.number === '1624')?.name || 'Unbekannte Haltestelle'}`,
+								searchQuery: `1624 (${stops.find((stop) => stop.number === '1624')?.name || 'Unbekannte Haltestelle'})`,
 							},
 						})
 					}
@@ -75,7 +75,7 @@ export default function RecommendedSearches() {
 					onClick={() =>
 						plausible('recommendedStop', {
 							props: {
-								searchQuery: `1312 ${stops.find((stop) => stop.number === '1312')?.name || 'Unbekannte Haltestelle'}`,
+								searchQuery: `1312 (${stops.find((stop) => stop.number === '1312')?.name || 'Unbekannte Haltestelle'})`,
 							},
 						})
 					}
@@ -89,7 +89,7 @@ export default function RecommendedSearches() {
 					onClick={() =>
 						plausible('recommendedStop', {
 							props: {
-								searchQuery: `2246 ${stops.find((stop) => stop.number === '2246')?.name || 'Unbekannte Haltestelle'}`,
+								searchQuery: `2246 (${stops.find((stop) => stop.number === '2246')?.name || 'Unbekannte Haltestelle'})`,
 							},
 						})
 					}
@@ -103,7 +103,7 @@ export default function RecommendedSearches() {
 					onClick={() =>
 						plausible('recommendedStop', {
 							props: {
-								searchQuery: `1317 ${stops.find((stop) => stop.number === '1317')?.name || 'Unbekannte Haltestelle'}`,
+								searchQuery: `1317 (${stops.find((stop) => stop.number === '1317')?.name || 'Unbekannte Haltestelle'})`,
 							},
 						})
 					}
