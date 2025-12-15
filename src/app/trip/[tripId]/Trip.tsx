@@ -127,7 +127,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 						{filteredStops.map((a, index) => (
 							<li className='ms-6 mb-2'>
 								<div
-									className={`absolute w-4 h-4 mt-1 -start-[9px] rounded-full border-4 bg-secondary dark:bg-darkMode-secondary ${index === 0 ? ' border-accent border-8' : 'border-slate-300 dark:border-slate-700'}`}
+									className={`absolute w-4 h-4 mt-1.5 -start-[9px] rounded-full border-4 bg-secondary dark:bg-darkMode-secondary ${index === 0 ? ' border-accent border-8' : 'border-slate-300 dark:border-slate-700'}`}
 								/>
 								<Link href={`/stop/${a.stop.shortName}`} key={a.stopSequenceNumber} className='flex items-center justify-between gap-2 rounded'>
 									<span className='text-lg font-semibold'>{a.stop.name}</span>
