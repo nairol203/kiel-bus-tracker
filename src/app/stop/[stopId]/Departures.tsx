@@ -19,7 +19,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 	const direction = searchParams.get('direction');
 
 	useEffect(() => {
-		mutation.mutate({ stopId, routeId, direction });
+		mutation.mutate();
 	}, [searchParams, stopId, routeId, direction]);
 
 	const {
@@ -36,7 +36,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 	});
 
 	const mutation = useMutation({
-		mutationFn: getStopData,
+		mutationFn: () => getStopData({ stopId, routeId, direction }),
 		onSuccess: (data) => queryClient.setQueryData(['stopData'], data),
 	});
 
