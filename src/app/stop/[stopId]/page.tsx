@@ -7,7 +7,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const { stopId } = params;
+	const { stopId } = await params;
 
 	if (!stopId) {
 		return {};
@@ -20,6 +20,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	};
 }
 
-export default function Page({ params }: Props) {
-	return <Departures stopId={params.stopId} />;
+export default async function Page({ params }: Props) {
+	return <Departures stopId={(await params).stopId} />;
 }
