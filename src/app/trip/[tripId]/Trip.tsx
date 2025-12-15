@@ -70,7 +70,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 					<h2 className='skeleton'>Lorem ipsum dolor sit.</h2>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 				</div>
-				<div className='grid gap-1'>
+				<div className='grid gap-2'>
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
@@ -79,7 +79,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 					<h2 className='skeleton'>Lorem ipsum dolor sit.</h2>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 				</div>
-				<div className='grid gap-1'>
+				<div className='grid gap-2'>
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />

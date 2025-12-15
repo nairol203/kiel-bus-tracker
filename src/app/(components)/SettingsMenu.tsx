@@ -19,7 +19,7 @@ export default function SettingsMenu() {
 			<Dialog open={isOpen} onClose={() => setIsOpen(false)} className='relative z-50'>
 				<DialogBackdrop className='fixed inset-0 bg-text/50' />
 				<div className='fixed inset-0 flex w-screen items-center justify-center p-4'>
-					<DialogPanel className='min-h-80 min-w-80 max-w-lg space-y-4 rounded bg-background p-4 dark:bg-darkMode-background'>
+					<DialogPanel className='min-h-80 min-w-80 max-w-lg space-y-4 rounded bg-secondary p-4 dark:bg-darkMode-background'>
 						<div className='flex items-center justify-between gap-2'>
 							<DialogTitle className='font-bold'>Einstellungen</DialogTitle>
 							<CloseButton className='rounded p-2 md:hover:bg-secondary md:hover:text-darkMode-text dark:md:hover:bg-darkMode-secondary'>
@@ -29,7 +29,7 @@ export default function SettingsMenu() {
 						<div className='grid grid-cols-[1fr_6.5rem] items-center justify-between gap-1'>
 							<h3>Darstellungsmodus</h3>
 							<Select
-								className='row-span-2 flex items-center justify-between gap-2 rounded bg-secondary p-2 shadow transition duration-200 dark:bg-darkMode-secondary'
+								className='row-span-2 flex items-center justify-between gap-2 rounded p-2 shadow transition duration-200 dark:bg-darkMode-secondary'
 								onChange={(e) => setTheme(e.target.value)}
 							>
 								<option key='light' value='light' selected={theme === 'light'}>

@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<PlausibleProvider domain='bus.nairol.me' customDomain='https://analytics.nairol.me' selfHosted />
 			</head>
 			<body className='mx-auto max-w-3xl'>
-				<ThemeProvider attribute="class">
+				<ThemeProvider attribute='class'>
 					<header className='mx-auto flex items-center justify-between px-2 py-4'>
 						<Link href='/' className='flex gap-2 items-center '>
 							<Image src='/icon.svg' alt='KVG Bus Tracker Logo' width={30} height={30} />
@@ -49,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<main className='min-h-screen'>
 						<Providers>{children}</Providers>
 					</main>
-					<footer className='text-gray-400 grid justify-center gap-2 p-4 text-sm sm:flex sm:gap-1'>
+					<footer className='text-gray-600 grid justify-center gap-2 p-4 text-sm sm:flex sm:gap-1'>
 						<a href='https://nairol.me' target='_blank' rel='noreferrer' className='flex justify-center hover:underline'>
 							© 2025 nairol.me
 						</a>

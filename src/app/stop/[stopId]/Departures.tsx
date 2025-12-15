@@ -62,7 +62,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 						</div>
 					</div>
 				</div>
-				<div className='grid gap-1'>
+				<div className='grid gap-2'>
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
@@ -83,7 +83,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 					</div>
 				</div>
 				{mutation.isPending ? (
-					<div className='grid gap-1'>
+					<div className='grid gap-2'>
 						<SkeletonKVGTable />
 						<SkeletonKVGTable />
 						<SkeletonKVGTable />
@@ -109,7 +109,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 						<div className='h-[15px] w-[15px]' />
 					</button>
 				</div>
-				<div className='grid gap-1'>
+				<div className='grid gap-2'>
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
