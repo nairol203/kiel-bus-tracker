@@ -42,7 +42,7 @@ export default function KVGTable({
 					data.actual.map((actual, index) => (
 						<Link
 							href={`/trip/${actual.tripId}`}
-							className='flex flex-col gap-1 min-w-40 w-40 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary hover:dark:bg-secondary/10'
+							className='flex flex-col gap-1 min-w-40 w-40 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary md:hover:dark:bg-secondary/10'
 							key={`${index}-${actual.tripId}`}
 						>
 							<span className='rounded-lg  bg-accent text-center font-bold w-8 h-8 flex items-center justify-center text-darkMode-text dark:bg-darkMode-accent'>
@@ -74,7 +74,7 @@ export default function KVGTable({
 				data.actual.map((actual, index) => (
 					<Link
 						href={`/trip/${actual.tripId}`}
-						className='grid grid-cols-[35px_1fr_75px] justify-between items-center gap-x-4 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary hover:dark:bg-secondary/10'
+						className='grid grid-cols-[35px_1fr_75px] justify-between items-center gap-x-4 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary md:hover:dark:bg-secondary/10'
 						key={`${index}-${actual.tripId}`}
 					>
 						<span className='rounded-lg bg-accent text-center text-xl font-bold w-10 h-10 flex items-center justify-center text-darkMode-text dark:bg-darkMode-accent'>
