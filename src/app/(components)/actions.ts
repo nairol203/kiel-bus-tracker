@@ -1,7 +1,14 @@
 'use server';
 
 import { API_BASE_URI } from '@/utils/api';
-import moment from 'moment';
+
+const parseTime = (timeStr?: string): Date => {
+	if (!timeStr) return new Date(NaN);
+	const [hours, minutes] = timeStr.split(':').map(Number);
+	const date = new Date();
+	date.setHours(hours, minutes, 0, 0);
+	return date;
+};
 
 export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string | null; direction?: string | null }): Promise<NormalizedKVGStops | undefined> {
 	const endpoint = new URL(`${API_BASE_URI}/internetservice/services/passageInfo/stopPassages/stop`);
@@ -34,12 +41,11 @@ export async function getStopData({ stopId, routeId, direction }: { stopId: stri
 		const data: KVGStops = await res.json();
 
 		const normalizedActual: NormalizedActual[] = data.actual.map((actual) => {
-			const actualMoment = actual.actualRelativeTime ? moment.unix(moment.now() / 1000 + actual.actualRelativeTime) : moment(actual.actualTime, ['HH:mm']);
-			const plannedMoment = moment(actual.plannedTime, ['HH:mm']);
+			const actualDate = actual.actualRelativeTime ? new Date(Date.now() + actual.actualRelativeTime * 1000) : parseTime(actual.actualTime);
 
 			return {
-				plannedDate: new Date(plannedMoment.toDate()),
-				actualDate: new Date(actualMoment.toDate()),
+				plannedDate: parseTime(actual.plannedTime),
+				actualDate,
 				actualRelativeTime: actual.actualRelativeTime,
 				patternText: actual.patternText,
 				direction: actual.direction,
@@ -90,7 +96,7 @@ export async function getTripInfo(tripId: string): Promise<NormalizedStopInfo | 
 		const data: StopInfo = await res.json();
 
 		const normalizedActual: NormalizedStopInfoActual[] = data.actual.map((actual) => ({
-			actualDate: new Date(moment(actual.actualTime, ['HH:mm']).toDate()),
+			actualDate: parseTime(actual.actualTime),
 			status: actual.status,
 			stop: actual.stop,
 			stopSequenceNumber: +actual.stop_seq_num,
@@ -103,7 +109,7 @@ export async function getTripInfo(tripId: string): Promise<NormalizedStopInfo | 
 				stopSequenceNumber: +actual.stop_seq_num,
 			};
 
-			if (actual.actualTime) data.actualDate = new Date(moment(actual.actualTime, ['HH:mm']).toDate());
+			if (actual.actualTime) data.actualDate = parseTime(actual.actualTime);
 
 			return data;
 		});
