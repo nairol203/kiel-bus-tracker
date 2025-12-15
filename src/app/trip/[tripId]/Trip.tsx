@@ -26,6 +26,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 		isFetching,
 		isError,
 		isPaused,
+		dataUpdatedAt,
 	} = useQuery({
 		queryKey: ['tripInfo'],
 		queryFn: async () => {
@@ -68,7 +69,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 				</h1>
 				<div className='flex items-center justify-between'>
 					<h2 className='skeleton'>Lorem ipsum dolor sit.</h2>
-					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
+					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
 				</div>
 				<div className='grid gap-2'>
 					<SkeletonKVGTable />
@@ -77,7 +78,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 				</div>
 				<div className='flex items-center justify-between'>
 					<h2 className='skeleton'>Lorem ipsum dolor sit.</h2>
-					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
+					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
 				</div>
 				<div className='grid gap-2'>
 					<SkeletonKVGTable />
@@ -114,10 +115,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 
 		return (
 			<div className='grid gap-2'>
-				<div className='flex items-center justify-between'>
-					<h2>Anschluss Busse für {tripInfo.actual[0].stop.name}</h2>
-					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
-				</div>
+				<h2>Anschluss Busse für {tripInfo.actual[0].stop.name}</h2>
 				<KVGTable data={filteredStop} isPaused={isPaused} />
 				{busStop.actual.filter((a) => tripInfo.routeName !== a.patternText && a.actualRelativeTime < 1800 && a.actualDate > tripInfo.actual[0].actualDate).length !==
 					filteredStop.actual.length && (
@@ -138,10 +136,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 
 		return (
 			<div className='grid gap-2'>
-				<div className='flex items-center justify-between'>
-					<h2>Nächste Haltestellen</h2>
-					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
-				</div>
+				<h2>Nächste Haltestellen</h2>
 				<div className='grid grid-cols-[1.25rem_1fr] gap-x-2'>
 					{filteredStops.map((a, index) => (
 						<>
@@ -160,6 +155,9 @@ export default function Trip({ tripId }: { tripId: string }) {
 							</Link>
 						</>
 					))}
+				</div>
+				<div className='flex mt-2 justify-center'>
+					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
 				</div>
 			</div>
 		);

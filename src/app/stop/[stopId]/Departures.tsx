@@ -28,6 +28,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 		isError,
 		isPaused,
 		isLoading,
+		dataUpdatedAt,
 	} = useQuery({
 		queryKey: ['stopData'],
 		queryFn: async () => getStopData({ stopId, direction, routeId }),
@@ -75,12 +76,9 @@ export default function Departures({ stopId }: { stopId: string }) {
 		return (
 			<div className='mx-2 grid gap-2'>
 				<Searchbar currentStop={busStop} />
-				<div className='grid grid-cols-2 gap-2 md:flex'>
+				<div className='grid grid-cols-2 gap-2 md:flex mb-4'>
 					<RouteFilter stop={busStop} />
 					<DirectionFilter stop={busStop} />
-					<div className='col-span-2 flex items-center justify-end md:ml-auto'>
-						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
-					</div>
 				</div>
 				{mutation.isPending ? (
 					<div className='grid gap-2'>
@@ -93,6 +91,9 @@ export default function Departures({ stopId }: { stopId: string }) {
 				) : (
 					<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} />
 				)}
+				<div className='flex items-center justify-center md:ml-auto mt-2'>
+					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
+				</div>
 			</div>
 		);
 	} else if (mutation.isPending) {
