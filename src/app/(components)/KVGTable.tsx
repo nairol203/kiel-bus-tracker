@@ -13,8 +13,8 @@ function getTimeDisplay(date: Date, relativeTime: number, useRelative: boolean, 
 function getStatus(plannedDate: Date, actualDate: Date) {
 	const diffInMinutes = (actualDate.getTime() - plannedDate.getTime()) / 60000;
 	const plannedTimeString = plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-	if (diffInMinutes > 2) return `${Math.round(diffInMinutes)} min Verspätung`;
-	if (diffInMinutes < -2) return `${Math.round(diffInMinutes)} min früher`;
+	if (diffInMinutes > 3) return `${Math.round(diffInMinutes)} min Verspätung`;
+	if (diffInMinutes < -3) return `${Math.round(diffInMinutes)} min früher`;
 	return '';
 }
 
