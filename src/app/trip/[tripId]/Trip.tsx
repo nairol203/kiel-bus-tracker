@@ -125,11 +125,11 @@ export default function Trip({ tripId }: { tripId: string }) {
 				<div className='bg-secondary dark:bg-darkMode-secondary p-4 rounded'>
 					<ul className='grid relative gap-4 border-s-2 ml-2 mt-2 border-slate-300 dark:border-slate-700 border-default'>
 						{filteredStops.map((a, index) => (
-							<li className='ms-6 mb-2'>
+							<li className='ms-6 mb-2' key={a.stopSequenceNumber}>
 								<div
 									className={`absolute w-4 h-4 mt-1.5 -start-[9px] rounded-full border-4 bg-secondary dark:bg-darkMode-secondary ${index === 0 ? ' border-accent border-8' : 'border-slate-300 dark:border-slate-700'}`}
 								/>
-								<Link href={`/stop/${a.stop.shortName}`} key={a.stopSequenceNumber} className='flex items-center justify-between gap-2 rounded'>
+								<Link href={`/stop/${a.stop.shortName}`} className='flex items-center justify-between gap-2 rounded'>
 									<span className='font-semibold'>{a.stop.name}</span>
 									{a.actualDate && <span className='text-lg font-bold'>{getTimeDisplay(a.actualDate, useRelativeTimes, isPaused, false)}</span>}
 								</Link>
