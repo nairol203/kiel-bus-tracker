@@ -23,6 +23,7 @@ export default function KVGTable({
 	routeId,
 	showGeneralAlerts = true,
 	showRouteAlerts = true,
+	orientation = 'vertical',
 }: {
 	data: NormalizedKVGStops;
 	isPaused: boolean;
@@ -30,8 +31,40 @@ export default function KVGTable({
 	direction?: string | null;
 	showGeneralAlerts?: boolean;
 	showRouteAlerts?: boolean;
+	orientation?: 'vertical' | 'horizontal';
 }) {
 	const { useRelativeTimes } = useBusStore();
+
+	if (orientation == 'horizontal') {
+		return (
+			<div className='flex gap-2 overflow-scroll '>
+				{data.actual.length ? (
+					data.actual.map((actual, index) => (
+						<Link
+							href={`/trip/${actual.tripId}`}
+							className='flex flex-col gap-1 min-w-40 w-40 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary hover:dark:bg-secondary/10'
+							key={`${index}-${actual.tripId}`}
+						>
+							<span className='rounded-lg  bg-accent text-center font-bold w-8 h-8 flex items-center justify-center text-darkMode-text dark:bg-darkMode-accent'>
+								{actual.patternText}
+							</span>
+							<span className='font-semibold hyphens-auto break-word'>{actual.direction}</span>
+							<span className={`text-sm ${getStatus(actual.plannedDate, actual.actualDate).toString().includes('Verspätung') ? 'text-red-500' : 'text-accent'}`}>
+								{getStatus(actual.plannedDate, actual.actualDate)}
+							</span>
+							<span
+								className={`mt-auto font-bold text-lg ${getStatus(actual.plannedDate, actual.actualDate).toString().includes('Verspätung') ? 'text-red-500' : ''}`}
+							>
+								{getTimeDisplay(actual.actualDate, actual.actualRelativeTime, useRelativeTimes, isPaused)}
+							</span>
+						</Link>
+					))
+				) : (
+					<div className='p-2'>Keine Daten</div>
+				)}
+			</div>
+		);
+	}
 
 	return (
 		<div className='grid gap-2'>
