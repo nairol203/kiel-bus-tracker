@@ -3,6 +3,21 @@ import Link from 'next/link';
 import { GeneralAlerts, RouteAlerts } from './alerts';
 import BusStatus from './BusStatus';
 
+function getTimeDisplay(date: Date, relativeTime: number, useRelative: boolean, isPaused: boolean) {
+	if (isPaused || !useRelative) {
+		return date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+	}
+	return relativeTime < 60 ? 'Sofort' : `${Math.round(relativeTime / 60)} min`;
+}
+
+function getStatus(plannedDate: Date, actualDate: Date) {
+	const diffInMinutes = (actualDate.getTime() - plannedDate.getTime()) / 60000;
+	const plannedTimeString = plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+	if (diffInMinutes > 2) return `${Math.round(diffInMinutes)} min Verspätung`;
+	if (diffInMinutes < -2) return `${Math.round(diffInMinutes)} min früher`;
+	return '';
+}
+
 export default function KVGTable({
 	data,
 	isPaused,
@@ -21,19 +36,30 @@ export default function KVGTable({
 	const { useRelativeTimes } = useBusStore();
 
 	return (
-		<div className='grid gap-1'>
+		<div className='grid gap-2'>
 			{showGeneralAlerts && <GeneralAlerts data={data} />}
 			{showRouteAlerts && <RouteAlerts data={data} direction={direction} routeId={routeId} />}
 			{data.actual.length ? (
 				data.actual.map((actual, index) => (
 					<Link
 						href={`/trip/${actual.tripId}`}
-						className='grid grid-cols-[35px_1fr_75px] justify-between gap-2 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+						className='grid grid-cols-[35px_1fr_75px] justify-between items-center gap-x-4 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary hover:dark:bg-secondary/10'
 						key={`${index}-${actual.tripId}`}
 					>
-						<span className='rounded-lg bg-accent text-center text-darkMode-text dark:bg-darkMode-accent'>{actual.patternText}</span>
-						<span className='whitespace-nowrap'>{actual.direction}</span>
-						<BusStatus data={actual} isPaused={isPaused} useRelative={useRelativeTimes} />
+						<span className='rounded-lg row-span-2 bg-accent text-center text-xl font-bold w-10 h-10 flex items-center justify-center text-darkMode-text dark:bg-darkMode-accent'>
+							{actual.patternText}
+						</span>
+						<div className='grid row-span-2'>
+							<span className='whitespace-nowrap font-semibold'>{actual.direction}</span>
+							<span className={`text-sm ${getStatus(actual.plannedDate, actual.actualDate).toString().includes('Verspätung') ? 'text-red-500' : 'text-accent'}`}>
+								{getStatus(actual.plannedDate, actual.actualDate)}
+							</span>
+						</div>
+						<span
+							className={`row-span-2 flex items-center justify-end font-bold text-lg ${getStatus(actual.plannedDate, actual.actualDate).toString().includes('Verspätung') ? 'text-red-500' : ''}`}
+						>
+							{getTimeDisplay(actual.actualDate, actual.actualRelativeTime, useRelativeTimes, isPaused)}
+						</span>
 					</Link>
 				))
 			) : (

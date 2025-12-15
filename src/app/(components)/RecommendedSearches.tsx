@@ -13,14 +13,14 @@ export default function RecommendedSearches() {
 	return (
 		<>
 			{lastSearches.length ? (
-				<div className='mt-2 grid gap-2'>
+				<div className='mt-2 grid gap-3'>
 					<h2>Letzte Suchanfragen</h2>
 					{lastSearches
 						.toReversed()
 						.slice(0, 10)
 						.map((stop, index) => (
 							<Link
-								className='group flex gap-3 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+								className='group flex gap-3 rounded bg-secondary font-semibold p-2.5 shadow transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary dark:md:hover:bg-secondary/10'
 								href={`/stop/${stop.number}`}
 								key={`${index}_${stop.id}`}
 								onClick={() =>
@@ -39,10 +39,10 @@ export default function RecommendedSearches() {
 			) : (
 				<></>
 			)}
-			<div className='mt-2 grid gap-2'>
+			<div className='mt-2 grid gap-3'>
 				<h2>Beliebte Suchanfragen</h2>
 				<Link
-					className='group flex gap-3 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+					className='group flex gap-3 rounded bg-secondary p-2.5 shadow transition font-semibold duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary dark:md:hover:bg-secondary/10'
 					href={'/stop/2387'}
 					onClick={() =>
 						plausible('recommendedStop', {
@@ -56,7 +56,7 @@ export default function RecommendedSearches() {
 					{stops.find((stop) => stop.number === '2387')?.name || 'Unbekannte Haltestelle'}
 				</Link>
 				<Link
-					className='group flex gap-3 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+					className='group flex gap-3 rounded bg-secondary p-2.5 shadow transition font-semibold duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary dark:md:hover:bg-secondary/10'
 					href={'/stop/1624'}
 					onClick={() =>
 						plausible('recommendedStop', {
@@ -70,7 +70,7 @@ export default function RecommendedSearches() {
 					{stops.find((stop) => stop.number === '1624')?.name || 'Unbekannte Haltestelle'}
 				</Link>
 				<Link
-					className='group flex gap-3 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+					className='group flex gap-3 rounded bg-secondary p-2.5 shadow transition font-semibold duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary dark:md:hover:bg-secondary/10'
 					href={'/stop/1312'}
 					onClick={() =>
 						plausible('recommendedStop', {
@@ -84,7 +84,7 @@ export default function RecommendedSearches() {
 					{stops.find((stop) => stop.number === '1312')?.name || 'Unbekannte Haltestelle'}
 				</Link>
 				<Link
-					className='group flex gap-3 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+					className='group flex gap-3 rounded bg-secondary p-2.5 shadow transition font-semibold duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary dark:md:hover:bg-secondary/10'
 					href={'/stop/2246'}
 					onClick={() =>
 						plausible('recommendedStop', {
@@ -98,7 +98,7 @@ export default function RecommendedSearches() {
 					{stops.find((stop) => stop.number === '2246')?.name || 'Unbekannte Haltestelle'}
 				</Link>
 				<Link
-					className='group flex gap-3 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+					className='group flex gap-3 rounded bg-secondary p-2.5 shadow transition font-semibold duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary dark:md:hover:bg-secondary/10'
 					href={'/stop/1317'}
 					onClick={() =>
 						plausible('recommendedStop', {

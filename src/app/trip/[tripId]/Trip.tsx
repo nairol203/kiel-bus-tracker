@@ -113,7 +113,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 		if (!filteredStop.actual.length) return;
 
 		return (
-			<div className='grid gap-1'>
+			<div className='grid gap-2'>
 				<div className='flex items-center justify-between'>
 					<h2>Anschluss Busse für {tripInfo.actual[0].stop.name}</h2>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
@@ -122,7 +122,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 				{busStop.actual.filter((a) => tripInfo.routeName !== a.patternText && a.actualRelativeTime < 1800 && a.actualDate > tripInfo.actual[0].actualDate).length !==
 					filteredStop.actual.length && (
 					<Link
-						className='rounded text-center p-2 bg-secondary shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent'
+						className='rounded text-center p-2 bg-secondary shadow transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary dark:md:hover:bg-secondary/10'
 						href={`/stop/${tripInfo.actual[0].stop.shortName}`}
 					>
 						Mehr anzeigen
@@ -134,44 +134,29 @@ export default function Trip({ tripId }: { tripId: string }) {
 
 	const NextStops: React.FC<{}> = () => {
 		const stops = [...tripInfo.old, ...tripInfo.actual];
-
-		function formatStatus(status: 'STOPPING' | 'PREDICTED' | 'PLANNED' | 'DEPARTED') {
-			switch (status) {
-				case 'STOPPING':
-					return 'Hält';
-				case 'PLANNED':
-				case 'PREDICTED':
-					return 'Geplant';
-				case 'DEPARTED':
-					return 'Abgefahren';
-			}
-		}
+		const filteredStops = stops.filter((a) => a.status !== 'DEPARTED');
 
 		return (
-			<div className='grid gap-1'>
+			<div className='grid gap-2'>
 				<div className='flex items-center justify-between'>
 					<h2>Nächste Haltestellen</h2>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} />
 				</div>
 				<div className='grid grid-cols-[1.25rem_1fr] gap-x-2'>
-					{stops.map((a, index) => (
+					{filteredStops.map((a, index) => (
 						<>
 							<div
-								className={`flex items-center justify-center ${a.status === 'DEPARTED' ? 'bg-accent/50' : 'bg-accent'} ${index === 0 ? 'rounded-t-full mt-0.5' : ''}  ${index === stops.length - 1 ? 'rounded-b-full mb-0.5' : ''}`}
+								className={`flex items-center justify-center bg-accent ${index === 0 ? 'rounded-t-full mt-0.5' : ''} ${index === filteredStops.length - 1 ? 'rounded-b-full mb-0.5' : ''}`}
 							>
-								<div className={`w-2 h-2 bg-secondary rounded-full`}></div>
+								<div className={`w-3 h-3 bg-secondary rounded-full`}></div>
 							</div>
 							<Link
 								href={`/stop/${a.stop.shortName}`}
 								key={a.stopSequenceNumber}
-								className={`flex items-center justify-between gap-2 rounded bg-secondary p-2 my-0.5 shadow transition duration-200 md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:md:hover:bg-darkMode-accent ${a.status === 'DEPARTED' ? 'opacity-50' : ''}`}
+								className='flex items-center justify-between gap-2 rounded bg-secondary px-2 py-3 my-1 shadow transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary dark:md:hover:bg-secondary/10'
 							>
-								<span>
-									{a.stop.name}
-									<br />
-									<span className='text-sm'>{formatStatus(a.status)}</span>
-								</span>
-								{a.actualDate && <span>{getTimeDisplay(a.actualDate, useRelativeTimes, isPaused, a.status === 'DEPARTED')}</span>}
+								<span className='font-semibold'>{a.stop.name}</span>
+								{a.actualDate && <span className='text-lg font-bold'>{getTimeDisplay(a.actualDate, useRelativeTimes, isPaused, false)}</span>}
 							</Link>
 						</>
 					))}
