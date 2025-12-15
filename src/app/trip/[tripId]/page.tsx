@@ -7,7 +7,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const { tripId } = params;
+	const { tripId } = await params;
 
 	if (!tripId) {
 		return {};
@@ -21,5 +21,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-	return <Trip tripId={params.tripId} />;
+	return <Trip tripId={(await params).tripId} />;
 }
