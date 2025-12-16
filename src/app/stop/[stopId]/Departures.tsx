@@ -84,7 +84,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 				) : (
 					<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} />
 				)}
-				<div className='flex items-center justify-center md:ml-auto mt-2'>
+				<div className='flex items-center justify-center mt-2'>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
 				</div>
 			</div>
