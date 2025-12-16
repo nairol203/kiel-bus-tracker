@@ -37,7 +37,7 @@ export default function KVGTable({
 
 	if (orientation == 'horizontal') {
 		return (
-			<div className='flex gap-2 overflow-scroll '>
+			<div className='flex gap-2 overflow-auto'>
 				{data.actual.length ? (
 					data.actual.map((actual, index) => (
 						<Link
