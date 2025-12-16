@@ -28,12 +28,8 @@ export default function Trip({ tripId }: { tripId: string }) {
 		isPaused,
 		dataUpdatedAt,
 	} = useQuery({
-		queryKey: ['tripInfo'],
-		queryFn: async () => {
-			queryClient.invalidateQueries({ queryKey: ['connectingBus'] });
-			const res = await getTripInfo(tripId);
-			return res;
-		},
+		queryKey: ['tripInfo', tripId],
+		queryFn: () => getTripInfo(tripId),
 		refetchInterval: 15_000,
 	});
 
@@ -45,7 +41,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 				<h1>Fehler</h1>
 				<span>Die Fahrt konnte nicht geladen werden.</span>
 				<button
-					onClick={() => queryClient.refetchQueries({ queryKey: ['tripInfo'] })}
+					onClick={() => queryClient.refetchQueries({ queryKey: ['tripInfo', tripId] })}
 					className='rounded bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
 				>
 					Erneut versuchen
@@ -93,7 +89,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 			isError,
 			isPaused,
 		} = useQuery({
-			queryKey: ['connectingBus'],
+			queryKey: ['connectingBus', tripId],
 			queryFn: () => getStopData({ stopId: tripInfo.actual[0].stop.shortName }),
 			refetchInterval: 15_000,
 		});
