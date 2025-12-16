@@ -31,7 +31,7 @@ export default function RecommendedSearches() {
 									})
 								}
 							>
-								<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='md:group-hover:invert dark:invert' />
+								<Image src='/clock-rotate-left.svg' height={20} width={20} alt='Clock rotate left icon' className='dark:invert' />
 								{stop.name}
 							</Link>
 						))}
@@ -52,7 +52,7 @@ export default function RecommendedSearches() {
 						})
 					}
 				>
-					<Image src='/arrow-up-trend.svg' height={20} width={20} alt='Clock rotate left icon' className='md:group-hover:invert dark:invert' />
+					<Image src='/arrow-up-trend.svg' height={20} width={20} alt='Clock rotate left icon' className='dark:invert' />
 					{stops.find((stop) => stop.number === '2387')?.name || 'Unbekannte Haltestelle'}
 				</Link>
 				<Link
@@ -66,7 +66,7 @@ export default function RecommendedSearches() {
 						})
 					}
 				>
-					<Image src='/arrow-up-trend.svg' height={20} width={20} alt='Clock rotate left icon' className='md:group-hover:invert dark:invert' />
+					<Image src='/arrow-up-trend.svg' height={20} width={20} alt='Clock rotate left icon' className='dark:invert' />
 					{stops.find((stop) => stop.number === '1624')?.name || 'Unbekannte Haltestelle'}
 				</Link>
 				<Link
@@ -80,7 +80,7 @@ export default function RecommendedSearches() {
 						})
 					}
 				>
-					<Image src='/arrow-up-trend.svg' height={20} width={20} alt='Clock rotate left icon' className='md:group-hover:invert dark:invert' />
+					<Image src='/arrow-up-trend.svg' height={20} width={20} alt='Clock rotate left icon' className='dark:invert' />
 					{stops.find((stop) => stop.number === '1312')?.name || 'Unbekannte Haltestelle'}
 				</Link>
 				<Link
@@ -94,7 +94,7 @@ export default function RecommendedSearches() {
 						})
 					}
 				>
-					<Image src='/arrow-up-trend.svg' height={20} width={20} alt='Clock rotate left icon' className='md:group-hover:invert dark:invert' />
+					<Image src='/arrow-up-trend.svg' height={20} width={20} alt='Clock rotate left icon' className='dark:invert' />
 					{stops.find((stop) => stop.number === '2246')?.name || 'Unbekannte Haltestelle'}
 				</Link>
 				<Link
@@ -108,7 +108,7 @@ export default function RecommendedSearches() {
 						})
 					}
 				>
-					<Image src='/arrow-up-trend.svg' height={20} width={20} alt='Clock rotate left icon' className='md:group-hover:invert dark:invert' />
+					<Image src='/arrow-up-trend.svg' height={20} width={20} alt='Clock rotate left icon' className='dark:invert' />
 					{stops.find((stop) => stop.number === '1317')?.name || 'Unbekannte Haltestelle'}
 				</Link>
 			</div>
