@@ -4,7 +4,7 @@ export default function HealthIndicator({ isError, isFetching, isPaused, dataUpd
 			<>
 				<div className='px-2.5 py-1'>
 					<span className='relative flex h-3 w-3'>
-						<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full bg-primary opacity-75 dark:bg-darkMode-primary`}></span>
+						<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full bg-gray-700 opacity-75 dark:bg-gray-500`}></span>
 						<span className={'relative inline-flex h-3 w-3 rounded-full bg-gray-600 dark:bg-gray-200'}></span>
 					</span>
 				</div>
@@ -17,7 +17,7 @@ export default function HealthIndicator({ isError, isFetching, isPaused, dataUpd
 			<>
 				<div className='px-2.5 py-1'>
 					<span className='relative flex h-3 w-3'>
-						<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full bg-primary opacity-75 dark:bg-darkMode-primary`}></span>
+						<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full bg-red-700 opacity-75 dark:bg-red-700`}></span>
 						<span className={'relative inline-flex h-3 w-3 rounded-full bg-red-500'}></span>
 					</span>
 				</div>
@@ -29,7 +29,7 @@ export default function HealthIndicator({ isError, isFetching, isPaused, dataUpd
 		<>
 			<div className='px-2.5 py-1'>
 				<span className='relative flex h-3 w-3'>
-					<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full bg-primary opacity-75 dark:bg-darkMode-primary`}></span>
+					<span className={`${isFetching && 'animate-ping'} absolute inline-flex h-full w-full rounded-full bg-green-800 opacity-75 dark:bg-green-400`}></span>
 					<span className={`relative inline-flex h-3 w-3 rounded-full bg-green-600`}></span>
 				</span>
 			</div>
