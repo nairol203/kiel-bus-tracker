@@ -30,7 +30,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 		isLoading,
 		dataUpdatedAt,
 	} = useQuery({
-		queryKey: ['stopData'],
+		queryKey: ['stopData', stopId],
 		queryFn: async () => getStopData({ stopId, direction, routeId }),
 		refetchInterval: 15_000,
 	});
@@ -121,7 +121,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 				<h1>Fehler</h1>
 				<span>Die Haltestelle konnte nicht geladen werden.</span>
 				<button
-					onClick={() => queryClient.refetchQueries({ queryKey: ['stopData'] })}
+					onClick={() => queryClient.refetchQueries({ queryKey: ['stopData', stopId] })}
 					className='rounded bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
 				>
 					Erneut versuchen

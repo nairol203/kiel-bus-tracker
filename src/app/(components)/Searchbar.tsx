@@ -29,7 +29,6 @@ export default function Searchbar({ currentStop }: { currentStop?: NormalizedKVG
 
 	function updateQuery(selectedStop: StopByCharacter) {
 		router.push(`/stop/${selectedStop.number}`);
-		queryClient.removeQueries({ queryKey: ['stopData'] });
 	}
 
 	return (
