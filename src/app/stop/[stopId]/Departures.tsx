@@ -37,7 +37,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 
 	const mutation = useMutation({
 		mutationFn: () => getStopData({ stopId, routeId, direction }),
-		onSuccess: (data) => queryClient.setQueryData(['stopData'], data),
+		onSuccess: (data) => queryClient.setQueryData(['stopData', stopId], data),
 	});
 
 	if (isLoading) {
