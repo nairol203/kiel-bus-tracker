@@ -1,7 +1,6 @@
 'use client';
 
 import { useBusStore } from '@/stores/bus-store';
-import { queryClient } from '@/utils/Providers';
 import { stops } from '@/utils/stops';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react';
 import Fuse from 'fuse.js';
@@ -25,7 +24,7 @@ export default function Searchbar({ currentStop }: { currentStop?: NormalizedKVG
 		});
 		const result = fuse.search(query.trim());
 		return result.map((item) => item.item).slice(0, 10);
-	}, [query, stops]);
+	}, [query]);
 
 	function updateQuery(selectedStop: StopByCharacter) {
 		router.push(`/stop/${selectedStop.number}`);

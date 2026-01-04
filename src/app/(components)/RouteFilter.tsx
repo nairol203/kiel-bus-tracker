@@ -1,6 +1,5 @@
 import { Select } from '@headlessui/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
 
 export default function RouteFilter({ stop }: { stop: NormalizedKVGStops }) {
 	const router = useRouter();

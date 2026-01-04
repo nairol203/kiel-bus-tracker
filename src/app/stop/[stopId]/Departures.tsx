@@ -18,10 +18,6 @@ export default function Departures({ stopId }: { stopId: string }) {
 	const routeId = searchParams.get('routeId');
 	const direction = searchParams.get('direction');
 
-	useEffect(() => {
-		mutation.mutate();
-	}, [searchParams, stopId, routeId, direction]);
-
 	const {
 		data: busStop,
 		isFetching,
@@ -39,6 +35,10 @@ export default function Departures({ stopId }: { stopId: string }) {
 		mutationFn: () => getStopData({ stopId, routeId, direction }),
 		onSuccess: (data) => queryClient.setQueryData(['stopData', stopId], data),
 	});
+
+	useEffect(() => {
+		mutation.mutate();
+	}, [searchParams, stopId, routeId, direction, mutation]);
 
 	if (isLoading) {
 		return (

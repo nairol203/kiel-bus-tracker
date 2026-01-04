@@ -1,6 +1,6 @@
 interface KVGStops {
 	actual: Actual[];
-	directions: any[];
+	directions: any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
 	firstPassageTime: number;
 	generalAlerts: GeneralAlert[];
 	lastPassageTime: number;
@@ -26,7 +26,7 @@ interface Actual {
 
 interface NormalizedKVGStops {
 	actual: NormalizedActual[];
-	directions: any[];
+	directions: any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
 	generalAlerts: GeneralAlert[];
 	routes: Route[];
 	stopName: string;
