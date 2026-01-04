@@ -6,10 +6,6 @@ on:
     pull_request:
         branches: [main]
 
-env:
-    REGISTRY: ghcr.io
-    IMAGE_NAME: ${{ github.repository }}
-
 jobs:
     build-and-push-image:
         runs-on: ubuntu-latest
@@ -21,10 +17,10 @@ jobs:
             id-token: write
 
         steps:
-            - name: Log in to the container registry
+            - name: Log in to ghcr.io
               uses: docker/login-action@6862ffc5ab2cdb4405cf318a62a6f4c066e2298b #v3
               with:
-                  registry: ${{ env.REGISTRY }}
+                  registry: ghcr.io
                   username: ${{ github.repository_owner }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -32,7 +28,7 @@ jobs:
               id: meta
               uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 #v5
               with:
-                  images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+                  images: ghcr.io/${{ github.repository }}
 
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v3
