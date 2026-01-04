@@ -7,10 +7,9 @@ import KVGTable, { SkeletonKVGTable } from '@/app/(components)/KVGTable';
 import RouteFilter from '@/app/(components)/RouteFilter';
 import Searchbar from '@/app/(components)/Searchbar';
 import { queryClient } from '@/utils/Providers';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
 
 export default function Departures({ stopId }: { stopId: string }) {
 	const searchParams = useSearchParams();
@@ -24,21 +23,14 @@ export default function Departures({ stopId }: { stopId: string }) {
 		isError,
 		isPaused,
 		isLoading,
+		isPlaceholderData,
 		dataUpdatedAt,
 	} = useQuery({
-		queryKey: ['stopData', stopId],
+		queryKey: ['stopData', stopId, routeId, direction],
 		queryFn: async () => getStopData({ stopId, direction, routeId }),
+		placeholderData: keepPreviousData,
 		refetchInterval: 15_000,
 	});
-
-	const mutation = useMutation({
-		mutationFn: () => getStopData({ stopId, routeId, direction }),
-		onSuccess: (data) => queryClient.setQueryData(['stopData', stopId], data),
-	});
-
-	useEffect(() => {
-		mutation.mutate();
-	}, [searchParams, stopId, routeId, direction, mutation]);
 
 	if (isLoading) {
 		return (
@@ -73,7 +65,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 					<RouteFilter stop={busStop} />
 					<DirectionFilter stop={busStop} />
 				</div>
-				{mutation.isPending ? (
+				{isPlaceholderData ? (
 					<div className='grid gap-2'>
 						<SkeletonKVGTable />
 						<SkeletonKVGTable />
@@ -89,29 +81,6 @@ export default function Departures({ stopId }: { stopId: string }) {
 				</div>
 			</div>
 		);
-	} else if (mutation.isPending) {
-		return (
-			<div className='mx-2 grid gap-2'>
-				<Searchbar />
-				<div className='grid grid-cols-2 gap-2 md:flex'>
-					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
-						Alle Linien
-						<div className='h-[15px] w-[15px]' />
-					</button>
-					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
-						Alle Richtungen
-						<div className='h-[15px] w-[15px]' />
-					</button>
-				</div>
-				<div className='grid gap-2'>
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-				</div>
-			</div>
-		);
 	}
 
 	return (
@@ -121,7 +90,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 				<h1>Fehler</h1>
 				<span>Die Haltestelle konnte nicht geladen werden.</span>
 				<button
-					onClick={() => queryClient.refetchQueries({ queryKey: ['stopData', stopId] })}
+					onClick={() => queryClient.refetchQueries({ queryKey: ['stopData', stopId, routeId, direction] })}
 					className='rounded bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
 				>
 					Erneut versuchen
