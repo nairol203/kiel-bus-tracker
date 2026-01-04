@@ -82,13 +82,8 @@ export default function Trip({ tripId }: { tripId: string }) {
 		);
 	}
 
-	const ConnectingBus: React.FC<{}> = () => {
-		const {
-			data: busStop,
-			isFetching,
-			isError,
-			isPaused,
-		} = useQuery({
+	const ConnectingBus: React.FC<object> = () => {
+		const { data: busStop, isPaused } = useQuery({
 			queryKey: ['connectingBus', tripId],
 			queryFn: () => getStopData({ stopId: tripInfo.actual[0].stop.shortName }),
 			refetchInterval: 15_000,
@@ -111,7 +106,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 		);
 	};
 
-	const NextStops: React.FC<{}> = () => {
+	const NextStops: React.FC<object> = () => {
 		const stops = [...tripInfo.old, ...tripInfo.actual];
 		const filteredStops = stops.filter((a) => a.status !== 'DEPARTED');
 

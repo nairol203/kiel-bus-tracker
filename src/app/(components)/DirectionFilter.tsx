@@ -1,6 +1,5 @@
 import { Select } from '@headlessui/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
 
 function filterUniqueAndSortAscending(arr: string[]) {
 	const uniqueArr = Array.from(new Set(arr));

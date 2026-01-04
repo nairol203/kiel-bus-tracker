@@ -1,8 +1,4 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>nairol203/renovate-config",
-    ":automergeMinor",
-    ":automergeDigest"
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["github>nairol203/renovate-config", ":automergeMinor", ":automergeDigest"]
 }

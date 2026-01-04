@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
 import { getTripInfo } from 'src/app/(components)/actions';
 import Trip from './Trip';
 
