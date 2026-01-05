@@ -18,7 +18,7 @@ jobs:
 
         steps:
             - name: Log in to ghcr.io
-              uses: docker/login-action@6862ffc5ab2cdb4405cf318a62a6f4c066e2298b #v3
+              uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
               with:
                   registry: ghcr.io
                   username: ${{ github.repository_owner }}
