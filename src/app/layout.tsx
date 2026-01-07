@@ -13,13 +13,13 @@ export const metadata = {
 	authors: [
 		{
 			name: 'nairol203',
-			url: 'https://nairol.me',
+			url: 'https://nairol.de',
 		},
 	],
 	openGraph: {
 		title: 'KVG Bus Tracker',
 		description: 'KVG Bus Tracker ist eine moderne und benutzerfreundliche Drittanbieterlösung, mit der Sie Echtzeitabfahrten von Bussen der KVG einsehen können.',
-		url: 'bus.nairol.me',
+		url: 'bus.nairol.de',
 		type: 'website',
 	},
 	twitter: {
@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang='de' suppressHydrationWarning>
 			<head>
-				<PlausibleProvider domain='bus.nairol.me' customDomain='https://analytics.nairol.me' selfHosted />
+				<PlausibleProvider domain='bus.nairol.de' customDomain='https://analytics.nairol.de' selfHosted />
 			</head>
 			<body className='mx-auto max-w-3xl'>
 				<ThemeProvider attribute='class'>
@@ -50,8 +50,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						<Providers>{children}</Providers>
 					</main>
 					<footer className='text-gray-600 grid justify-center gap-2 p-4 text-sm sm:flex sm:gap-1'>
-						<a href='https://nairol.me' target='_blank' rel='noreferrer' className='flex justify-center hover:underline'>
-							© 2026 nairol.me
+						<a href='https://nairol.de' target='_blank' rel='noreferrer' className='flex justify-center hover:underline'>
+							© 2026 nairol.de
 						</a>
 						<span className='text-center sm:before:mr-1 sm:before:content-["•"]'>Not affiliated with KVG Kieler Verkehrsgesellschaft mbH</span>
 					</footer>

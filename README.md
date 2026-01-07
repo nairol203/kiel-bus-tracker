@@ -2,7 +2,7 @@
 
 KVG Bus Tracker ist eine moderne und benutzerfreundliche Drittanbieterlösung, mit der man Echtzeitabfahrten von Bussen der KVG einsehen kann.
 
-https://bus.nairol.me
+https://bus.nairol.de
 
 ## Screenshots
 
