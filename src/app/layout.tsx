@@ -9,7 +9,7 @@ import SettingsMenu from './(components)/SettingsMenu';
 
 export const metadata = {
 	title: 'KVG Bus Tracker',
-	description: 'Aktuelle Abfahrtszeiten aller Buslinien der KVG Kiel. Echtzeit-Infos der KVG Kiel, alle Buslinien und Verspätungen auf einen Blick.',
+	description: 'Aktuelle Abfahrtszeiten aller Buslinien der KVG Kiel. Echtzeit-Infos, alle Buslinien und Verspätungen auf einen Blick.',
 	authors: [
 		{
 			name: 'nairol203',
@@ -18,7 +18,7 @@ export const metadata = {
 	],
 	openGraph: {
 		title: 'KVG Bus Tracker',
-		description: 'Aktuelle Abfahrtszeiten aller Buslinien der KVG Kiel. Echtzeit-Infos der KVG Kiel, alle Buslinien und Verspätungen auf einen Blick.',
+		description: 'Aktuelle Abfahrtszeiten aller Buslinien der KVG Kiel. Echtzeit-Infos, alle Buslinien und Verspätungen auf einen Blick.',
 		url: 'bus.nairol.de',
 		type: 'website',
 	},
