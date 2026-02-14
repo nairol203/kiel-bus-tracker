@@ -9,7 +9,7 @@ import SettingsMenu from './(components)/SettingsMenu';
 
 export const metadata = {
 	title: 'KVG Bus Tracker',
-	description: 'KVG Bus Tracker ist eine moderne und benutzerfreundliche Drittanbieterlösung, mit der Sie Echtzeitabfahrten von Bussen der KVG einsehen können.',
+	description: 'Aktuelle Abfahrtszeiten aller Buslinien der KVG Kiel. Echtzeit-Infos, alle Buslinien und Verspätungen auf einen Blick.',
 	authors: [
 		{
 			name: 'nairol203',
@@ -18,16 +18,9 @@ export const metadata = {
 	],
 	openGraph: {
 		title: 'KVG Bus Tracker',
-		description: 'KVG Bus Tracker ist eine moderne und benutzerfreundliche Drittanbieterlösung, mit der Sie Echtzeitabfahrten von Bussen der KVG einsehen können.',
+		description: 'Aktuelle Abfahrtszeiten aller Buslinien der KVG Kiel. Echtzeit-Infos, alle Buslinien und Verspätungen auf einen Blick.',
 		url: 'bus.nairol.de',
 		type: 'website',
-	},
-	twitter: {
-		title: 'KVG Bus Tracker',
-		description: 'KVG Bus Tracker ist eine moderne und benutzerfreundliche Drittanbieterlösung, mit der Sie Echtzeitabfahrten von Bussen der KVG einsehen können.',
-		site: '@nairol203',
-		creator: '@nairol203',
-		card: 'summary',
 	},
 };
 

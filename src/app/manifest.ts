@@ -4,11 +4,14 @@ export default function manifest(): MetadataRoute.Manifest {
 	return {
 		name: 'KVG Bus Tracker',
 		short_name: 'KVG Bus Tracker',
-		description: 'KVG Bus Tracker ist eine moderne und benutzerfreundliche Drittanbieterlösung, mit der Sie Echtzeitabfahrten von Bussen der KVG einsehen können.',
+		description: 'Aktuelle Abfahrtszeiten aller Buslinien der KVG Kiel. Echtzeit-Infos, alle Buslinien und Verspätungen auf einen Blick.',
 		start_url: '/',
 		display: 'standalone',
 		background_color: '#dfeffc',
 		theme_color: '#1887e2',
+		orientation: 'portrait-primary',
+		lang: 'de-DE',
+		id: 'kvg-bus-tracker',
 		icons: [
 			{
 				src: '/android-chrome-192x192.png',
