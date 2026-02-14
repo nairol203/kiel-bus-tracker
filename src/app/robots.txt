@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+Disallow: /?*
+
+Sitemap: https://bus.nairol.de/sitemap.xml
