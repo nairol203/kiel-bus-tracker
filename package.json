@@ -11,7 +11,7 @@
 	"dependencies": {
 		"@headlessui/react": "2.2.9",
 		"@tanstack/react-query": "5.90.20",
-		"@tanstack/react-query-devtools": "5.91.2",
+		"@tanstack/react-query-devtools": "5.91.3",
 		"fuse.js": "7.1.0",
 		"next": "16.1.4",
 		"next-plausible": "3.12.5",
