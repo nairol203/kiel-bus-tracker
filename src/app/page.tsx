@@ -1,5 +1,5 @@
-import RecommendedSearches from './(components)/RecommendedSearches';
 import { Metadata } from 'next';
+import RecommendedSearches from './(components)/RecommendedSearches';
 import Searchbar from './(components)/Searchbar';
 
 export const metadata: Metadata = {
