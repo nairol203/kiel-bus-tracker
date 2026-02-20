@@ -1,5 +1,12 @@
 import RecommendedSearches from './(components)/RecommendedSearches';
+import { Metadata } from 'next';
 import Searchbar from './(components)/Searchbar';
+
+export const metadata: Metadata = {
+	alternates: {
+		canonical: '/',
+	},
+};
 
 export default function Page() {
 	return (
