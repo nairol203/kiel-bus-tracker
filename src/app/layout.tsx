@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<header className='mx-auto flex items-center justify-between px-2 py-4'>
 						<Link href='/' className='flex gap-2 items-center '>
 							<Image src='/icon.svg' alt='KVG Bus Tracker Logo' width={30} height={30} />
-							<span className='self-center whitespace-nowrap text-2xl font-semibold'>KVG Bus Tracker</span>
+							<h1 className='self-center whitespace-nowrap text-2xl font-semibold'>KVG Bus Tracker</h1>
 						</Link>
 						<SettingsMenu />
 					</header>
