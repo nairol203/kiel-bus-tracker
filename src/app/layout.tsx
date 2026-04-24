@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang='de' suppressHydrationWarning>
 			<head>
-				<PlausibleProvider domain='bus.nairol.de' customDomain='https://analytics.nairol.de' selfHosted />
+				<PlausibleProvider src='https://analytics.nairol.de/js/pa-iU2SoF4z90SshP85iUojz.js' />
 			</head>
 			<body className='mx-auto max-w-3xl'>
 				<ThemeProvider attribute='class'>
