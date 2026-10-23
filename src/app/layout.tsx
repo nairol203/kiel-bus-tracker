@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
-import SettingsMenu from './(components)/SettingsMenu';
+import ThemeToggle from './(components)/ThemeToggle';
 
 export const metadata: Metadata = {
 	metadataBase: new URL('https://bus.zao.dev'),
@@ -37,21 +37,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang='de' suppressHydrationWarning>
 			<body className='mx-auto max-w-3xl'>
 				<ThemeProvider attribute='class'>
-					<header className='mx-auto flex items-center justify-between px-2 py-4'>
+					<header className='mx-auto flex items-center justify-between px-2 py-6'>
 						<Link href='/' className='flex gap-2 items-center '>
 							<Image src='/icon.svg' alt='KVG Bus Tracker Logo' width={30} height={30} />
 							<h1 className='self-center whitespace-nowrap text-2xl font-semibold'>KVG Bus Tracker</h1>
 						</Link>
-						<SettingsMenu />
+						<ThemeToggle />
 					</header>
 					<main className='min-h-screen'>
 						<Providers>{children}</Providers>
 					</main>
-					<footer className='text-gray-600 grid justify-center gap-2 p-4 text-sm sm:flex sm:gap-1'>
-						<a href='https://zao.dev' target='_blank' rel='noreferrer' className='flex justify-center hover:underline'>
-							© 2026 nairol203
-						</a>
-						<span className='text-center sm:before:mr-1 sm:before:content-["•"]'>Not affiliated with KVG Kieler Verkehrsgesellschaft mbH</span>
+					<footer className='mt-8 grid gap-4 text-center md:text-start md:flex md:justify-between m-6 text-sm'>
+						<div className='grid  gap-1 md:flex flex-col '>
+							<a href='https://zao.dev' target='_blank' rel='noreferrer' className='hover:underline'>
+								© 2026 nairol203
+							</a>
+							<span className='text-gray-600 text-xs'>Not affiliated with KVG Kieler Verkehrsgesellschaft mbH</span>
+						</div>
+						<div className='md:flex items-center'>
+							<a href='https://github.com/nairol203/bus-tracker' className='hover:underline'>
+								Source Code
+							</a>
+						</div>
 					</footer>
 				</ThemeProvider>
 			</body>

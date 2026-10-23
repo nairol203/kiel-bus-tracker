@@ -38,17 +38,20 @@ export default function Departures({ stopId }: { stopId: string }) {
 				<div className='skeleton'>
 					<input className='w-full rounded-sm p-3' placeholder='Suche nach einer Haltestelle' disabled />
 				</div>
+				<div className='flex mt-2'>
+					<h2 className='skeleton'>Abfahrten von Placeholder</h2>
+				</div>
 				<div className='grid grid-cols-2 gap-2 md:flex mb-4'>
 					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
 						Alle Linien
-						<div className='h-[25px] w-[25px]' />
+						<div className='h-6.25 w-6.25' />
 					</button>
 					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
 						Alle Richtungen
-						<div className='h-[25px] w-[25px]' />
+						<div className='h-6.25 w-6.25' />
 					</button>
 				</div>
-				<div className='grid gap-2'>
+				<div className='grid skeleton rounded divide-background dark:divide-background/10 divide-y'>
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
@@ -59,14 +62,20 @@ export default function Departures({ stopId }: { stopId: string }) {
 		);
 	} else if (busStop) {
 		return (
-			<div className='mx-2 grid gap-2'>
-				<Searchbar currentStop={busStop} />
-				<div className='grid grid-cols-2 gap-2 md:flex mb-4'>
-					<RouteFilter stop={busStop} />
-					<DirectionFilter stop={busStop} />
+			<div className='mx-2 grid gap-4'>
+				<Searchbar />
+				<div className='flex items-center justify-between mt-2'>
+					<h2>Abfahrten von {busStop.stopName}</h2>
+					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
 				</div>
+				{busStop.actual.length > 1 && (
+					<div className='grid grid-cols-2 gap-2 md:flex'>
+						<RouteFilter stop={busStop} />
+						<DirectionFilter stop={busStop} />
+					</div>
+				)}
 				{isPlaceholderData ? (
-					<div className='grid gap-2'>
+					<div className='grid skeleton rounded divide-background dark:divide-background/10 divide-y'>
 						<SkeletonKVGTable />
 						<SkeletonKVGTable />
 						<SkeletonKVGTable />
@@ -76,9 +85,6 @@ export default function Departures({ stopId }: { stopId: string }) {
 				) : (
 					<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} />
 				)}
-				<div className='flex items-center justify-center mt-2'>
-					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
-				</div>
 			</div>
 		);
 	}

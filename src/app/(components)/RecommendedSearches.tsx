@@ -1,8 +1,7 @@
 'use client';
 
 import { useBusStore } from '@/stores/bus-store';
-import { stops } from '@/utils/stops';
-import { History, MapPin } from 'lucide-react';
+import { ChevronRight, History, MapPin } from 'lucide-react';
 import Link from 'next/link';
 
 export const recommendedStops = [
@@ -18,35 +17,39 @@ export default function RecommendedSearches() {
 	return (
 		<>
 			{lastSearches.length ? (
-				<div className='mt-2 grid gap-2'>
-					<h2>Zuletzt gesucht</h2>
-					{lastSearches
-						.toReversed()
-						.slice(0, 10)
-						.map((stop, index) => (
-							<Link
-								className='group flex gap-3 rounded-sm bg-secondary font-semibold p-3 shadow-sm transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary dark:md:hover:bg-secondary/10'
-								href={`/stop/${stop.number}`}
-								key={`${index}_${stop.id}`}
-							>
-								<History className='h-5 w-5 shrink-0 opacity-60' />
-								{stop.name}
-							</Link>
-						))}
-				</div>
+				<>
+					<h2 className='mt-2'>Zuletzt gesucht</h2>
+					<div className='grid rounded bg-secondary  dark:bg-darkMode-secondary divide-background dark:divide-background/10 divide-y'>
+						{lastSearches
+							.toReversed()
+							.slice(0, 10)
+							.map((stop, index) => (
+								<Link
+									className='group flex items-center gap-3 first:rounded-t last:rounded-b font-semibold p-3 transition duration-200 md:hover:bg-darkMode-secondary/10 dark:md:hover:bg-secondary/10'
+									href={`/stop/${stop.number}`}
+									key={`${index}_${stop.id}`}
+								>
+									<History className='h-5 w-5 shrink-0 text-gray-400' />
+									{stop.name}
+									<ChevronRight className='ml-auto h-4 w-4 text-gray-400' />
+								</Link>
+							))}
+					</div>
+				</>
 			) : (
 				<></>
 			)}
-			<div className='mt-2 grid gap-2'>
-				<h2>Vorschläge</h2>
-				{recommendedStops.map((stop, i) => (
+			<h2 className='mt-2'>Vorschläge</h2>
+			<div className='grid rounded bg-secondary dark:bg-darkMode-secondary divide-background dark:divide-background/10 divide-y'>
+				{recommendedStops.map((stop) => (
 					<Link
-						className='group flex gap-3 rounded-sm bg-secondary p-3 shadow-sm transition font-semibold duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary dark:md:hover:bg-secondary/10'
+						className='group flex items-center gap-3 first:rounded-t last:rounded-b  p-3 transition font-semibold duration-200 md:hover:bg-darkMode-secondary/10 dark:md:hover:bg-secondary/10'
 						href={`/stop/${stop.number}`}
 						key={stop.number}
 					>
-						<MapPin className='h-5 w-5 shrink-0 opacity-60' />
+						<MapPin className='h-5 w-5 shrink-0 text-gray-400' />
 						{stop.name}
+						<ChevronRight className='ml-auto h-4 w-4 text-gray-400' />
 					</Link>
 				))}
 			</div>

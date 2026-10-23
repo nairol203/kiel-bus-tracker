@@ -1,14 +1,13 @@
 'use client';
 
-import { getStopData, getTripInfo } from '@/app/(components)/actions';
+import { getTripInfo } from '@/app/(components)/actions';
 import HealthIndicator from '@/app/(components)/HealthIndicator';
-import KVGTable, { SkeletonKVGTable } from '@/app/(components)/KVGTable';
+import { SkeletonKVGTable } from '@/app/(components)/KVGTable';
 import { useBusStore } from '@/stores/bus-store';
 import { queryClient } from '@/utils/Providers';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React from 'react';
 
 function getTimeDisplay(date: Date, useRelative: boolean, isPaused: boolean, departed = false) {
 	if (isPaused || !useRelative) {
@@ -63,14 +62,14 @@ export default function Trip({ tripId }: { tripId: string }) {
 					<span className='rounded-lg px-2 skeleton'>00</span>
 					<span className='skeleton'>Lorem ipsum.</span>
 				</h1>
-				<h2 className='skeleton my-3'>Lorem ipsum dolor sit.</h2>
-				<div className='grid gap-2'>
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
+				<div className='flex'>
+					<h2 className='skeleton mt-3'>Lorem ipsum dolor sit.</h2>
 				</div>
-				<h2 className='skeleton mt-3'>Lorem ipsum dolor sit.</h2>
-				<div className='grid gap-2'>
+				<div className='grid skeleton'>
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
+					<SkeletonKVGTable />
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
@@ -82,58 +81,8 @@ export default function Trip({ tripId }: { tripId: string }) {
 		);
 	}
 
-	const ConnectingBus: React.FC<object> = () => {
-		const { data: busStop, isPaused } = useQuery({
-			queryKey: ['connectingBus', tripId],
-			queryFn: () => getStopData({ stopId: tripInfo.actual[0].stop.shortName }),
-			refetchInterval: 15_000,
-		});
-
-		if (!busStop) return;
-
-		const filteredStop: NormalizedKVGStops = {
-			...busStop,
-			actual: busStop.actual.filter((a) => tripInfo.routeName !== a.patternText && a.actualRelativeTime < 1800 && a.actualDate > tripInfo.actual[0].actualDate).slice(0, 5),
-		};
-
-		if (!filteredStop.actual.length) return;
-
-		return (
-			<div className='grid gap-2'>
-				<h2>Anschluss bei {tripInfo.actual[0].stop.name}</h2>
-				<KVGTable data={filteredStop} isPaused={isPaused} orientation='horizontal' />
-			</div>
-		);
-	};
-
-	const NextStops: React.FC<object> = () => {
-		const stops = [...tripInfo.old, ...tripInfo.actual];
-		const filteredStops = stops.filter((a) => a.status !== 'DEPARTED');
-
-		return (
-			<>
-				<h2>Nächste Haltestellen</h2>
-				<div className='bg-secondary dark:bg-darkMode-secondary p-4 rounded-sm'>
-					<ul className='grid relative gap-4 border-s-2 ml-2 mt-2 border-slate-300 dark:border-slate-700 border-default'>
-						{filteredStops.map((a, index) => (
-							<li className='ms-6 mb-2' key={a.stopSequenceNumber}>
-								<div
-									className={`absolute w-4 h-4 mt-1.5 inset-s-[-9px] rounded-full border-4 bg-secondary dark:bg-darkMode-secondary ${index === 0 ? ' border-accent border-8' : 'border-slate-300 dark:border-slate-700'}`}
-								/>
-								<Link href={`/stop/${a.stop.shortName}`} className='flex items-center justify-between gap-2 rounded-sm'>
-									<span className='font-semibold'>{a.stop.name}</span>
-									{a.actualDate && <span className='text-lg font-bold'>{getTimeDisplay(a.actualDate, useRelativeTimes, isPaused, false)}</span>}
-								</Link>
-							</li>
-						))}
-					</ul>
-				</div>
-				<div className='flex mt-2 justify-center'>
-					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
-				</div>
-			</>
-		);
-	};
+	const stops = [...tripInfo.old, ...tripInfo.actual];
+	const filteredStops = stops.filter((a) => a.status !== 'DEPARTED');
 
 	return (
 		<div className='mx-2 grid gap-3'>
@@ -143,8 +92,25 @@ export default function Trip({ tripId }: { tripId: string }) {
 			</h1>
 			{tripInfo.actual.length ? (
 				<>
-					<ConnectingBus />
-					<NextStops />
+					<h2>Nächste Haltestellen</h2>
+					<div className='bg-secondary dark:bg-darkMode-secondary p-4 rounded-sm'>
+						<ul className='grid relative gap-4 border-s-2 ml-2 mt-2 border-slate-300 dark:border-slate-700 border-default'>
+							{filteredStops.map((a, index) => (
+								<li className='ms-6 mb-2' key={a.stopSequenceNumber}>
+									<div
+										className={`absolute w-4 h-4 mt-1.5 -inset-s-2.25 rounded-full border-4 bg-secondary dark:bg-darkMode-secondary ${index === 0 ? ' border-accent border-8' : 'border-slate-300 dark:border-slate-700'}`}
+									/>
+									<Link href={`/stop/${a.stop.shortName}`} className='flex items-center justify-between gap-2 rounded-sm'>
+										<span className='font-semibold'>{a.stop.name}</span>
+										{a.actualDate && <span className='text-lg font-bold'>{getTimeDisplay(a.actualDate, useRelativeTimes, isPaused, false)}</span>}
+									</Link>
+								</li>
+							))}
+						</ul>
+					</div>
+					<div className='flex mt-2 justify-center'>
+						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
+					</div>
 				</>
 			) : (
 				<>

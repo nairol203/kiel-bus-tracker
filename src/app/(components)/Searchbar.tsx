@@ -8,7 +8,7 @@ import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Fragment, useMemo, useState } from 'react';
 
-export default function Searchbar({ currentStop }: { currentStop?: NormalizedKVGStops }) {
+export default function Searchbar() {
 	const router = useRouter();
 
 	const [query, setQuery] = useState('');
@@ -50,8 +50,7 @@ export default function Searchbar({ currentStop }: { currentStop?: NormalizedKVG
 					<ComboboxInput
 						className='w-full rounded-sm bg-secondary p-3 text-lg shadow-sm dark:bg-darkMode-secondary'
 						onChange={(event) => setQuery(event.target.value)}
-						displayValue={(stop?: StopByCharacter) => stop?.name || currentStop?.stopName || ''}
-						placeholder='Suche nach einer Haltestelle'
+						placeholder='Suchen'
 					/>
 					<ComboboxButton className='absolute inset-y-0 right-0 flex items-center pr-2'>
 						<Search className='mr-3 h-5 w-5' />
