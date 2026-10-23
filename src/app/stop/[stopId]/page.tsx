@@ -1,5 +1,5 @@
+import { getStopData } from '@/app/(components)/actions';
 import { Metadata } from 'next';
-import { getStopData } from 'src/app/(components)/actions';
 import Departures from './Departures';
 
 type Props = {

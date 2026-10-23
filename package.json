@@ -10,28 +10,28 @@
 	},
 	"dependencies": {
 		"@headlessui/react": "2.2.10",
-		"@tanstack/react-query": "5.100.6",
-		"@tanstack/react-query-devtools": "5.100.6",
-		"fuse.js": "7.3.0",
-		"next": "16.2.4",
+		"@tanstack/react-query": "5.104.5",
+		"@tanstack/react-query-devtools": "5.104.5",
+		"fuse.js": "7.5.0",
+		"next": "16.4.2",
 		"next-plausible": "4.0.0",
 		"next-themes": "0.4.6",
-		"react": "19.2.5",
-		"react-dom": "19.2.5",
-		"zustand": "5.0.12"
+		"react": "19.3.1",
+		"react-dom": "19.3.1",
+		"zustand": "5.0.16"
 	},
 	"devDependencies": {
 		"@ianvs/prettier-plugin-sort-imports": "4.7.1",
-		"@types/node": "24.12.2",
-		"@types/react": "19.2.14",
-		"@types/react-dom": "19.2.3",
-		"autoprefixer": "10.5.0",
-		"eslint": "9.39.4",
-		"eslint-config-next": "16.2.4",
-		"postcss": "8.5.12",
-		"prettier": "3.8.3",
-		"prettier-plugin-tailwindcss": "0.8.0",
+		"@types/node": "24.19.2",
+		"@types/react": "19.3.0",
+		"@types/react-dom": "19.3.0",
+		"autoprefixer": "10.6.1",
+		"eslint": "9.39.5",
+		"eslint-config-next": "16.4.2",
+		"postcss": "8.5.31",
+		"prettier": "3.9.10",
+		"prettier-plugin-tailwindcss": "0.8.1",
 		"tailwindcss": "3.4.19",
-		"typescript": "5.9.3"
+		"typescript": "6.0.3"
 	}
 }
