@@ -1,13 +1,13 @@
 'use client';
 
-import { getTripInfo } from '@/app/(components)/actions';
-import HealthIndicator from '@/app/(components)/HealthIndicator';
-import { SkeletonKVGTable } from '@/app/(components)/KVGTable';
 import { useBusStore } from '@/stores/bus-store';
 import { queryClient } from '@/utils/Providers';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { getTripInfo } from './actions';
+import HealthIndicator from './HealthIndicator';
+import { SkeletonKVGTable } from './KVGTable';
 
 function getTimeDisplay(date: Date, useRelative: boolean, isPaused: boolean, departed = false) {
 	if (isPaused || !useRelative) {

@@ -1,15 +1,15 @@
 'use client';
 
-import { getStopData } from '@/app/(components)/actions';
-import DirectionFilter from '@/app/(components)/DirectionFilter';
-import HealthIndicator from '@/app/(components)/HealthIndicator';
-import KVGTable, { SkeletonKVGTable } from '@/app/(components)/KVGTable';
-import RouteFilter from '@/app/(components)/RouteFilter';
-import Searchbar from '@/app/(components)/Searchbar';
 import { queryClient } from '@/utils/Providers';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { getStopData } from './actions';
+import DirectionFilter from './DirectionFilter';
+import HealthIndicator from './HealthIndicator';
+import KVGTable, { SkeletonKVGTable } from './KVGTable';
+import RouteFilter from './RouteFilter';
+import Searchbar from './Searchbar';
 
 export default function Departures({ stopId }: { stopId: string }) {
 	const searchParams = useSearchParams();

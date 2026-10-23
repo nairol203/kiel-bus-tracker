@@ -1,6 +1,6 @@
-import { getTripInfo } from '@/app/(components)/actions';
+import { getTripInfo } from '@/components/actions';
+import Trip from '@/components/Trip';
 import { Metadata } from 'next';
-import Trip from './Trip';
 
 type Props = {
 	params: { tripId: string };

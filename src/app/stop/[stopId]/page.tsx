@@ -1,6 +1,6 @@
-import { getStopData } from '@/app/(components)/actions';
+import { getStopData } from '@/components/actions';
+import Departures from '@/components/Departures';
 import { Metadata } from 'next';
-import Departures from './Departures';
 
 type Props = {
 	params: { stopId: string };

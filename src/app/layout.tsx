@@ -1,11 +1,11 @@
 import React from 'react';
 import './globals.css';
+import ThemeToggle from '@/components/ThemeToggle';
 import Providers from '@/utils/Providers';
 import { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
-import ThemeToggle from './(components)/ThemeToggle';
 
 export const metadata: Metadata = {
 	metadataBase: new URL('https://bus.zao.dev'),
