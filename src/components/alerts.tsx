@@ -16,10 +16,7 @@ export function GeneralAlerts({ data }: { data: NormalizedKVGStops }) {
 	return (
 		<>
 			{filterIdenticalAlerts(data.generalAlerts).map((alert, index) => (
-				<div
-					className='shadows bg-primary text-darkMode-text dark:bg-darkMode-primary dark:text-text flex gap-2 rounded-sm p-2'
-					key={`alert-${index}-${data.stopShortName}`}
-				>
+				<div className='shadows bg-primary flex gap-2 rounded-sm p-2' key={`alert-${index}-${data.stopShortName}`}>
 					<TriangleAlert className='h-9 w-9 shrink-0' />
 					<span className='font-medium'>{alert.title}</span>
 				</div>
@@ -37,10 +34,7 @@ export function RouteAlerts({ data, direction, routeId }: { data: NormalizedKVGS
 					filterIdenticalAlerts(route.alerts)
 						.filter((alert) => (direction ? alert.direction.includes(direction) : true))
 						.map((alert, index) => (
-							<div
-								className='bg-primary text-darkMode-text dark:bg-darkMode-primary dark:text-text grid gap-1 rounded-sm p-2 md:flex md:justify-between'
-								key={`alert-${index}-${data.stopShortName}`}
-							>
+							<div className='bg-primary grid gap-1 rounded-sm p-2 md:flex md:justify-between' key={`alert-${index}-${data.stopShortName}`}>
 								<div className='flex gap-4'>
 									<span>{route.name}</span>
 									<span>{alert.direction.join('; ')}</span>

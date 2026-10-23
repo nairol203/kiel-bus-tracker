@@ -1,41 +1,36 @@
 @import 'tailwindcss';
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
-	--color-text: #03111c;
-	--color-background: #cbdae7;
-	--color-primary: #0a3a61;
-	--color-secondary: #ffffff;
-	--color-accent: #1887e2;
-
-	--color-darkMode-text: #e3f1fc;
-	--color-darkMode-background: #121212;
-	--color-darkMode-primary: #9ecef5;
-	--color-darkMode-secondary: #1e1e1e;
-	--color-darkMode-accent: #1d8ce7;
+	--color-text: var(--text);
+	--color-background: var(--background);
+	--color-primary: var(--primary);
+	--color-surface: var(--surface);
+	--color-border: var(--border);
+	--color-muted: var(--muted);
 }
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
-	*,
-	::after,
-	::before,
-	::backdrop,
-	::file-selector-button {
-		border-color: var(--color-gray-200, currentcolor);
+	:root {
+		--text: #0f172a;
+		--background: #f8fafc;
+		--primary: #3b82f6;
+		--surface: #ffffff;
+		--border: #e2e8f0;
+		--muted: #64748b;
+	}
+
+	.dark {
+		--text: #f8fafc;
+		--background: #0f172a;
+		--primary: #3b82f6;
+		--surface: #1e293b;
+		--border: #334155;
+		--muted: #94a3b8;
 	}
 }
 
 @utility skeleton {
-	@apply before:bg-secondary dark:before:bg-darkMode-secondary relative animate-pulse p-0.5 before:absolute before:inset-0 before:rounded-md;
+	@apply before:bg-background relative animate-pulse p-0.5 before:absolute before:inset-0 before:rounded-md;
 }
 
 @utility no-scrollbar {
@@ -65,7 +60,7 @@
 	}
 
 	body {
-		@apply bg-background text-text dark:bg-darkMode-background dark:text-darkMode-text;
+		@apply bg-background text-text;
 	}
 
 	h1,

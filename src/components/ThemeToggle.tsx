@@ -9,14 +9,14 @@ export default function ThemeToggle() {
 
 	return (
 		<Menu>
-			<MenuButton className={'bg-secondary dark:bg-darkMode-secondary rounded-full p-2 shadow'}>
+			<MenuButton className={'bg-surface text-muted border-border rounded-full border p-2 shadow'}>
 				{resolvedTheme === 'dark' ? <Moon className='h-5 w-5' /> : <Sun className='h-5 w-5' />}
 			</MenuButton>
-			<MenuItems anchor='bottom end' className={'bg-background dark:bg-darkMode-background m-2 grid min-w-36 gap-0.5 rounded p-1 shadow'}>
+			<MenuItems anchor='bottom end' className={'bg-background border-border text-muted m-2 grid min-w-36 gap-0.5 rounded border p-1 shadow'}>
 				<MenuItem>
 					{({ close }) => (
 						<button
-							className={`flex items-center gap-2 rounded p-1 ${theme == 'light' ? 'bg-secondary dark:bg-darkMode-secondary' : 'bg-background hover:bg-secondary/75 dark:bg-darkMode-background dark:hover:bg-secondary/10'}`}
+							className={`flex items-center gap-2 rounded p-2 text-sm ${theme == 'light' ? 'bg-surface text-text font-medium' : 'md:hover:bg-surface/60'}`}
 							onClick={() => {
 								setTheme('light');
 								close();
@@ -29,7 +29,7 @@ export default function ThemeToggle() {
 				<MenuItem>
 					{({ close }) => (
 						<button
-							className={`flex items-center gap-2 rounded p-1 ${theme == 'dark' ? 'bg-secondary dark:bg-darkMode-secondary' : 'bg-background hover:bg-secondary/75 dark:bg-darkMode-background dark:hover:bg-secondary/10'}`}
+							className={`flex items-center gap-2 rounded p-2 text-sm ${theme == 'dark' ? 'bg-surface text-text font-medium' : 'md:hover:bg-surface/60'}`}
 							onClick={() => {
 								setTheme('dark');
 								close();
@@ -42,7 +42,7 @@ export default function ThemeToggle() {
 				<MenuItem>
 					{({ close }) => (
 						<button
-							className={`flex items-center gap-2 rounded p-1 ${theme == 'system' ? 'bg-secondary dark:bg-darkMode-secondary' : 'bg-background hover:bg-secondary/75 dark:bg-darkMode-background dark:hover:bg-secondary/10'}`}
+							className={`flex items-center gap-2 rounded p-2 text-sm ${theme == 'system' ? 'bg-surface text-text font-medium' : 'md:hover:bg-surface/60'}`}
 							onClick={() => {
 								setTheme('system');
 								close();

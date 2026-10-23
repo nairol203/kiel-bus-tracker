@@ -35,29 +35,31 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang='de' suppressHydrationWarning>
-			<body className='mx-auto max-w-3xl'>
+			<body className=''>
 				<ThemeProvider attribute='class'>
-					<header className='mx-auto flex items-center justify-between px-2 py-6'>
+					<header className='mx-auto flex max-w-3xl items-center justify-between px-2 py-6'>
 						<Link href='/' className='flex items-center gap-2'>
 							<Image src='/icon.svg' alt='KVG Bus Tracker Logo' width={30} height={30} />
 							<h1 className='self-center text-2xl font-semibold whitespace-nowrap'>KVG Bus Tracker</h1>
 						</Link>
 						<ThemeToggle />
 					</header>
-					<main className='min-h-screen'>
+					<main className='mx-auto min-h-screen max-w-3xl'>
 						<Providers>{children}</Providers>
 					</main>
-					<footer className='m-6 mt-8 grid gap-4 text-center text-sm md:flex md:justify-between md:text-start'>
-						<div className='grid flex-col gap-1 md:flex'>
-							<a href='https://zao.dev' target='_blank' rel='noreferrer' className='hover:underline'>
-								© 2026 nairol203
-							</a>
-							<span className='text-xs text-gray-600'>Not affiliated with KVG Kieler Verkehrsgesellschaft mbH</span>
-						</div>
-						<div className='items-center md:flex'>
-							<a href='https://github.com/nairol203/bus-tracker' className='hover:underline'>
-								Source Code
-							</a>
+					<footer className='bg-surface text-muted border-border mt-6 border-t shadow'>
+						<div className='mx-auto grid max-w-3xl gap-4 p-6 text-center text-sm md:flex md:justify-between md:text-start'>
+							<div className='grid flex-col gap-1 md:flex'>
+								<a href='https://zao.dev' target='_blank' rel='noreferrer' className='hover:underline'>
+									© 2026 nairol203
+								</a>
+								<span className='text-xs opacity-70'>Not affiliated with KVG Kieler Verkehrsgesellschaft mbH</span>
+							</div>
+							<div className='items-center md:flex'>
+								<a href='https://github.com/nairol203/bus-tracker' className='hover:underline'>
+									Source Code
+								</a>
+							</div>
 						</div>
 					</footer>
 				</ThemeProvider>

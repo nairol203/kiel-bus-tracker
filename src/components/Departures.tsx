@@ -51,7 +51,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 						<div className='h-6.25 w-6.25' />
 					</button>
 				</div>
-				<div className='skeleton divide-background dark:divide-background/10 grid divide-y rounded'>
+				<div className='skeleton divide-border grid divide-y rounded'>
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
@@ -62,51 +62,44 @@ export default function Departures({ stopId }: { stopId: string }) {
 		);
 	} else if (busStop) {
 		return (
-			<div className='mx-2 grid gap-4'>
+			<div className='mx-2'>
 				<Searchbar />
-				<div className='mt-2 flex items-center justify-between'>
-					<h2>Abfahrten von {busStop.stopName}</h2>
-					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
+				<div className='bg-surface border-border mt-4 grid rounded border shadow'>
+					<div className='bg-primary/10 flex items-center justify-between rounded-t p-4'>
+						<h2 className='font-bold'>Abfahrten von {busStop.stopName}</h2>
+						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
+					</div>
+					{busStop.actual.length > 1 && (
+						<div className='border-border bg-primary/10 grid grid-cols-2 gap-2 border-b p-2 md:flex'>
+							<RouteFilter stop={busStop} />
+							<DirectionFilter stop={busStop} />
+						</div>
+					)}
+					{isPlaceholderData ? (
+						<div className='skeleton divide-border grid divide-y rounded'>
+							<SkeletonKVGTable />
+							<SkeletonKVGTable />
+							<SkeletonKVGTable />
+							<SkeletonKVGTable />
+							<SkeletonKVGTable />
+						</div>
+					) : (
+						<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} />
+					)}
 				</div>
-				{busStop.actual.length > 1 && (
-					<div className='grid grid-cols-2 gap-2 md:flex'>
-						<RouteFilter stop={busStop} />
-						<DirectionFilter stop={busStop} />
-					</div>
-				)}
-				{isPlaceholderData ? (
-					<div className='skeleton divide-background dark:divide-background/10 grid divide-y rounded'>
-						<SkeletonKVGTable />
-						<SkeletonKVGTable />
-						<SkeletonKVGTable />
-						<SkeletonKVGTable />
-						<SkeletonKVGTable />
-					</div>
-				) : (
-					<KVGTable data={busStop} isPaused={isPaused} routeId={routeId} direction={direction} />
-				)}
 			</div>
 		);
 	}
 
 	return (
-		<div className='mx-2 grid gap-2'>
+		<div className='mx-2'>
 			<Searchbar />
-			<div className='mt-2 grid gap-2'>
-				<h1>Fehler</h1>
-				<span>Die Haltestelle konnte nicht geladen werden.</span>
-				<button
-					onClick={() => queryClient.refetchQueries({ queryKey: ['stopData', stopId, routeId, direction] })}
-					className='bg-primary text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent rounded-sm px-2.5 py-1.5'
-				>
-					Erneut versuchen
-				</button>
-				<Link
-					href='/'
-					className='bg-secondary text-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:text-darkMode-text dark:md:hover:bg-darkMode-accent rounded-sm px-2.5 py-1.5 text-center'
-				>
-					Zurück zur Startseite
-				</Link>
+			<div className='bg-surface mt-4 grid rounded shadow'>
+				<div className='bg-primary/10 border-border flex items-center justify-between rounded-t border-b p-4'>
+					<h2>Es ist ein Fehler aufgetreten.</h2>
+					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
+				</div>
+				<div className='text-muted p-8 text-center'>Die Haltestelle konnte nicht geladen werden.</div>
 			</div>
 		</div>
 	);

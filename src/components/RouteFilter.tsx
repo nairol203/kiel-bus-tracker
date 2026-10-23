@@ -25,7 +25,7 @@ export default function RouteFilter({ stop }: { stop: NormalizedKVGStops }) {
 
 	return (
 		<Select
-			className='bg-secondary dark:bg-darkMode-secondary flex items-center justify-between gap-2 rounded-sm p-2 shadow-sm transition duration-200'
+			className='border-border bg-surface flex items-center justify-between gap-2 rounded-sm border p-2 transition duration-200'
 			onChange={(e) => {
 				if (!e.target.value || routeId === e.target.value) return;
 				if (e.target.value === 'all') {
