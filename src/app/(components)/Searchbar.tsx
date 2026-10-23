@@ -4,14 +4,12 @@ import { useBusStore } from '@/stores/bus-store';
 import { stops } from '@/utils/stops';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react';
 import Fuse from 'fuse.js';
-import { usePlausible } from 'next-plausible';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Fragment, useMemo, useState } from 'react';
 
 export default function Searchbar({ currentStop }: { currentStop?: NormalizedKVGStops }) {
 	const router = useRouter();
-	const plausible = usePlausible();
 
 	const [query, setQuery] = useState('');
 	const [disabled, setDisabled] = useState(false);
@@ -44,11 +42,6 @@ export default function Searchbar({ currentStop }: { currentStop?: NormalizedKVG
 					setTimeout(() => {
 						setDisabled(false);
 					}, 50);
-					plausible('search', {
-						props: {
-							searchQuery: `${value.number} (${value.name})`,
-						},
-					});
 				}
 			}}
 		>

@@ -1,7 +1,6 @@
 import React from 'react';
 import './globals.css';
 import Providers from '@/utils/Providers';
-import PlausibleProvider from 'next-plausible';
 import { ThemeProvider } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -28,9 +27,6 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang='de' suppressHydrationWarning>
-			<head>
-				<PlausibleProvider src='https://analytics.nairol.de/js/pa-iU2SoF4z90SshP85iUojz.js' />
-			</head>
 			<body className='mx-auto max-w-3xl'>
 				<ThemeProvider attribute='class'>
 					<header className='mx-auto flex items-center justify-between px-2 py-4'>
