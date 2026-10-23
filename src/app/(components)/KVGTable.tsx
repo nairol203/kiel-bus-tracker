@@ -42,7 +42,7 @@ export default function KVGTable({
 					data.actual.map((actual, index) => (
 						<Link
 							href={`/trip/${actual.tripId}`}
-							className='flex flex-col gap-1 min-w-40 w-40 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary md:hover:dark:bg-secondary/10'
+							className='flex flex-col gap-1 min-w-40 w-40 rounded-sm bg-secondary p-2 shadow-sm transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary md:dark:hover:bg-secondary/10'
 							key={`${index}-${actual.tripId}`}
 						>
 							<span className='rounded-lg  bg-accent text-center font-bold w-8 h-8 flex items-center justify-center text-darkMode-text dark:bg-darkMode-accent'>
@@ -74,7 +74,7 @@ export default function KVGTable({
 				data.actual.map((actual, index) => (
 					<Link
 						href={`/trip/${actual.tripId}`}
-						className='grid grid-cols-[35px_1fr_75px] justify-between items-center gap-x-4 rounded bg-secondary p-2 shadow transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary md:hover:dark:bg-secondary/10'
+						className='grid grid-cols-[35px_1fr_75px] justify-between items-center gap-x-4 rounded-sm bg-secondary p-2 shadow-sm transition duration-200 md:hover:bg-secondary/75 dark:bg-darkMode-secondary md:dark:hover:bg-secondary/10'
 						key={`${index}-${actual.tripId}`}
 					>
 						<span className='rounded-lg bg-accent text-center text-xl font-bold w-10 h-10 flex items-center justify-center text-darkMode-text dark:bg-darkMode-accent'>
@@ -102,7 +102,7 @@ export default function KVGTable({
 
 export function SkeletonKVGTable() {
 	return (
-		<div className='skeleton grid grid-cols-[35px_1fr_75px] justify-between gap-2 rounded p-2'>
+		<div className='skeleton grid grid-cols-[35px_1fr_75px] justify-between gap-2 rounded-sm p-2'>
 			<span className='h-10 w-10'>43</span>
 			<span>Kiel Hbf</span>
 			<span className=' flex items-center justify-end'>22:26</span>

@@ -42,13 +42,13 @@ export default function Trip({ tripId }: { tripId: string }) {
 				<span>Die Fahrt konnte nicht geladen werden.</span>
 				<button
 					onClick={() => queryClient.refetchQueries({ queryKey: ['tripInfo', tripId] })}
-					className='rounded bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
+					className='rounded-sm bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
 				>
 					Erneut versuchen
 				</button>
 				<button
 					onClick={() => router.back()}
-					className='rounded bg-secondary px-2.5 py-1.5 text-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+					className='rounded-sm bg-secondary px-2.5 py-1.5 text-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:text-darkMode-text dark:md:hover:bg-darkMode-accent'
 				>
 					Zurück
 				</button>
@@ -113,14 +113,14 @@ export default function Trip({ tripId }: { tripId: string }) {
 		return (
 			<>
 				<h2>Nächste Haltestellen</h2>
-				<div className='bg-secondary dark:bg-darkMode-secondary p-4 rounded'>
+				<div className='bg-secondary dark:bg-darkMode-secondary p-4 rounded-sm'>
 					<ul className='grid relative gap-4 border-s-2 ml-2 mt-2 border-slate-300 dark:border-slate-700 border-default'>
 						{filteredStops.map((a, index) => (
 							<li className='ms-6 mb-2' key={a.stopSequenceNumber}>
 								<div
-									className={`absolute w-4 h-4 mt-1.5 -start-[9px] rounded-full border-4 bg-secondary dark:bg-darkMode-secondary ${index === 0 ? ' border-accent border-8' : 'border-slate-300 dark:border-slate-700'}`}
+									className={`absolute w-4 h-4 mt-1.5 inset-s-[-9px] rounded-full border-4 bg-secondary dark:bg-darkMode-secondary ${index === 0 ? ' border-accent border-8' : 'border-slate-300 dark:border-slate-700'}`}
 								/>
-								<Link href={`/stop/${a.stop.shortName}`} className='flex items-center justify-between gap-2 rounded'>
+								<Link href={`/stop/${a.stop.shortName}`} className='flex items-center justify-between gap-2 rounded-sm'>
 									<span className='font-semibold'>{a.stop.name}</span>
 									{a.actualDate && <span className='text-lg font-bold'>{getTimeDisplay(a.actualDate, useRelativeTimes, isPaused, false)}</span>}
 								</Link>
@@ -151,7 +151,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 					<span>Der Bus hat die Endstation erreicht.</span>
 					<button
 						onClick={() => router.back()}
-						className='rounded bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
+						className='rounded-sm bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
 					>
 						Zurück
 					</button>
