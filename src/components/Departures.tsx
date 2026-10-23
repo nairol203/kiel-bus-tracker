@@ -34,29 +34,24 @@ export default function Departures({ stopId }: { stopId: string }) {
 
 	if (isLoading) {
 		return (
-			<div className='mx-2 grid gap-2'>
-				<div className='skeleton'>
-					<input className='w-full rounded-sm p-3' placeholder='Suche nach einer Haltestelle' disabled />
-				</div>
-				<div className='mt-2 flex'>
-					<h2 className='skeleton'>Abfahrten von Placeholder</h2>
-				</div>
-				<div className='mb-4 grid grid-cols-2 gap-2 md:flex'>
-					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
-						Alle Linien
-						<div className='h-6.25 w-6.25' />
-					</button>
-					<button className='skeleton z-10 flex gap-2 rounded-full p-2 transition'>
-						Alle Richtungen
-						<div className='h-6.25 w-6.25' />
-					</button>
-				</div>
-				<div className='skeleton divide-border grid divide-y rounded'>
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
+			<div className='mx-2'>
+				<Searchbar />
+				<div className='bg-surface border-border mt-4 grid rounded border shadow'>
+					<div className='bg-primary/10 flex items-center justify-between rounded-t p-4'>
+						<div className='skeleton h-7 w-48 rounded-md' />
+						<div className='skeleton h-4 w-24 rounded-md' />
+					</div>
+					<div className='border-border bg-primary/10 flex gap-2 border-b p-2'>
+						<div className='skeleton h-10 w-28 rounded-md' />
+						<div className='skeleton h-10 w-32 rounded-md' />
+					</div>
+					<div className='divide-border grid divide-y'>
+						<SkeletonKVGTable />
+						<SkeletonKVGTable />
+						<SkeletonKVGTable />
+						<SkeletonKVGTable />
+						<SkeletonKVGTable />
+					</div>
 				</div>
 			</div>
 		);
@@ -76,7 +71,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 						</div>
 					)}
 					{isPlaceholderData ? (
-						<div className='skeleton divide-border grid divide-y rounded'>
+						<div className='divide-border grid divide-y'>
 							<SkeletonKVGTable />
 							<SkeletonKVGTable />
 							<SkeletonKVGTable />

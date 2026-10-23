@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getTripInfo } from './actions';
 import HealthIndicator from './HealthIndicator';
-import { SkeletonKVGTable } from './KVGTable';
 
 function getTimeDisplay(date: Date, useRelative: boolean, isPaused: boolean, departed = false) {
 	if (isPaused || !useRelative) {
@@ -52,24 +51,23 @@ export default function Trip({ tripId }: { tripId: string }) {
 	if (!tripInfo) {
 		return (
 			<div className='mx-2 grid gap-3'>
-				<h1 className='flex gap-2'>
-					<span className='skeleton rounded-lg px-2'>00</span>
-					<span className='skeleton'>Lorem ipsum.</span>
+				<h1 className='flex items-center gap-2'>
+					<div className='skeleton h-12 w-12 rounded-lg' />
+					<div className='skeleton h-7 w-48 rounded-md' />
 				</h1>
 				<div className='flex'>
-					<h2 className='skeleton mt-3'>Lorem ipsum dolor sit.</h2>
+					<div className='skeleton mt-3 h-6 w-40 rounded-md' />
 				</div>
-				<div className='skeleton grid'>
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
+				<div className='bg-primary/5 rounded-sm p-4'>
+					<ul className='border-border relative mt-2 ml-2 grid gap-4 border-s-2'>
+						{[...Array(6)].map((_, index) => (
+							<li className='ms-6 mb-2 flex items-center justify-between gap-2' key={index}>
+								<div className='bg-surface-hover/80 border-border absolute -inset-s-2.25 mt-1.5 h-4 w-4 rounded-full border-2 animate-pulse' />
+								<div className='skeleton h-5 w-36 rounded-md' />
+								<div className='skeleton h-5 w-16 rounded-md' />
+							</li>
+						))}
+					</ul>
 				</div>
 			</div>
 		);

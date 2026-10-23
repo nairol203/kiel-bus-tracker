@@ -5,6 +5,7 @@
 	--color-background: var(--background);
 	--color-primary: var(--primary);
 	--color-surface: var(--surface);
+	--color-surface-hover: var(--surface-hover);
 	--color-border: var(--border);
 	--color-muted: var(--muted);
 }
@@ -15,6 +16,7 @@
 		--background: #f8fafc;
 		--primary: #3b82f6;
 		--surface: #ffffff;
+		--surface-hover: #f1f5f9;
 		--border: #e2e8f0;
 		--muted: #64748b;
 	}
@@ -24,13 +26,14 @@
 		--background: #0f172a;
 		--primary: #3b82f6;
 		--surface: #1e293b;
+		--surface-hover: #334155;
 		--border: #334155;
 		--muted: #94a3b8;
 	}
 }
 
 @utility skeleton {
-	@apply before:bg-background relative animate-pulse p-0.5 before:absolute before:inset-0 before:rounded-md;
+	@apply bg-surface-hover/80 inline-block animate-pulse rounded-md text-transparent select-none;
 }
 
 @utility no-scrollbar {

@@ -58,10 +58,15 @@ export default function KVGTable({
 
 export function SkeletonKVGTable() {
 	return (
-		<div className='skeleton grid grid-cols-[35px_1fr_75px] justify-between gap-2 p-4'>
-			<span className='h-12 w-12'>43</span>
-			<span>Kiel Hbf</span>
-			<span className='flex items-center justify-end'>22:26</span>
+		<div className='grid grid-cols-[35px_1fr_75px] items-center justify-between gap-x-6 p-4'>
+			<div className='skeleton h-12 w-12 flex-shrink-0 rounded-lg' />
+			<div className='grid min-w-0 gap-2 pr-2'>
+				<div className='skeleton h-5 w-32 rounded-md' />
+				<div className='skeleton h-3.5 w-12 rounded-md' />
+			</div>
+			<div className='flex flex-col items-end gap-1.5'>
+				<div className='skeleton h-6 w-12 rounded-md' />
+			</div>
 		</div>
 	);
 }
