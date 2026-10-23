@@ -9,46 +9,46 @@ export default function ThemeToggle() {
 
 	return (
 		<Menu>
-			<MenuButton className={'bg-secondary dark:bg-darkMode-secondary shadow p-2 rounded-full'}>
+			<MenuButton className={'bg-secondary dark:bg-darkMode-secondary rounded-full p-2 shadow'}>
 				{resolvedTheme === 'dark' ? <Moon className='h-5 w-5' /> : <Sun className='h-5 w-5' />}
 			</MenuButton>
-			<MenuItems anchor='bottom end' className={'grid gap-0.5 p-1 m-2 rounded shadow min-w-36 bg-background dark:bg-darkMode-background'}>
+			<MenuItems anchor='bottom end' className={'bg-background dark:bg-darkMode-background m-2 grid min-w-36 gap-0.5 rounded p-1 shadow'}>
 				<MenuItem>
 					{({ close }) => (
 						<button
-							className={`flex items-center gap-2 p-1 rounded ${theme == 'light' ? 'bg-secondary dark:bg-darkMode-secondary' : 'bg-background hover:bg-secondary/75 dark:bg-darkMode-background dark:hover:bg-secondary/10'}`}
+							className={`flex items-center gap-2 rounded p-1 ${theme == 'light' ? 'bg-secondary dark:bg-darkMode-secondary' : 'bg-background hover:bg-secondary/75 dark:bg-darkMode-background dark:hover:bg-secondary/10'}`}
 							onClick={() => {
 								setTheme('light');
 								close();
 							}}
 						>
-							<Sun className='w-5 h-5' /> Hell
+							<Sun className='h-5 w-5' /> Hell
 						</button>
 					)}
 				</MenuItem>
 				<MenuItem>
 					{({ close }) => (
 						<button
-							className={`flex items-center gap-2 p-1 rounded ${theme == 'dark' ? 'bg-secondary dark:bg-darkMode-secondary' : 'bg-background hover:bg-secondary/75 dark:bg-darkMode-background dark:hover:bg-secondary/10'}`}
+							className={`flex items-center gap-2 rounded p-1 ${theme == 'dark' ? 'bg-secondary dark:bg-darkMode-secondary' : 'bg-background hover:bg-secondary/75 dark:bg-darkMode-background dark:hover:bg-secondary/10'}`}
 							onClick={() => {
 								setTheme('dark');
 								close();
 							}}
 						>
-							<Moon className='w-5 h-5' /> Dunkel
+							<Moon className='h-5 w-5' /> Dunkel
 						</button>
 					)}
 				</MenuItem>
 				<MenuItem>
 					{({ close }) => (
 						<button
-							className={`flex items-center gap-2 p-1 rounded ${theme == 'system' ? 'bg-secondary dark:bg-darkMode-secondary' : 'bg-background hover:bg-secondary/75 dark:bg-darkMode-background dark:hover:bg-secondary/10'}`}
+							className={`flex items-center gap-2 rounded p-1 ${theme == 'system' ? 'bg-secondary dark:bg-darkMode-secondary' : 'bg-background hover:bg-secondary/75 dark:bg-darkMode-background dark:hover:bg-secondary/10'}`}
 							onClick={() => {
 								setTheme('system');
 								close();
 							}}
 						>
-							<Monitor className='w-5 h-5' /> System
+							<Monitor className='h-5 w-5' /> System
 						</button>
 					)}
 				</MenuItem>

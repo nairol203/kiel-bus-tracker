@@ -22,21 +22,21 @@ export default function KVGTable({
 	showRouteAlerts?: boolean;
 }) {
 	return (
-		<div className='grid rounded bg-secondary dark:bg-darkMode-secondary divide-background dark:divide-background/10 divide-y'>
+		<div className='bg-secondary dark:bg-darkMode-secondary divide-background dark:divide-background/10 grid divide-y rounded'>
 			{showGeneralAlerts && <GeneralAlerts data={data} />}
 			{showRouteAlerts && <RouteAlerts data={data} direction={direction} routeId={routeId} />}
 			{data.actual.length ? (
 				data.actual.map((actual, index) => (
 					<Link
 						href={`/trip/${actual.tripId}`}
-						className='grid grid-cols-[35px_1fr_75px] justify-between items-center gap-x-6 p-4 transition duration-200 md:hover:bg-darkMode-secondary/10 md:dark:hover:bg-secondary/10'
+						className='md:hover:bg-darkMode-secondary/10 md:dark:hover:bg-secondary/10 grid grid-cols-[35px_1fr_75px] items-center justify-between gap-x-6 p-4 transition duration-200'
 						key={`${index}-${actual.tripId}`}
 					>
-						<span className='rounded-lg bg-accent text-center text-lg font-bold w-12 h-12 flex items-center justify-center text-darkMode-text dark:bg-darkMode-accent'>
+						<span className='bg-accent text-darkMode-text dark:bg-darkMode-accent flex h-12 w-12 items-center justify-center rounded-lg text-center text-lg font-bold'>
 							{actual.patternText}
 						</span>
 						<div className='grid'>
-							<span className='whitespace-nowrap font-semibold text-lg'>{actual.direction}</span>
+							<span className='text-lg font-semibold whitespace-nowrap'>{actual.direction}</span>
 							{/* {hasBusDelay(actual.plannedDate, actual.actualDate) ? (
 								<div className='flex gap-2'>
 									<span className='flex gap-1 text-sm items-center line-through text-gray-600'>
@@ -47,15 +47,15 @@ export default function KVGTable({
 							) : (
 							)} */}
 							<div className='flex gap-2 font-medium'>
-								<span className={`flex gap-1 text-sm items-center text-gray-600 ${hasBusDelay(actual.plannedDate, actual.actualDate) ? 'line-through' : ''}`}>
+								<span className={`flex items-center gap-1 text-sm text-gray-600 ${hasBusDelay(actual.plannedDate, actual.actualDate) ? 'line-through' : ''}`}>
 									<Clock className='h-3 w-3' /> {actual.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
 								</span>
 								{hasBusDelay(actual.plannedDate, actual.actualDate) && (
-									<span className='text-red-400 text-sm'>{actual.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
+									<span className='text-sm text-red-400'>{actual.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
 								)}
 							</div>
 						</div>
-						<span className={`flex items-center justify-end font-bold text-lg`}>
+						<span className={`flex items-center justify-end text-lg font-bold`}>
 							{actual.actualRelativeTime < 60 ? 'Jetzt' : `${Math.round(actual.actualRelativeTime / 60)} min`}
 						</span>
 					</Link>
@@ -72,7 +72,7 @@ export function SkeletonKVGTable() {
 		<div className='skeleton grid grid-cols-[35px_1fr_75px] justify-between gap-2 p-4'>
 			<span className='h-12 w-12'>43</span>
 			<span>Kiel Hbf</span>
-			<span className=' flex items-center justify-end'>22:26</span>
+			<span className='flex items-center justify-end'>22:26</span>
 		</div>
 	);
 }

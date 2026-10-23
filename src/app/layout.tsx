@@ -38,23 +38,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			<body className='mx-auto max-w-3xl'>
 				<ThemeProvider attribute='class'>
 					<header className='mx-auto flex items-center justify-between px-2 py-6'>
-						<Link href='/' className='flex gap-2 items-center '>
+						<Link href='/' className='flex items-center gap-2'>
 							<Image src='/icon.svg' alt='KVG Bus Tracker Logo' width={30} height={30} />
-							<h1 className='self-center whitespace-nowrap text-2xl font-semibold'>KVG Bus Tracker</h1>
+							<h1 className='self-center text-2xl font-semibold whitespace-nowrap'>KVG Bus Tracker</h1>
 						</Link>
 						<ThemeToggle />
 					</header>
 					<main className='min-h-screen'>
 						<Providers>{children}</Providers>
 					</main>
-					<footer className='mt-8 grid gap-4 text-center md:text-start md:flex md:justify-between m-6 text-sm'>
-						<div className='grid  gap-1 md:flex flex-col '>
+					<footer className='m-6 mt-8 grid gap-4 text-center text-sm md:flex md:justify-between md:text-start'>
+						<div className='grid flex-col gap-1 md:flex'>
 							<a href='https://zao.dev' target='_blank' rel='noreferrer' className='hover:underline'>
 								© 2026 nairol203
 							</a>
-							<span className='text-gray-600 text-xs'>Not affiliated with KVG Kieler Verkehrsgesellschaft mbH</span>
+							<span className='text-xs text-gray-600'>Not affiliated with KVG Kieler Verkehrsgesellschaft mbH</span>
 						</div>
-						<div className='md:flex items-center'>
+						<div className='items-center md:flex'>
 							<a href='https://github.com/nairol203/bus-tracker' className='hover:underline'>
 								Source Code
 							</a>

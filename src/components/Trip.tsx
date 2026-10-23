@@ -41,13 +41,13 @@ export default function Trip({ tripId }: { tripId: string }) {
 				<span>Die Fahrt konnte nicht geladen werden.</span>
 				<button
 					onClick={() => queryClient.refetchQueries({ queryKey: ['tripInfo', tripId] })}
-					className='rounded-sm bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
+					className='bg-primary text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent rounded-sm px-2.5 py-1.5'
 				>
 					Erneut versuchen
 				</button>
 				<button
 					onClick={() => router.back()}
-					className='rounded-sm bg-secondary px-2.5 py-1.5 text-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:text-darkMode-text dark:md:hover:bg-darkMode-accent'
+					className='bg-secondary text-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-secondary dark:text-darkMode-text dark:md:hover:bg-darkMode-accent rounded-sm px-2.5 py-1.5'
 				>
 					Zurück
 				</button>
@@ -59,13 +59,13 @@ export default function Trip({ tripId }: { tripId: string }) {
 		return (
 			<div className='mx-2 grid gap-3'>
 				<h1 className='flex gap-2'>
-					<span className='rounded-lg px-2 skeleton'>00</span>
+					<span className='skeleton rounded-lg px-2'>00</span>
 					<span className='skeleton'>Lorem ipsum.</span>
 				</h1>
 				<div className='flex'>
 					<h2 className='skeleton mt-3'>Lorem ipsum dolor sit.</h2>
 				</div>
-				<div className='grid skeleton'>
+				<div className='skeleton grid'>
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
 					<SkeletonKVGTable />
@@ -87,18 +87,18 @@ export default function Trip({ tripId }: { tripId: string }) {
 	return (
 		<div className='mx-2 grid gap-3'>
 			<h1 className='flex gap-2'>
-				<span className='rounded-lg bg-accent px-2 text-center text-darkMode-text dark:bg-darkMode-accent'>{tripInfo.routeName}</span>
+				<span className='bg-accent text-darkMode-text dark:bg-darkMode-accent rounded-lg px-2 text-center'>{tripInfo.routeName}</span>
 				<span>{tripInfo.directionText}</span>
 			</h1>
 			{tripInfo.actual.length ? (
 				<>
 					<h2>Nächste Haltestellen</h2>
-					<div className='bg-secondary dark:bg-darkMode-secondary p-4 rounded-sm'>
-						<ul className='grid relative gap-4 border-s-2 ml-2 mt-2 border-slate-300 dark:border-slate-700 border-default'>
+					<div className='bg-secondary dark:bg-darkMode-secondary rounded-sm p-4'>
+						<ul className='border-default relative mt-2 ml-2 grid gap-4 border-s-2 border-slate-300 dark:border-slate-700'>
 							{filteredStops.map((a, index) => (
 								<li className='ms-6 mb-2' key={a.stopSequenceNumber}>
 									<div
-										className={`absolute w-4 h-4 mt-1.5 -inset-s-2.25 rounded-full border-4 bg-secondary dark:bg-darkMode-secondary ${index === 0 ? ' border-accent border-8' : 'border-slate-300 dark:border-slate-700'}`}
+										className={`bg-secondary dark:bg-darkMode-secondary absolute -inset-s-2.25 mt-1.5 h-4 w-4 rounded-full border-4 ${index === 0 ? 'border-accent border-8' : 'border-slate-300 dark:border-slate-700'}`}
 									/>
 									<Link href={`/stop/${a.stop.shortName}`} className='flex items-center justify-between gap-2 rounded-sm'>
 										<span className='font-semibold'>{a.stop.name}</span>
@@ -108,7 +108,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 							))}
 						</ul>
 					</div>
-					<div className='flex mt-2 justify-center'>
+					<div className='mt-2 flex justify-center'>
 						<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
 					</div>
 				</>
@@ -117,7 +117,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 					<span>Der Bus hat die Endstation erreicht.</span>
 					<button
 						onClick={() => router.back()}
-						className='rounded-sm bg-primary px-2.5 py-1.5 text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent'
+						className='bg-primary text-darkMode-text md:hover:bg-accent md:hover:text-darkMode-text dark:bg-darkMode-primary dark:text-text dark:md:hover:bg-darkMode-accent rounded-sm px-2.5 py-1.5'
 					>
 						Zurück
 					</button>
