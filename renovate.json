@@ -1,6 +1,14 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:best-practices", ":automergeDigest", ":automergeMinor"],
-	"timezone": "Europe/Berlin",
-	"schedule": ["after 3am and before 7am"]
+	"extends": ["local>nairol203/renovate-config"],
+	"packageRules": [
+		{
+			"matchDatasources": ["npm"],
+			"rangeStrategy": "pin"
+		},
+		{
+			"matchUpdateTypes": ["minor", "patch", "digest"],
+			"automerge": true
+		}
+	]
 }
