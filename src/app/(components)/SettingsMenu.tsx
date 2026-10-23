@@ -2,8 +2,8 @@
 
 import { useBusStore } from '@/stores/bus-store';
 import { CloseButton, Dialog, DialogBackdrop, DialogPanel, DialogTitle, Select, Switch } from '@headlessui/react';
+import { Settings, X } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import Image from 'next/image';
 import { useState } from 'react';
 
 export default function SettingsMenu() {
@@ -14,7 +14,7 @@ export default function SettingsMenu() {
 	return (
 		<>
 			<button onClick={() => setIsOpen(true)} className='rounded-sm p-2 md:hover:bg-secondary md:hover:text-darkMode-text dark:md:hover:bg-darkMode-secondary'>
-				<Image src='/gear.svg' alt='Settings Icon' height={20} width={20} className='shrink-0 dark:invert' />
+				<Settings className='w-5 h-5' />
 			</button>
 			<Dialog open={isOpen} onClose={() => setIsOpen(false)} className='relative z-50'>
 				<DialogBackdrop className='fixed inset-0 bg-text/50' />
@@ -23,7 +23,7 @@ export default function SettingsMenu() {
 						<div className='flex items-center justify-between gap-2'>
 							<DialogTitle className='font-bold'>Einstellungen</DialogTitle>
 							<CloseButton className='rounded-sm p-2 md:hover:bg-secondary md:hover:text-darkMode-text dark:md:hover:bg-darkMode-secondary'>
-								<Image src='/xmark.svg' alt='Close Icon' height={24} width={24} className='h-6 shrink-0 dark:invert' />
+								<X className='w-5 h-5' />
 							</CloseButton>
 						</div>
 						<div className='grid grid-cols-[1fr_6.5rem] items-center justify-between gap-1'>

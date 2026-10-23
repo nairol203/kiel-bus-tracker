@@ -4,7 +4,7 @@ import { useBusStore } from '@/stores/bus-store';
 import { stops } from '@/utils/stops';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react';
 import Fuse from 'fuse.js';
-import Image from 'next/image';
+import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Fragment, useMemo, useState } from 'react';
 
@@ -54,7 +54,7 @@ export default function Searchbar({ currentStop }: { currentStop?: NormalizedKVG
 						placeholder='Suche nach einer Haltestelle'
 					/>
 					<ComboboxButton className='absolute inset-y-0 right-0 flex items-center pr-2'>
-						<Image src='/magnifying-glass.svg' alt='magnifying-glass Icon' height={20} width={20} aria-hidden='true' className='dark:invert' />
+						<Search className='mr-3 h-5 w-5' />
 					</ComboboxButton>
 				</div>
 				<Transition

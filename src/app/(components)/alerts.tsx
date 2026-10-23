@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { TriangleAlert } from 'lucide-react';
 
 function filterIdenticalAlerts<T extends GeneralAlert | RouteAlert>(alerts: T[]) {
 	const uniqueAlerts: T[] = [];
@@ -20,7 +20,7 @@ export function GeneralAlerts({ data }: { data: NormalizedKVGStops }) {
 					className='shadows flex gap-2 rounded-sm bg-primary p-2 text-darkMode-text dark:bg-darkMode-primary dark:text-text'
 					key={`alert-${index}-${data.stopShortName}`}
 				>
-					<Image src='/warn.svg' alt='Warn Icon' height={35} width={35} className='shrink-0 invert dark:invert-0' />
+					<TriangleAlert className='shrink-0 h-9 w-9' />
 					<span className='font-medium'>{alert.title}</span>
 				</div>
 			))}
@@ -46,7 +46,7 @@ export function RouteAlerts({ data, direction, routeId }: { data: NormalizedKVGS
 									<span>{alert.direction.join('; ')}</span>
 								</div>
 								<div className='flex gap-2'>
-									<Image src='/warn.svg' alt='Warn Icon' height={25} width={25} className='shrink-0 invert dark:invert-0' />
+									<TriangleAlert className='shrink-0 h-6 w-6' />
 									<span>{alert.title}</span>
 								</div>
 							</div>
