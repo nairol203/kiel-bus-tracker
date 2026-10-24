@@ -60,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 								<span className='text-xs opacity-70'>Not affiliated with KVG Kieler Verkehrsgesellschaft mbH</span>
 							</div>
 							<div className='items-center md:flex'>
-								<a href='https://github.com/nairol203/bus-tracker' className='hover:underline'>
+								<a href='https://github.com/nairol203/kvg-bus-tracker' className='hover:underline'>
 									Source Code
 								</a>
 							</div>
