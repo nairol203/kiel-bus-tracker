@@ -12,7 +12,7 @@ export default function ThemeToggle() {
 			<MenuButton className={'bg-surface text-muted border-border rounded-full border p-2 shadow'}>
 				{resolvedTheme === 'dark' ? <Moon className='h-5 w-5' /> : <Sun className='h-5 w-5' />}
 			</MenuButton>
-			<MenuItems anchor='bottom end' className={'bg-background border-border text-muted m-2 grid min-w-36 gap-0.5 rounded border p-1 shadow'}>
+			<MenuItems anchor='bottom end' className={'bg-background border-border text-muted z-100 m-2 grid min-w-36 gap-0.5 rounded border p-1 shadow'}>
 				<MenuItem>
 					{({ close }) => (
 						<button

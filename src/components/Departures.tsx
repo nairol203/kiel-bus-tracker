@@ -64,12 +64,12 @@ export default function Departures({ stopId }: { stopId: string }) {
 				<Searchbar />
 				<div className='bg-surface border-border mt-4 grid rounded border shadow'>
 					<div className='bg-primary/10 border-border flex items-center justify-between rounded-t border-b p-4'>
-						<div className='skeleton h-7 w-48 rounded-md' />
+						<div className='skeleton h-7 w-64 rounded-md' />
 						<div className='skeleton h-4 w-24 rounded-md' />
 					</div>
 					<div className='border-border bg-surface-hover/30 grid grid-cols-2 gap-2 border-b p-2 md:flex'>
 						<div className='skeleton h-10 rounded-md md:w-28' />
-						<div className='skeleton h-10 rounded-md md:w-32' />
+						<div className='skeleton h-10 rounded-md md:w-60' />
 					</div>
 					<div className='divide-border grid divide-y'>
 						<SkeletonKVGTable />

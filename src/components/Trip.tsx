@@ -7,22 +7,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getTripInfo } from './actions';
 
-function getTimeDisplay(date: Date, isPaused: boolean, departed = false) {
-	if (isPaused) {
-		return date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-	}
-	const timeDifferenceMin = Math.floor(((new Date().getTime() - date.getTime()) * (departed ? 1 : -1)) / 60000);
-	if (departed) return `vor ${timeDifferenceMin} min`;
-	return timeDifferenceMin < 1 ? 'Sofort' : `${timeDifferenceMin} min`;
-}
-
 export default function Trip({ tripId }: { tripId: string }) {
 	const router = useRouter();
-	const {
-		data: tripInfo,
-		isError,
-		isPaused,
-	} = useQuery({
+	const { data: tripInfo, isError } = useQuery({
 		queryKey: ['tripInfo', tripId],
 		queryFn: () => getTripInfo(tripId),
 		refetchInterval: 15_000,
@@ -165,7 +152,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 												{passage.actualDate && (
 													<div className='flex flex-col items-end'>
 														<span className='text-muted bg-background border-border/60 rounded border px-2 py-0.5 font-mono text-sm'>
-															{getTimeDisplay(passage.actualDate, isPaused, isPast)}
+															{passage.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
 														</span>
 													</div>
 												)}
