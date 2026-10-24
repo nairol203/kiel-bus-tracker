@@ -5,6 +5,7 @@ export default function robots(): MetadataRoute.Robots {
 		rules: {
 			userAgent: '*',
 			allow: '/',
+			disallow: ['/trip/*', '/?*'],
 		},
 		sitemap: 'https://bus.zao.dev/sitemap.xml',
 	};
