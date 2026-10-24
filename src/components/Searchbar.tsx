@@ -1,6 +1,6 @@
 'use client';
 
-import { useBusStore } from '@/stores/bus-store';
+import { useSearchStore } from '@/stores/useSearchStore';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
@@ -14,12 +14,11 @@ export default function Searchbar() {
 
 	const [query, setQuery] = useState('');
 	const [selectedStop, setSelectedStop] = useState<StopByCharacter | null>(null);
-	const { setLastSearches } = useBusStore();
+	const { addSearchedStop } = useSearchStore();
 
 	const { data: stops = [], isLoading } = useQuery({
 		queryKey: ['stops'],
 		queryFn: async () => getAllStops(),
-		refetchInterval: 15_000,
 	});
 
 	const fuse = new Fuse(stops, {
@@ -43,7 +42,7 @@ export default function Searchbar() {
 				setSelectedStop(value);
 				if (value) {
 					updateQuery(value);
-					setLastSearches(value);
+					addSearchedStop(value);
 				}
 			}}
 		>
