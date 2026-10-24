@@ -35,19 +35,23 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang='de' suppressHydrationWarning>
-			<body className=''>
+			<body>
 				<ThemeProvider attribute='class'>
-					<header className='mx-auto flex max-w-3xl items-center justify-between px-2 py-6'>
-						<Link href='/' className='flex items-center gap-2'>
-							<Image src='/icon.svg' alt='KVG Bus Tracker Logo' width={30} height={30} />
-							<h1 className='self-center text-2xl font-semibold whitespace-nowrap'>KVG Bus Tracker</h1>
-						</Link>
-						<ThemeToggle />
-					</header>
-					<main className='mx-auto min-h-screen max-w-3xl'>
-						<Providers>{children}</Providers>
-					</main>
-					<footer className='bg-surface text-muted border-border mt-6 border-t shadow'>
+					<div className='min-h-screen'>
+						<header className='border-border bg-background/80 sticky top-0 z-50 w-full border-b px-4 py-3 backdrop-blur-md'>
+							<div className='mx-auto flex max-w-3xl items-center justify-between'>
+								<Image src='/icon.svg' alt='KVG Bus Tracker Logo' width={30} height={30} />
+								<Link href='/'>
+									<h1 className='md:hover:text-primary self-center text-xl font-semibold whitespace-nowrap transition'>KVG Bus Tracker</h1>
+								</Link>
+								<ThemeToggle />
+							</div>
+						</header>
+						<main className='mx-auto mb-6 max-w-3xl pt-6'>
+							<Providers>{children}</Providers>
+						</main>
+					</div>
+					<footer className='bg-surface text-muted border-border border-t shadow'>
 						<div className='mx-auto grid max-w-3xl gap-4 p-6 text-center text-sm md:flex md:justify-between md:text-start'>
 							<div className='grid flex-col gap-1 md:flex'>
 								<a href='https://zao.dev' target='_blank' rel='noreferrer' className='hover:underline'>
