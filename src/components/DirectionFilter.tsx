@@ -30,7 +30,7 @@ export default function DirectionFilter({ stop }: { stop: NormalizedKVGStops }) 
 
 	return (
 		<Select
-			className='border-border bg-surface flex items-center justify-between gap-2 rounded-sm border p-2 transition duration-200'
+			className={`border-border ${!!searchParams.get('direction') ? 'bg-primary' : 'bg-background text-muted'} flex items-center justify-between gap-2 rounded-sm border p-2 transition duration-200`}
 			onChange={(e) => {
 				if (!e.target.value || direction === e.target.value) return;
 				if (e.target.value === 'Alle Richtungen') {

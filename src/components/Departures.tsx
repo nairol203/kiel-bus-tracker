@@ -87,12 +87,12 @@ export default function Departures({ stopId }: { stopId: string }) {
 		<div className='mx-2'>
 			<Searchbar />
 			<div className='bg-surface border-border mt-4 grid rounded border shadow'>
-				<div className='bg-primary/10 flex items-center justify-between rounded-t p-4'>
+				<div className='bg-primary/10 border-border flex items-center justify-between rounded-t border-b p-4'>
 					<h2 className='font-bold'>Abfahrten von {busStop.stopName}</h2>
 					<HealthIndicator isError={isError} isFetching={isFetching} isPaused={isPaused} dataUpdatedAt={dataUpdatedAt} />
 				</div>
-				{busStop.actual.length > 1 && (
-					<div className='border-border bg-primary/10 grid grid-cols-2 gap-2 border-b p-2 md:flex'>
+				{(busStop.actual.length > 1 || !!routeId || !!direction) && (
+					<div className='border-border bg-surface-hover/30 grid grid-cols-2 gap-2 border-b p-2 md:flex'>
 						<RouteFilter stop={busStop} />
 						<DirectionFilter stop={busStop} />
 					</div>
