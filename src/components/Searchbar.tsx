@@ -49,7 +49,7 @@ export default function Searchbar() {
 			<div className='relative'>
 				<div className='relative w-full'>
 					<ComboboxInput
-						className='bg-surface border-border w-full rounded-sm border p-3 text-lg shadow-sm'
+						className='bg-surface border-border w-full rounded-sm border p-2 pl-3 shadow'
 						onChange={(event) => setQuery(event.target.value)}
 						placeholder='Suchen'
 					/>
@@ -72,7 +72,7 @@ export default function Searchbar() {
 								<li className='wrap bg-surface rounded-sm p-2.5'>Keine Ergebnisse</li>
 							) : (
 								filteredStops.map((stop) => (
-									<ComboboxOption key={stop.id} className={'bg-surface md:hover:bg-surface/60 cursor-pointer p-2.5'} value={stop}>
+									<ComboboxOption key={stop.id} className={'bg-surface md:hover:bg-surface-hover cursor-pointer p-2.5'} value={stop}>
 										{stop.name}
 									</ComboboxOption>
 								))

@@ -25,7 +25,7 @@ export default function RecommendedSearches() {
 							.slice(0, 3)
 							.map((stop, index) => (
 								<Link
-									className='group md:hover:bg-surface/60 flex items-center gap-3 p-3 font-medium transition duration-200 first:rounded-t last:rounded-b'
+									className='group md:hover:bg-surface-hover flex items-center gap-3 p-3 font-medium transition duration-200 first:rounded-t last:rounded-b'
 									href={`/stop/${stop.number}`}
 									key={`${index}_${stop.id}`}
 								>
@@ -43,7 +43,7 @@ export default function RecommendedSearches() {
 			<div className='bg-surface/40 border-border/60 divide-border/40 grid divide-y rounded border'>
 				{recommendedStops.map((stop) => (
 					<Link
-						className='group md:hover:bg-surface/60 flex items-center gap-3 p-3 font-medium transition duration-200 first:rounded-t last:rounded-b'
+						className='group md:hover:bg-surface-hover flex items-center gap-3 p-3 font-medium transition duration-200 first:rounded-t last:rounded-b'
 						href={`/stop/${stop.number}`}
 						key={stop.number}
 					>

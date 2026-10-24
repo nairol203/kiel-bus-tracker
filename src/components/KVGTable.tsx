@@ -23,13 +23,13 @@ export default function KVGTable({
 }) {
 	return (
 		<div className='divide-border divide-y'>
-			{/* {showGeneralAlerts && <GeneralAlerts data={data} />} */}
-			{/* {showRouteAlerts && <RouteAlerts data={data} direction={direction} routeId={routeId} />} */}
+			{showGeneralAlerts && <GeneralAlerts data={data} />}
+			{showRouteAlerts && <RouteAlerts data={data} direction={direction} routeId={routeId} />}
 			{data.actual.length ? (
 				data.actual.map((actual, index) => (
 					<Link
 						href={`/trip/${actual.tripId}`}
-						className='md:hover:bg-surface/60 grid grid-cols-[35px_1fr_75px] items-center justify-between gap-x-6 p-4 transition duration-200'
+						className='md:hover:bg-surface-hover grid grid-cols-[35px_1fr_75px] items-center justify-between gap-x-6 p-4 transition duration-200'
 						key={`${index}-${actual.tripId}`}
 					>
 						<span className='bg-primary flex h-12 w-12 items-center justify-center rounded-lg text-center text-lg font-semibold text-white'>{actual.patternText}</span>
@@ -59,7 +59,7 @@ export default function KVGTable({
 export function SkeletonKVGTable() {
 	return (
 		<div className='grid grid-cols-[35px_1fr_75px] items-center justify-between gap-x-6 p-4'>
-			<div className='skeleton h-12 w-12 flex-shrink-0 rounded-lg' />
+			<div className='skeleton h-12 w-12 shrink-0 rounded-lg' />
 			<div className='grid min-w-0 gap-2 pr-2'>
 				<div className='skeleton h-5 w-32 rounded-md' />
 				<div className='skeleton h-3.5 w-12 rounded-md' />
