@@ -10,6 +10,27 @@ const parseTime = (timeStr?: string): Date => {
 	return date;
 };
 
+export async function getAllStops(): Promise<StopByCharacter[]> {
+	const endpoint = new URL(`${API_BASE_URI}/internetservice/services/lookup/stopsByCharacter`);
+	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+	const fetchPromises = characters.map(async (char) => {
+		endpoint.searchParams.set('character', char);
+		const res = await fetch(
+			endpoint.toString(),
+			{ next: { revalidate: 86400 } }, // Cache the result for 24 hours
+		);
+		if (!res.ok) return [];
+		const data: StopsByCharacter = await res.json();
+		return data.stops;
+	});
+
+	const results = await Promise.all(fetchPromises);
+	const allStops = results.flat();
+
+	return allStops;
+}
+
 export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string | null; direction?: string | null }): Promise<NormalizedKVGStops | undefined> {
 	const endpoint = new URL(`${API_BASE_URI}/internetservice/services/passageInfo/stopPassages/stop`);
 

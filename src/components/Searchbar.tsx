@@ -1,29 +1,34 @@
 'use client';
 
 import { useBusStore } from '@/stores/bus-store';
-import { stops } from '@/utils/stops';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react';
+import { useQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
 import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useState } from 'react';
+import { getAllStops } from './actions';
 
 export default function Searchbar() {
 	const router = useRouter();
 
 	const [query, setQuery] = useState('');
-	const [disabled, setDisabled] = useState(false);
 	const [selectedStop, setSelectedStop] = useState<StopByCharacter | null>(null);
 	const { setLastSearches } = useBusStore();
 
-	const filteredStops = useMemo(() => {
-		const fuse = new Fuse(stops, {
-			keys: ['name'],
-			threshold: 0.3,
-		});
-		const result = fuse.search(query.trim());
-		return result.map((item) => item.item).slice(0, 5);
-	}, [query]);
+	const { data: stops = [], isLoading } = useQuery({
+		queryKey: ['stops'],
+		queryFn: async () => getAllStops(),
+		refetchInterval: 15_000,
+	});
+
+	const fuse = new Fuse(stops, {
+		keys: ['name'],
+		threshold: 0.3,
+	});
+
+	const result = fuse.search(query.trim());
+	const filteredStops = result.map((item) => item.item).slice(0, 5);
 
 	function updateQuery(selectedStop: StopByCharacter) {
 		router.push(`/stop/${selectedStop.number}`);
@@ -32,17 +37,13 @@ export default function Searchbar() {
 	return (
 		<Combobox
 			immediate
-			disabled={disabled}
+			disabled={isLoading}
 			value={selectedStop}
 			onChange={(value) => {
 				setSelectedStop(value);
 				if (value) {
-					setDisabled(true);
 					updateQuery(value);
 					setLastSearches(value);
-					setTimeout(() => {
-						setDisabled(false);
-					}, 50);
 				}
 			}}
 		>
