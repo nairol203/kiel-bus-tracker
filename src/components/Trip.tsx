@@ -1,15 +1,14 @@
 'use client';
 
-import { useBusStore } from '@/stores/bus-store';
 import { queryClient } from '@/utils/Providers';
 import { useQuery } from '@tanstack/react-query';
-import { AlertCircle, ArrowLeft, Bus } from 'lucide-react';
+import { AlertCircle, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getTripInfo } from './actions';
 
-function getTimeDisplay(date: Date, useRelative: boolean, isPaused: boolean, departed = false) {
-	if (isPaused || !useRelative) {
+function getTimeDisplay(date: Date, isPaused: boolean, departed = false) {
+	if (isPaused) {
 		return date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
 	}
 	const timeDifferenceMin = Math.floor(((new Date().getTime() - date.getTime()) * (departed ? 1 : -1)) / 60000);
@@ -28,8 +27,6 @@ export default function Trip({ tripId }: { tripId: string }) {
 		queryFn: () => getTripInfo(tripId),
 		refetchInterval: 15_000,
 	});
-
-	const { useRelativeTimes } = useBusStore();
 
 	if (isError) {
 		return (
@@ -168,7 +165,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 												{passage.actualDate && (
 													<div className='flex flex-col items-end'>
 														<span className='text-muted bg-background border-border/60 rounded border px-2 py-0.5 font-mono text-sm'>
-															{getTimeDisplay(passage.actualDate, useRelativeTimes, isPaused, isPast)}
+															{getTimeDisplay(passage.actualDate, isPaused, isPast)}
 														</span>
 													</div>
 												)}
