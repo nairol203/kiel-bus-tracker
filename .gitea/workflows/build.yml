@@ -35,14 +35,14 @@ jobs:
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
             - name: Log in to Gitea container registry
-              uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4
+              uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4
               with:
                   registry: git.zao.dev
                   username: ${{ gitea.repository_owner }}
                   password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
 
             - name: Log in to GitHub container registry
-              uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4
+              uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4
               with:
                   registry: ghcr.io
                   username: ${{ gitea.repository_owner }}
