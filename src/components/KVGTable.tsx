@@ -1,9 +1,15 @@
 'use client';
 
-import { parseTime } from '@/lib/time';
 import { Clock } from 'lucide-react';
 import Link from 'next/link';
-import { GeneralAlerts, RouteAlerts } from './Alerts';
+
+function parseTime(time?: string) {
+	if (!time) return new Date(NaN);
+	const [hours, minutes] = time.split(':').map(Number);
+	const date = new Date();
+	date.setHours(hours, minutes, 0, 0);
+	return date;
+}
 
 function hasBusDelay(plannedTime: string, actualTime?: string) {
 	const plannedDate = parseTime(plannedTime);
@@ -12,23 +18,9 @@ function hasBusDelay(plannedTime: string, actualTime?: string) {
 	return diffMinutes > 2;
 }
 
-export default function KVGTable({
-	data,
-	direction,
-	routeId,
-	showGeneralAlerts = true,
-	showRouteAlerts = true,
-}: {
-	data: KVGStops;
-	routeId?: string | null;
-	direction?: string | null;
-	showGeneralAlerts?: boolean;
-	showRouteAlerts?: boolean;
-}) {
+export default function KVGTable({ data }: { data: KVGStops }) {
 	return (
 		<div className='divide-border divide-y'>
-			{showGeneralAlerts && <GeneralAlerts data={data} />}
-			{showRouteAlerts && <RouteAlerts data={data} direction={direction} routeId={routeId} />}
 			{data.actual.length ? (
 				data.actual.map((actual, index) => (
 					<Link
@@ -39,14 +31,23 @@ export default function KVGTable({
 						<span className='bg-primary flex h-12 w-12 items-center justify-center rounded-lg text-center text-lg font-semibold text-white'>{actual.patternText}</span>
 						<div className='grid'>
 							<span className='text-lg font-semibold whitespace-nowrap'>{actual.direction}</span>
-							<div className='flex gap-2 font-medium'>
-								<span className={`text-muted flex items-center gap-1 text-sm ${hasBusDelay(actual.plannedTime, actual.actualTime) ? 'line-through' : ''}`}>
-									<Clock className='h-3 w-3' /> {actual.plannedTime}
+							{hasBusDelay(actual.plannedTime, actual.actualTime) ? (
+								<div className='flex gap-2 text-sm font-semibold'>
+									<span className='text-muted flex items-center gap-1 line-through'>
+										<Clock className='h-3.5 w-3.5' /> {actual.plannedTime}
+									</span>
+									<span className='text-red-400'>{actual.actualTime}</span>
+									<span className='shrink-0 rounded border border-red-500/20 bg-red-500/10 px-1.5 py-0.5 text-[10px] tracking-wider text-red-400 uppercase'>
+										Verspätet
+									</span>
+								</div>
+							) : (
+								<span className='text-muted flex items-center gap-1 text-sm font-semibold'>
+									<Clock className='h-3.5 w-3.5' /> {actual.actualTime || actual.plannedTime}
 								</span>
-								{hasBusDelay(actual.plannedTime, actual.actualTime) && <span className='text-sm font-medium text-red-400'>{actual.actualTime}</span>}
-							</div>
+							)}
 						</div>
-						<span className={`flex items-center justify-end text-lg font-semibold`}>
+						<span className='flex items-center justify-end text-lg font-semibold'>
 							{actual.actualRelativeTime < 60 ? 'Jetzt' : `${Math.round(actual.actualRelativeTime / 60)} min`}
 						</span>
 					</Link>
@@ -54,21 +55,6 @@ export default function KVGTable({
 			) : (
 				<div className='text-muted p-8 text-center'>Keine anstehenden Abfahrten.</div>
 			)}
-		</div>
-	);
-}
-
-export function SkeletonKVGTable() {
-	return (
-		<div className='grid grid-cols-[35px_1fr_75px] items-center justify-between gap-x-6 p-4'>
-			<div className='skeleton h-12 w-12 shrink-0 rounded-lg' />
-			<div className='grid min-w-0 gap-2 pr-2'>
-				<div className='skeleton h-5 w-32 rounded-md' />
-				<div className='skeleton h-3.5 w-12 rounded-md' />
-			</div>
-			<div className='flex flex-col items-end gap-1.5'>
-				<div className='skeleton h-6 w-12 rounded-md' />
-			</div>
 		</div>
 	);
 }

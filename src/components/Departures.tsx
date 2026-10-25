@@ -4,9 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 import { AlertCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getStopData } from '../lib/kvg';
+import { GeneralAlerts, RouteAlerts } from './Alerts';
 import DirectionFilter from './DirectionFilter';
 import HealthIndicator from './HealthIndicator';
-import KVGTable, { SkeletonKVGTable } from './KVGTable';
+import KVGTable from './KVGTable';
 import RouteFilter from './RouteFilter';
 
 export default function Departures({ stopId }: { stopId: string }) {
@@ -33,21 +34,13 @@ export default function Departures({ stopId }: { stopId: string }) {
 	if (isError) {
 		return (
 			<div className='mt-4'>
-				<div className='bg-surface/50 border-border flex flex-col items-center justify-center rounded border p-12 text-center shadow-lg'>
+				<div className='bg-surface border-border flex flex-col items-center justify-center rounded border p-12 text-center shadow'>
 					<AlertCircle className='text-muted mb-4 h-10 w-10' />
 					<h1 className='text-text mb-2 text-xl font-bold'>Fehler beim Laden der Haltestelle</h1>
 					<p className='text-muted mb-6 text-sm'>Die Fahrtdaten konnten nicht abgerufen werden.</p>
-					<div className='flex gap-3'>
-						{/* <button
-								onClick={() => queryClient.refetchQueries({ queryKey: ['stopData', stopId, routeId, direction] })}
-								className='bg-primary hover:bg-primary/90 rounded-lg px-4 py-2 text-white shadow'
-							>
-								Erneut versuchen
-							</button> */}
-						<button onClick={() => router.back()} className='bg-surface hover:bg-surface-hover text-muted border-border rounded-lg border px-4 py-2'>
-							Zurück
-						</button>
-					</div>
+					<button onClick={() => router.back()} className='bg-surface hover:bg-surface-hover text-muted border-border rounded border px-4 py-2'>
+						Zurück
+					</button>
 				</div>
 			</div>
 		);
@@ -65,11 +58,18 @@ export default function Departures({ stopId }: { stopId: string }) {
 					<div className='skeleton h-10 rounded-md md:w-60' />
 				</div>
 				<div className='divide-border grid divide-y'>
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
-					<SkeletonKVGTable />
+					{[...Array(5)].map((_, i) => (
+						<div className='grid grid-cols-[35px_1fr_75px] items-center justify-between gap-x-6 p-4' key={i}>
+							<div className='skeleton h-12 w-12 shrink-0 rounded-lg' />
+							<div className='grid min-w-0 gap-2 pr-2'>
+								<div className='skeleton h-5 w-32 rounded-md' />
+								<div className='skeleton h-3.5 w-12 rounded-md' />
+							</div>
+							<div className='flex flex-col items-end gap-1.5'>
+								<div className='skeleton h-6 w-12 rounded-md' />
+							</div>
+						</div>
+					))}
 				</div>
 			</div>
 		);
@@ -87,8 +87,9 @@ export default function Departures({ stopId }: { stopId: string }) {
 					<DirectionFilter stop={busStop} />
 				</div>
 			)}
-
-			<KVGTable data={busStop} routeId={routeId} direction={direction} />
+			<GeneralAlerts data={busStop} />
+			<RouteAlerts data={busStop} direction={direction} routeId={routeId} />
+			<KVGTable data={busStop} />
 		</div>
 	);
 }

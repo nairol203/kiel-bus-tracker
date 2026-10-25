@@ -21,21 +21,13 @@ export default function Trip({ tripId }: { tripId: string }) {
 	if (isError) {
 		return (
 			<div className='mx-2 mb-12'>
-				<div className='bg-surface/50 border-border flex flex-col items-center justify-center rounded border p-12 text-center shadow-lg'>
+				<div className='bg-surface border-border flex flex-col items-center justify-center rounded border p-12 text-center shadow'>
 					<AlertCircle className='text-muted mb-4 h-10 w-10' />
 					<h1 className='text-text mb-2 text-xl font-bold'>Fehler beim Laden der Fahrt</h1>
 					<p className='text-muted mb-6 text-sm'>Die Fahrtdaten konnten nicht abgerufen werden.</p>
-					<div className='flex gap-3'>
-						{/* <button
-							onClick={() => queryClient.refetchQueries({ queryKey: ['tripInfo', tripId] })}
-							className='bg-primary hover:bg-primary/90 rounded-lg px-4 py-2 text-white shadow'
-						>
-							Erneut versuchen
-						</button> */}
-						<button onClick={() => router.back()} className='bg-surface hover:bg-surface-hover text-muted border-border rounded-lg border px-4 py-2'>
-							Zurück
-						</button>
-					</div>
+					<button onClick={() => router.back()} className='bg-surface hover:bg-surface-hover text-muted border-border rounded border px-4 py-2'>
+						Zurück
+					</button>
 				</div>
 			</div>
 		);
