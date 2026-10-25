@@ -6,10 +6,33 @@ https://bus.zao.dev
 
 ## Self host
 
+### Docker
+
 You can self host this project with docker. You can use the prebuilt images from the github container registry or built it yourself.
 
 ```bash
-docker run -p 3000:3000 -e TZ=Europe/Berlin ghcr.io/nairol203/bus-tracker:main
+docker run -p 3000:3000 -e TZ=Europe/Berlin ghcr.io/nairol203/kvg-bus-tracker:main
+```
+
+### Manual
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/nairol203/kvg-bus-tracker.git
+cd kvg-bus-tracker
+```
+
+### 2. Install dependencies
+
+```bash
+npm ci
+```
+
+### 3. Start the standalone server
+
+```bash
+node .next/standalone/server.js
 ```
 
 ## Development
@@ -17,8 +40,8 @@ docker run -p 3000:3000 -e TZ=Europe/Berlin ghcr.io/nairol203/bus-tracker:main
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/nairol203/bus-tracker.git
-cd bus-tracker
+git clone https://github.com/nairol203/kvg-bus-tracker.git
+cd kvg-bus-tracker
 ```
 
 ### 2. Install dependencies
