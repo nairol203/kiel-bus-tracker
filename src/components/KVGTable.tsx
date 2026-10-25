@@ -3,19 +3,21 @@
 import { Clock } from 'lucide-react';
 import Link from 'next/link';
 
-function parseTime(time?: string) {
-	if (!time) return new Date(NaN);
-	const [hours, minutes] = time.split(':').map(Number);
-	const date = new Date();
-	date.setHours(hours, minutes, 0, 0);
-	return date;
-}
+function getDelayMinutes(plannedTime: string, actualTime?: string) {
+	if (!actualTime) return 0;
 
-function hasBusDelay(plannedTime: string, actualTime?: string) {
-	const plannedDate = parseTime(plannedTime);
-	const actualDate = parseTime(actualTime);
-	const diffMinutes = (actualDate.getTime() - plannedDate.getTime()) / 60000;
-	return diffMinutes > 2;
+	const [plannedHours, plannedMinutes] = plannedTime.split(':').map(Number);
+	const [actualHours, actualMinutes] = actualTime.split(':').map(Number);
+
+	const totalPlanned = plannedHours * 60 + plannedMinutes;
+	let totalActual = actualHours * 60 + actualMinutes;
+
+	// Handle midnight crossover (if time2 is on the next day)
+	if (totalActual < totalPlanned) {
+		totalActual += 24 * 60; // Add 24 hours in minutes (1440)
+	}
+
+	return totalActual - totalPlanned;
 }
 
 export default function KVGTable({ data }: { data: KVGStops }) {
@@ -31,7 +33,7 @@ export default function KVGTable({ data }: { data: KVGStops }) {
 						<span className='bg-primary flex h-12 w-12 items-center justify-center rounded-lg text-center text-lg font-semibold text-white'>{actual.patternText}</span>
 						<div className='grid'>
 							<span className='text-lg font-semibold whitespace-nowrap'>{actual.direction}</span>
-							{hasBusDelay(actual.plannedTime, actual.actualTime) ? (
+							{getDelayMinutes(actual.plannedTime, actual.actualTime) > 2 ? (
 								<div className='flex gap-2 text-sm font-semibold'>
 									<span className='text-muted flex items-center gap-1 line-through'>
 										<Clock className='h-3.5 w-3.5' /> {actual.plannedTime}
