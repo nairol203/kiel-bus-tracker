@@ -16,20 +16,20 @@ docker run -p 3000:3000 -e TZ=Europe/Berlin ghcr.io/nairol203/kvg-bus-tracker:ma
 
 ### Manual
 
-### 1. Clone the repository
+#### 1. Clone the repository
 
 ```bash
 git clone https://github.com/nairol203/kvg-bus-tracker.git
 cd kvg-bus-tracker
 ```
 
-### 2. Install dependencies
+#### 2. Install dependencies
 
 ```bash
 npm ci
 ```
 
-### 3. Start the standalone server
+#### 3. Start the standalone server
 
 ```bash
 node .next/standalone/server.js
