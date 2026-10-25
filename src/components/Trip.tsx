@@ -1,17 +1,20 @@
 'use client';
 
-import { queryClient } from '@/utils/Providers';
+import { getTripInfo } from '@/lib/kvg';
 import { useQuery } from '@tanstack/react-query';
 import { AlertCircle, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { getTripInfo } from './actions';
 
 export default function Trip({ tripId }: { tripId: string }) {
 	const router = useRouter();
 	const { data: tripInfo, isError } = useQuery({
 		queryKey: ['tripInfo', tripId],
-		queryFn: () => getTripInfo(tripId),
+		queryFn: async (): ReturnType<typeof getTripInfo> => {
+			const res = await fetch(`/api/trip/${tripId}`);
+			if (!res.ok) throw new Error('Failed to fetch trips');
+			return res.json();
+		},
 		refetchInterval: 15_000,
 	});
 
@@ -23,12 +26,12 @@ export default function Trip({ tripId }: { tripId: string }) {
 					<h1 className='text-text mb-2 text-xl font-bold'>Fehler beim Laden der Fahrt</h1>
 					<p className='text-muted mb-6 text-sm'>Die Fahrtdaten konnten nicht abgerufen werden.</p>
 					<div className='flex gap-3'>
-						<button
+						{/* <button
 							onClick={() => queryClient.refetchQueries({ queryKey: ['tripInfo', tripId] })}
 							className='bg-primary hover:bg-primary/90 rounded-lg px-4 py-2 text-white shadow'
 						>
 							Erneut versuchen
-						</button>
+						</button> */}
 						<button onClick={() => router.back()} className='bg-surface hover:bg-surface-hover text-muted border-border rounded-lg border px-4 py-2'>
 							Zurück
 						</button>
@@ -122,7 +125,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 									const isPast = i < nextStopI;
 
 									return (
-										<div key={`${passage.stopSequenceNumber}-${passage.stop.id}`} className={`flex items-start gap-6 ${isPast ? 'opacity-40' : ''}`}>
+										<div key={`${passage.stop_seq_num}-${passage.stop.id}`} className={`flex items-start gap-6 ${isPast ? 'opacity-40' : ''}`}>
 											<div className='relative mt-1'>
 												<div
 													className={`h-4 w-4 shrink-0 rounded-full border-2 transition-all ${
@@ -149,13 +152,11 @@ export default function Trip({ tripId }: { tripId: string }) {
 													</Link>
 													{isNextStop && <p className='text-primary mt-1 text-[10px] font-bold tracking-widest uppercase'>Nächster Halt</p>}
 												</div>
-												{passage.actualDate && (
-													<div className='flex flex-col items-end'>
-														<span className='text-muted bg-background border-border/60 rounded border px-2 py-0.5 font-mono text-sm'>
-															{passage.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
-														</span>
-													</div>
-												)}
+												<div className='flex flex-col items-end'>
+													<span className='text-muted bg-background border-border/60 rounded border px-2 py-0.5 font-mono text-sm'>
+														{passage.actualTime || ('plannedTime' in passage && passage.plannedTime)}
+													</span>
+												</div>
 											</div>
 										</div>
 									);

@@ -1,8 +1,13 @@
+'use client';
+
+import { parseTime } from '@/lib/time';
 import { Clock } from 'lucide-react';
 import Link from 'next/link';
-import { GeneralAlerts, RouteAlerts } from './alerts';
+import { GeneralAlerts, RouteAlerts } from './Alerts';
 
-function hasBusDelay(plannedDate: Date, actualDate: Date) {
+function hasBusDelay(plannedTime: string, actualTime?: string) {
+	const plannedDate = parseTime(plannedTime);
+	const actualDate = parseTime(actualTime);
 	const diffMinutes = (actualDate.getTime() - plannedDate.getTime()) / 60000;
 	return diffMinutes > 2;
 }
@@ -14,8 +19,7 @@ export default function KVGTable({
 	showGeneralAlerts = true,
 	showRouteAlerts = true,
 }: {
-	data: NormalizedKVGStops;
-	isPaused: boolean;
+	data: KVGStops;
 	routeId?: string | null;
 	direction?: string | null;
 	showGeneralAlerts?: boolean;
@@ -36,12 +40,10 @@ export default function KVGTable({
 						<div className='grid'>
 							<span className='text-lg font-semibold whitespace-nowrap'>{actual.direction}</span>
 							<div className='flex gap-2 font-medium'>
-								<span className={`text-muted flex items-center gap-1 text-sm ${hasBusDelay(actual.plannedDate, actual.actualDate) ? 'line-through' : ''}`}>
-									<Clock className='h-3 w-3' /> {actual.plannedDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
+								<span className={`text-muted flex items-center gap-1 text-sm ${hasBusDelay(actual.plannedTime, actual.actualTime) ? 'line-through' : ''}`}>
+									<Clock className='h-3 w-3' /> {actual.plannedTime}
 								</span>
-								{hasBusDelay(actual.plannedDate, actual.actualDate) && (
-									<span className='text-sm text-red-400'>{actual.actualDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
-								)}
+								{hasBusDelay(actual.plannedTime, actual.actualTime) && <span className='text-sm font-medium text-red-400'>{actual.actualTime}</span>}
 							</div>
 						</div>
 						<span className={`flex items-center justify-end text-lg font-semibold`}>

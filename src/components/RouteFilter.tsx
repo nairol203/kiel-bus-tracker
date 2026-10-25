@@ -1,7 +1,7 @@
 import { Select } from '@headlessui/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-export default function RouteFilter({ stop }: { stop: NormalizedKVGStops }) {
+export default function RouteFilter({ stop }: { stop: KVGStops }) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
@@ -25,7 +25,7 @@ export default function RouteFilter({ stop }: { stop: NormalizedKVGStops }) {
 
 	return (
 		<Select
-			className={`border-border ${!!routeId ? 'bg-primary' : 'bg-background text-muted'} flex items-center justify-between gap-2 rounded-sm border p-2 transition duration-200`}
+			className={`border-border ${!!routeId ? 'bg-primary text-white' : 'bg-background text-muted'} flex items-center justify-between gap-2 rounded-sm border p-2 transition duration-200`}
 			onChange={(e) => {
 				if (!e.target.value || routeId === e.target.value) return;
 				if (e.target.value === 'all') {

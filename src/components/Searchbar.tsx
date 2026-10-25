@@ -1,5 +1,6 @@
 'use client';
 
+import { getAllStops } from '@/lib/kvg';
 import { useSearchStore } from '@/stores/useSearchStore';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
@@ -7,7 +8,6 @@ import Fuse from 'fuse.js';
 import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
-import { getAllStops } from './actions';
 
 export default function Searchbar() {
 	const router = useRouter();
@@ -18,7 +18,11 @@ export default function Searchbar() {
 
 	const { data: stops = [], isLoading } = useQuery({
 		queryKey: ['stops'],
-		queryFn: async () => getAllStops(),
+		queryFn: async (): ReturnType<typeof getAllStops> => {
+			const res = await fetch('/api/stops');
+			if (!res.ok) throw new Error('Failed to fetch stops');
+			return res.json();
+		},
 	});
 
 	const fuse = new Fuse(stops, {

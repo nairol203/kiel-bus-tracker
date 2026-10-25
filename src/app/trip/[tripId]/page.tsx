@@ -1,9 +1,9 @@
-import { getTripInfo } from '@/components/actions';
 import Trip from '@/components/Trip';
+import { getTripInfo } from '@/lib/kvg';
 import { Metadata } from 'next';
 
 type Props = {
-	params: { tripId: string };
+	params: Promise<{ tripId: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

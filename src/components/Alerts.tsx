@@ -12,7 +12,7 @@ function filterIdenticalAlerts<T extends GeneralAlert | RouteAlert>(alerts: T[])
 	return uniqueAlerts;
 }
 
-export function GeneralAlerts({ data }: { data: NormalizedKVGStops }) {
+export function GeneralAlerts({ data }: { data: KVGStops }) {
 	return filterIdenticalAlerts(data.generalAlerts).map((alert, index) => (
 		<div className='border-border bg-primary/20 flex border-b p-3' key={`alert-${index}-${data.stopShortName}`}>
 			<TriangleAlert className='mr-4 h-6 w-6 shrink-0' />
@@ -21,7 +21,7 @@ export function GeneralAlerts({ data }: { data: NormalizedKVGStops }) {
 	));
 }
 
-export function RouteAlerts({ data, direction, routeId }: { data: NormalizedKVGStops; routeId?: string | null; direction?: string | null }) {
+export function RouteAlerts({ data, direction, routeId }: { data: KVGStops; routeId?: string | null; direction?: string | null }) {
 	return data.routes
 		.filter((route) => (routeId ? route.id === routeId : true))
 		.map((route) =>

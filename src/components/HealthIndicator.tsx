@@ -1,4 +1,4 @@
-export default function HealthIndicator({ isError, isPaused }: { isFetching: boolean; isError: boolean; isPaused: boolean; dataUpdatedAt: number }) {
+export default function HealthIndicator({ isError, isPaused }: { isError: boolean; isPaused: boolean }) {
 	if (isPaused)
 		return (
 			<div className='flex items-center text-sm'>

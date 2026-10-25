@@ -7,7 +7,7 @@ function filterUniqueAndSortAscending(arr: string[]) {
 	return sortedArr;
 }
 
-export default function DirectionFilter({ stop }: { stop: NormalizedKVGStops }) {
+export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
@@ -30,7 +30,7 @@ export default function DirectionFilter({ stop }: { stop: NormalizedKVGStops }) 
 
 	return (
 		<Select
-			className={`border-border ${!!searchParams.get('direction') ? 'bg-primary' : 'bg-background text-muted'} flex items-center justify-between gap-2 rounded-sm border p-2 transition duration-200`}
+			className={`border-border ${!!searchParams.get('direction') ? 'bg-primary text-white' : 'bg-background text-muted'} flex items-center justify-between gap-2 rounded-sm border p-2 transition duration-200`}
 			onChange={(e) => {
 				if (!e.target.value || direction === e.target.value) return;
 				if (e.target.value === 'Alle Richtungen') {
