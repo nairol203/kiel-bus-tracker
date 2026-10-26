@@ -6,12 +6,12 @@ https://bus.zao.dev
 
 ## Self host
 
-### Docker
+### Podman
 
-You can self host this project with docker. You can use the prebuilt images from the github container registry or built it yourself.
+You can self host this project with podman. You can use the prebuilt images from the github container registry or built it yourself.
 
 ```bash
-docker run -p 3000:3000 -e TZ=Europe/Berlin ghcr.io/nairol203/kvg-bus-tracker:main
+podman run -p 3000:3000 -e TZ=Europe/Berlin ghcr.io/nairol203/kvg-bus-tracker:main
 ```
 
 ### Manual
@@ -23,10 +23,11 @@ git clone https://github.com/nairol203/kvg-bus-tracker.git
 cd kvg-bus-tracker
 ```
 
-#### 2. Install dependencies
+#### 2. Install dependencies and build code
 
 ```bash
 npm ci
+npm run build
 ```
 
 #### 3. Start the standalone server
