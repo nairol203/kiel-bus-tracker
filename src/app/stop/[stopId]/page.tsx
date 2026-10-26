@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	if (!stop) return {};
 
 	return {
-		title: `${data ? `${stop.name} | KVG Bus Tracker` : 'KVG Bus Tracker'}`,
+		title: `${data ? `${stop.name} | Kiel Bus Tracker` : 'Kiel Bus Tracker'}`,
 		description: `Aktuelle Abfahrtszeiten ${stop ? `für die Haltestelle ${stop.name}` : 'aller Buslinien der KVG Kiel'}. Echtzeit-Infos${stop ? ' der KVG Kiel' : ''}, alle Buslinien und Verspätungen auf einen Blick.`,
 		alternates: {
 			canonical: `/stop/${stopId}`,

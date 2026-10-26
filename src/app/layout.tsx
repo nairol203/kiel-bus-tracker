@@ -10,8 +10,8 @@ import { Providers } from './providers';
 export const metadata: Metadata = {
 	metadataBase: new URL('https://bus.zao.dev'),
 	title: {
-		default: 'KVG Bus Tracker | Echtzeit Abfahrten für Kiel',
-		template: '%s | KVG Bus Tracker',
+		default: 'Kiel Bus Tracker | Echtzeit Abfahrten für Kiel',
+		template: '%s | Kiel Bus Tracker',
 	},
 	description: 'Aktuelle Abfahrtszeiten aller Buslinien der KVG Kiel. Echtzeit-Infos, alle Buslinien und Verspätungen auf einen Blick.',
 	authors: [
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 	],
 	openGraph: {
 		url: '/',
-		siteName: 'KVG Bus Tracker',
+		siteName: 'Kiel Bus Tracker',
 		locale: 'de_DE',
 		type: 'website',
 	},
@@ -40,9 +40,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<div className='min-h-screen'>
 						<header className='border-border bg-background/80 sticky top-0 z-50 w-full border-b px-4 py-3 backdrop-blur-md'>
 							<div className='mx-auto flex max-w-3xl items-center justify-between'>
-								<Image src='/icon.svg' alt='KVG Bus Tracker Logo' width={30} height={30} />
+								<Image src='/icon.svg' alt='Kiel Bus Tracker Logo' width={30} height={30} />
 								<Link href='/'>
-									<h1 className='md:hover:text-primary self-center text-xl font-semibold whitespace-nowrap transition'>KVG Bus Tracker</h1>
+									<h1 className='md:hover:text-primary self-center text-xl font-semibold whitespace-nowrap transition'>Kiel Bus Tracker</h1>
 								</Link>
 								<ThemeToggle />
 							</div>
@@ -60,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 								<span className='text-xs opacity-70'>Not affiliated with KVG Kieler Verkehrsgesellschaft mbH</span>
 							</div>
 							<div className='items-center md:flex'>
-								<a href='https://github.com/nairol203/kvg-bus-tracker' className='hover:underline'>
+								<a href='https://github.com/nairol203/kiel-bus-tracker' className='hover:underline'>
 									Source Code
 								</a>
 							</div>

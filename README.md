@@ -1,6 +1,6 @@
-# KVG Bus Tracker
+# Kiel Bus Tracker
 
-KVG Bus Tracker ist eine moderne und benutzerfreundliche Drittanbieterlösung, mit der man Echtzeitabfahrten von Bussen der KVG einsehen kann.
+An Alternative Frontend for Kiel's Real-Time Bus Departures.
 
 https://bus.zao.dev
 
@@ -11,7 +11,7 @@ https://bus.zao.dev
 You can self host this project with podman. You can use the prebuilt images from the github container registry or built it yourself.
 
 ```bash
-podman run -p 3000:3000 -e TZ=Europe/Berlin ghcr.io/nairol203/kvg-bus-tracker:main
+podman run -p 3000:3000 -e TZ=Europe/Berlin ghcr.io/nairol203/kiel-bus-tracker:main
 ```
 
 ### Manual
@@ -19,8 +19,8 @@ podman run -p 3000:3000 -e TZ=Europe/Berlin ghcr.io/nairol203/kvg-bus-tracker:ma
 #### 1. Clone the repository
 
 ```bash
-git clone https://github.com/nairol203/kvg-bus-tracker.git
-cd kvg-bus-tracker
+git clone https://github.com/nairol203/kiel-bus-tracker.git
+cd kiel-bus-tracker
 ```
 
 #### 2. Install dependencies and build code
@@ -41,8 +41,8 @@ node .next/standalone/server.js
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/nairol203/kvg-bus-tracker.git
-cd kvg-bus-tracker
+git clone https://github.com/nairol203/kiel-bus-tracker.git
+cd kiel-bus-tracker
 ```
 
 ### 2. Install dependencies

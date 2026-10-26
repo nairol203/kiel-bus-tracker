@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const data = await getTripInfo(tripId);
 
 	return {
-		title: `${data?.routeName && data.directionText ? `${data.routeName} ${data.directionText} | KVG Bus Tracker` : 'KVG Bus Tracker'}`,
+		title: `${data?.routeName && data.directionText ? `${data.routeName} ${data.directionText} | Kiel Bus Tracker` : 'Kiel Bus Tracker'}`,
 	};
 }
 
