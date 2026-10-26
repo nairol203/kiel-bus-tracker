@@ -2,8 +2,8 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 type SearchState = {
-	lastSearches: StopByCharacter[];
-	addSearchedStop: (stop: StopByCharacter) => void;
+	lastSearches: StopListStop[];
+	addSearchedStop: (stop: StopListStop) => void;
 };
 
 export const useSearchStore = create(

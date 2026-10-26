@@ -16,7 +16,7 @@ export default function LastSearched() {
 				{lastSearches.map((stop, index) => (
 					<Link
 						className='group md:hover:bg-surface-hover flex items-center gap-3 p-3 font-medium transition duration-200 first:rounded-t last:rounded-b'
-						href={`/stop/${stop.number}`}
+						href={`/stop/${stop.shortName}`}
 						key={`${index}_${stop.id}`}
 					>
 						<History className='h-5 w-5 shrink-0 text-gray-400' />

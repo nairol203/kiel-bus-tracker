@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { stopId } = await params;
 
 	const data = await getAllStops();
-	const stop = data.find((stop) => stop.number == stopId);
+	const stop = data?.stops.find((stop) => stop.shortName == stopId);
 
 	if (!stop) return {};
 

@@ -1,8 +1,6 @@
 import { getAllStops } from '@/lib/kvg';
 import { NextResponse } from 'next/server';
 
-export const revalidate = 86400; // Cache the result for 24 hours
-
 export async function GET() {
 	try {
 		const stops = await getAllStops();

@@ -13,10 +13,10 @@ export default function Searchbar() {
 	const router = useRouter();
 
 	const [query, setQuery] = useState('');
-	const [selectedStop, setSelectedStop] = useState<StopByCharacter | null>(null);
+	const [selectedStop, setSelectedStop] = useState<StopListStop | null>(null);
 	const { addSearchedStop } = useSearchStore();
 
-	const { data: stops = [], isLoading } = useQuery({
+	const { data, isLoading } = useQuery({
 		queryKey: ['stops'],
 		queryFn: async (): ReturnType<typeof getAllStops> => {
 			const res = await fetch('/api/stops');
@@ -24,6 +24,8 @@ export default function Searchbar() {
 			return res.json();
 		},
 	});
+
+	const stops = data?.stops || [];
 
 	const fuse = new Fuse(stops, {
 		keys: ['name'],
@@ -33,8 +35,8 @@ export default function Searchbar() {
 	const result = fuse.search(query.trim());
 	const filteredStops = result.map((item) => item.item).slice(0, 5);
 
-	function updateQuery(selectedStop: StopByCharacter) {
-		router.push(`/stop/${selectedStop.number}`);
+	function updateQuery(selectedStop: StopListStop) {
+		router.push(`/stop/${selectedStop.shortName}`);
 	}
 
 	return (

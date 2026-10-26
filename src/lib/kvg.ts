@@ -1,24 +1,28 @@
 'use server';
 
-export async function getAllStops(): Promise<StopByCharacter[]> {
-	const endpoint = new URL('https://kvg-internetservice-proxy.p.networkteam.com/internetservice/services/lookup/stopsByCharacter');
-	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-
-	const fetchPromises = characters.map(async (char) => {
-		endpoint.searchParams.set('character', char);
+export async function getAllStops(): Promise<StopList | undefined> {
+	try {
 		const res = await fetch(
-			endpoint.toString(),
-			{ next: { revalidate: 86400 } }, // Cache the result for 24 hours
+			`https://kvg-internetservice-proxy.p.networkteam.com/internetservice/geoserviceDispatcher/services/stopinfo/stops?top=324000000&bottom=-324000000&left=-648000000&right=648000000`,
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			},
 		);
-		if (!res.ok) return [];
-		const data: StopsByCharacter = await res.json();
-		return data.stops;
-	});
 
-	const results = await Promise.all(fetchPromises);
-	const allStops = results.flat();
+		if (!res.ok) {
+			console.error(await res.text().catch(() => 'res.text() failed'));
+			throw new Error(`Request for ${res.url} failed with status code ${res.status} ${res.statusText}`);
+		}
 
-	return allStops;
+		const data: StopList = await res.json();
+
+		return data;
+	} catch (error) {
+		console.error(error);
+	}
 }
 
 export async function getStopData({ stopId, routeId, direction }: { stopId: string; routeId?: string | null; direction?: string | null }): Promise<KVGStops | undefined> {

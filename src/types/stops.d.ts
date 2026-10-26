@@ -1,3 +1,16 @@
+interface StopList {
+	stops: StopListStop[];
+}
+
+interface StopListStop {
+	category: 'bus';
+	id: string;
+	latitude: number;
+	longitude: number;
+	name: string;
+	shortName: string;
+}
+
 interface KVGStops {
 	actual: Actual[];
 	directions: any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
