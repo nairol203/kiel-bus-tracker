@@ -10,16 +10,14 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { stopId } = await params;
 
-	if (!stopId) return {};
-
 	const data = await getAllStops();
 	const stop = data.find((stop) => stop.number == stopId);
 
 	if (!stop) return {};
 
 	return {
-		title: `${data ? `${stop.name} | Kiel Bus Tracker` : 'Kiel Bus Tracker'}`,
-		description: `Aktuelle Abfahrtszeiten ${stop ? `für die Haltestelle ${stop.name}` : 'aller Buslinien der KVG Kiel'}. Echtzeit-Infos${stop ? ' der KVG Kiel' : ''}, alle Buslinien und Verspätungen auf einen Blick.`,
+		title: stop.name,
+		description: `Aktuelle Abfahrtszeiten für die Haltestelle ${stop.name}. Echtzeit-Infos der KVG Kiel, alle Buslinien und Verspätungen auf einen Blick.`,
 		alternates: {
 			canonical: `/stop/${stopId}`,
 		},

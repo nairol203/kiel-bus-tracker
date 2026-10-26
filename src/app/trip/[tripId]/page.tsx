@@ -9,14 +9,12 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { tripId } = await params;
 
-	if (!tripId) {
-		return {};
-	}
-
 	const data = await getTripInfo(tripId);
 
+	if (!data || !data.routeName || !data.directionText) return {};
+
 	return {
-		title: `${data?.routeName && data.directionText ? `${data.routeName} ${data.directionText} | Kiel Bus Tracker` : 'Kiel Bus Tracker'}`,
+		title: `${data.routeName} ${data.directionText}`,
 	};
 }
 
