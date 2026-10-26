@@ -92,7 +92,11 @@ export default function Departures({ stopId }: { stopId: string }) {
 			<div className='bg-primary/10 border-border flex flex-col justify-between gap-2 rounded-t border-b p-4'>
 				<div className='flex justify-between gap-2'>
 					<h2 className='font-bold'>Abfahrten von {busStop.stopName}</h2>
-					<button onClick={toggleFavourites} aria-label={isFavourite ? 'Remove stop from favourites' : 'Add stop to favourites'}>
+					<button
+						onClick={toggleFavourites}
+						title={isFavourite ? 'Von Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
+						aria-label={isFavourite ? 'Von Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
+					>
 						<Star className={`${isFavourite && 'fill-primary text-primary'} h-5 w-5`} />
 					</button>
 				</div>
