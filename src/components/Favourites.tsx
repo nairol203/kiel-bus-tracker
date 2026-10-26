@@ -19,9 +19,9 @@ export default function Favourites() {
 						href={`/stop/${stop.shortName}`}
 						key={stop.shortName}
 					>
-						<Star className='h-5 w-5 shrink-0 text-gray-400' />
+						<Star className='text-muted h-5 w-5 shrink-0' />
 						{stop.name}
-						<ChevronRight className='ml-auto h-4 w-4 text-gray-400' />
+						<ChevronRight className='text-muted ml-auto h-4 w-4' />
 					</Link>
 				))}
 			</div>

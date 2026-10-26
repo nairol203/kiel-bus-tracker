@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 	},
 };
 
-export const recommendedStops = [
+const recommendedStops = [
 	{ name: 'Hauptbahnhof', number: '2387' },
 	{ name: 'Andreas-Gayk-Straße', number: '1256' },
 	{ name: 'Dreiecksplatz', number: '2151' },
@@ -32,9 +32,9 @@ export default function Page() {
 						href={`/stop/${stop.number}`}
 						key={stop.number}
 					>
-						<MapPin className='h-5 w-5 shrink-0 text-gray-400' />
+						<MapPin className='text-muted h-5 w-5 shrink-0' />
 						{stop.name}
-						<ChevronRight className='ml-auto h-4 w-4 text-gray-400' />
+						<ChevronRight className='text-muted ml-auto h-4 w-4' />
 					</Link>
 				))}
 			</div>
