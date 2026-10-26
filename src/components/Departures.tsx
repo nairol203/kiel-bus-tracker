@@ -1,7 +1,8 @@
 'use client';
 
+import { useFavouritesStore } from '@/stores/useFavouritesStore';
 import { useQuery } from '@tanstack/react-query';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Star } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getStopData } from '../lib/kvg';
 import { GeneralAlerts, RouteAlerts } from './Alerts';
@@ -13,6 +14,7 @@ import RouteFilter from './RouteFilter';
 export default function Departures({ stopId }: { stopId: string }) {
 	const searchParams = useSearchParams();
 	const router = useRouter();
+	const { favouriteStops, addFavouriteStop, removeFavouriteStop } = useFavouritesStore();
 
 	const routeId = searchParams.get('routeId');
 	const direction = searchParams.get('direction');
@@ -75,10 +77,25 @@ export default function Departures({ stopId }: { stopId: string }) {
 		);
 	}
 
+	const isFavourite = favouriteStops.some((stop) => stop.shortName === busStop.stopShortName);
+
+	const toggleFavourites = () => {
+		if (isFavourite) {
+			removeFavouriteStop({ name: busStop.stopName, shortName: busStop.stopShortName });
+		} else {
+			addFavouriteStop({ name: busStop.stopName, shortName: busStop.stopShortName });
+		}
+	};
+
 	return (
 		<div className='bg-surface border-border mt-4 grid rounded border shadow'>
-			<div className='bg-primary/10 border-border flex items-center justify-between rounded-t border-b p-4'>
-				<h2 className='font-bold'>Abfahrten von {busStop.stopName}</h2>
+			<div className='bg-primary/10 border-border flex flex-col justify-between gap-2 rounded-t border-b p-4'>
+				<div className='flex justify-between gap-2'>
+					<h2 className='font-bold'>Abfahrten von {busStop.stopName}</h2>
+					<button onClick={toggleFavourites} aria-label={isFavourite ? 'Remove stop from favourites' : 'Add stop to favourites'}>
+						<Star className={`${isFavourite && 'fill-primary text-primary'} h-5 w-5`} />
+					</button>
+				</div>
 				<HealthIndicator isError={isError} isPaused={isPaused} />
 			</div>
 			{(busStop.actual.length > 1 || !!routeId || !!direction) && (
