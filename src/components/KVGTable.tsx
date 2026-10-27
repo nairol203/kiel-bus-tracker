@@ -1,6 +1,5 @@
 'use client';
 
-import { Clock } from 'lucide-react';
 import Link from 'next/link';
 
 function getDelayMinutes(plannedTime: string, actualTime?: string) {
@@ -27,36 +26,23 @@ export default function KVGTable({ data, direction, routeId }: { data: KVGStops;
 				data.actual.map((actual, index) => {
 					if (direction && actual.direction !== direction) return null;
 					if (routeId && actual.routeId !== routeId) return null;
+					const delayMin = getDelayMinutes(actual.plannedTime, actual.actualTime);
 					return (
 						<Link
 							href={`/trip/${actual.tripId}`}
-							className='md:hover:bg-surface-hover grid grid-cols-[35px_1fr_75px] items-center justify-between gap-x-6 p-4 transition duration-200'
+							className='md:hover:bg-surface-hover flex items-center gap-x-3 p-3 transition duration-200'
 							key={`${index}-${actual.tripId}`}
 						>
-							<span className='bg-primary flex h-12 w-12 items-center justify-center rounded-lg text-center text-lg font-semibold text-white'>
-								{actual.patternText}
-							</span>
-							<div className='grid'>
-								<span className='text-lg font-semibold whitespace-nowrap'>{actual.direction}</span>
-								{getDelayMinutes(actual.plannedTime, actual.actualTime) > 2 ? (
-									<div className='flex gap-2 text-sm font-semibold'>
-										<span className='text-muted flex items-center gap-1 line-through'>
-											<Clock className='h-3.5 w-3.5' /> {actual.plannedTime}
-										</span>
-										<span className='text-red-400'>{actual.actualTime}</span>
-										<span className='shrink-0 rounded border border-red-500/20 bg-red-500/10 px-1.5 py-0.5 text-[10px] tracking-wider text-red-400 uppercase'>
-											Verspätet
-										</span>
+							<span className='bg-primary flex h-10 w-10 shrink-0 items-center justify-center rounded text-center text-lg text-white'>{actual.patternText}</span>
+							<div className='flex flex-wrap items-center gap-x-3'>
+								<span className={`text-lg text-nowrap ${delayMin > 2 ? '' : 'row-span-2'}`}>{actual.direction}</span>
+								{delayMin > 2 && (
+									<div>
+										<span className='rounded border border-red-500/20 bg-red-500/10 px-1.5 py-0.5 text-xs text-red-400'>{delayMin} min verspätet</span>
 									</div>
-								) : (
-									<span className='text-muted flex items-center gap-1 text-sm font-semibold'>
-										<Clock className='h-3.5 w-3.5' /> {actual.actualTime || actual.plannedTime}
-									</span>
 								)}
 							</div>
-							<span className='flex items-center justify-end text-lg font-semibold'>
-								{actual.actualRelativeTime < 60 ? 'Jetzt' : `${Math.round(actual.actualRelativeTime / 60)} min`}
-							</span>
+							<span className='ml-auto text-lg text-nowrap'>{actual.actualRelativeTime < 60 ? 'Jetzt' : `${Math.round(actual.actualRelativeTime / 60)} min`}</span>
 						</Link>
 					);
 				})

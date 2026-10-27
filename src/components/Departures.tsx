@@ -51,8 +51,11 @@ export default function Departures({ stopId }: { stopId: string }) {
 	if (!busStop) {
 		return (
 			<div className='bg-surface border-border mt-4 grid rounded border shadow'>
-				<div className='bg-primary/10 border-border flex items-center justify-between rounded-t border-b p-4'>
-					<div className='skeleton h-7 w-64 rounded-md' />
+				<div className='bg-primary/10 border-border flex flex-col justify-between gap-2 rounded-t border-b p-4'>
+					<div className='flex justify-between gap-2'>
+						<div className='skeleton h-7 w-64 rounded-md' />
+						<div className='skeleton h-7 w-7 rounded-md' />
+					</div>
 					<div className='skeleton h-4 w-24 rounded-md' />
 				</div>
 				<div className='border-border bg-surface-hover/30 grid grid-cols-2 gap-2 border-b p-2 md:flex'>
@@ -60,15 +63,14 @@ export default function Departures({ stopId }: { stopId: string }) {
 					<div className='skeleton h-10 rounded-md md:w-60' />
 				</div>
 				<div className='divide-border grid divide-y'>
-					{[...Array(5)].map((_, i) => (
-						<div className='grid grid-cols-[35px_1fr_75px] items-center justify-between gap-x-6 p-4' key={i}>
-							<div className='skeleton h-12 w-12 shrink-0 rounded-lg' />
+					{[...Array(4)].map((_, i) => (
+						<div className='flex items-center gap-x-3 p-3' key={i}>
+							<div className='skeleton h-10 w-10 shrink-0 rounded' />
 							<div className='grid min-w-0 gap-2 pr-2'>
-								<div className='skeleton h-5 w-32 rounded-md' />
-								<div className='skeleton h-3.5 w-12 rounded-md' />
+								<div className='skeleton h-6 w-32 rounded-md' />
 							</div>
-							<div className='flex flex-col items-end gap-1.5'>
-								<div className='skeleton h-6 w-12 rounded-md' />
+							<div className='ml-auto gap-1.5'>
+								<div className='skeleton h-6 w-16 rounded-md' />
 							</div>
 						</div>
 					))}
