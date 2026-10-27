@@ -24,9 +24,9 @@ export default function Departures({ stopId }: { stopId: string }) {
 		isError,
 		isPaused,
 	} = useQuery({
-		queryKey: ['stopData', stopId, routeId, direction],
+		queryKey: ['stopData', stopId],
 		queryFn: async (): ReturnType<typeof getStopData> => {
-			const res = await fetch(`/api/departures/${stopId}?${searchParams.toString()}`);
+			const res = await fetch(`/api/departures/${stopId}`);
 			if (!res.ok) throw new Error('Failed to fetch departures');
 			return res.json();
 		},
@@ -110,7 +110,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 			)}
 			<GeneralAlerts data={busStop} />
 			<RouteAlerts data={busStop} direction={direction} routeId={routeId} />
-			<KVGTable data={busStop} />
+			<KVGTable data={busStop} direction={direction} routeId={routeId} />
 		</div>
 	);
 }

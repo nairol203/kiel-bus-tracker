@@ -1,12 +1,6 @@
 import { Select } from '@headlessui/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-function filterUniqueAndSortAscending(arr: string[]) {
-	const uniqueArr = Array.from(new Set(arr));
-	const sortedArr = uniqueArr.sort();
-	return sortedArr;
-}
-
 export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 	const router = useRouter();
 	const pathname = usePathname();
@@ -14,17 +8,12 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 
 	const routeId = searchParams.get('routeId');
 	const direction = searchParams.get('direction') ?? 'Alle Richtungen';
-	let directions =
-		routeId && stop.routes.find((route) => route.id === routeId)
-			? stop.routes.find((route) => route.id === routeId)!.directions
-			: [''].concat(...stop.routes.map((route) => route.directions));
 
-	if (!routeId || !stop.routes.find((route) => route.id === routeId)) {
-		directions.shift();
-	}
+	const directions = stop.actual.filter((a) => (routeId ? a.routeId === routeId : true)).map((d) => d.direction, direction);
 
-	directions = filterUniqueAndSortAscending(directions);
-	directions.unshift('Alle Richtungen');
+	const uniqueDirections = Array.from(new Set(directions));
+	uniqueDirections.sort();
+	uniqueDirections.unshift('Alle Richtungen');
 
 	const updatedSearchParams = new URLSearchParams(searchParams);
 
@@ -43,7 +32,7 @@ export default function DirectionFilter({ stop }: { stop: KVGStops }) {
 			}}
 			defaultValue={direction}
 		>
-			{directions.map((_direction) => (
+			{uniqueDirections.map((_direction) => (
 				<option key={_direction} value={_direction}>
 					{_direction}
 				</option>

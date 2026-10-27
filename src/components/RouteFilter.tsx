@@ -10,16 +10,21 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 	const direction = searchParams.get('direction');
 
 	const defaultRoute = {
-		alerts: [],
-		authority: '',
-		directions: [],
-		id: 'all',
-		name: 'Alle Linien',
-		routeType: 'unkown',
-		shortName: '',
+		routeId: 'all',
+		patternText: 'Alle Linien',
 	};
 
-	const routes = [defaultRoute, ...(direction ? stop.routes.filter((route) => route.directions.includes(direction)) : stop.routes)];
+	const routes = stop.actual.filter((a) => (direction ? a.direction === direction : true)).map((a) => ({ routeId: a.routeId, patternText: a.patternText }));
+	const seen = new Set<string>();
+	const uniqueRoutes = routes.filter((route) => {
+		if (seen.has(route.patternText)) {
+			return false;
+		}
+		seen.add(route.patternText);
+		return true;
+	});
+	uniqueRoutes.sort((a, b) => a.patternText.localeCompare(b.patternText));
+	uniqueRoutes.unshift(defaultRoute);
 
 	const updatedSearchParams = new URLSearchParams(searchParams);
 
@@ -36,11 +41,11 @@ export default function RouteFilter({ stop }: { stop: KVGStops }) {
 					router.push(pathname + '?' + updatedSearchParams.toString());
 				}
 			}}
-			defaultValue={routeId ?? defaultRoute.id}
+			defaultValue={routeId || defaultRoute.routeId}
 		>
-			{routes.map((route) => (
-				<option key={route.id} value={route.id}>
-					{route.authority} {route.name}
+			{uniqueRoutes.map((route) => (
+				<option key={route.routeId} value={route.routeId}>
+					{route.patternText}
 				</option>
 			))}
 		</Select>
