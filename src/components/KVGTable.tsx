@@ -34,15 +34,15 @@ export default function KVGTable({ data, direction, routeId }: { data: KVGStops;
 							key={`${index}-${actual.tripId}`}
 						>
 							<span className='bg-primary flex h-10 w-10 shrink-0 items-center justify-center rounded text-center text-lg text-white'>{actual.patternText}</span>
-							<div className='flex flex-wrap items-center gap-x-3'>
+							<div className='flex w-full flex-wrap items-center justify-between gap-x-3'>
 								<span className={`text-lg text-nowrap ${delayMin > 2 ? '' : 'row-span-2'}`}>{actual.direction}</span>
 								{delayMin > 2 && (
-									<div>
+									<div className=''>
 										<span className='rounded border border-red-500/20 bg-red-500/10 px-1.5 py-0.5 text-xs text-red-400'>{delayMin} min verspätet</span>
 									</div>
 								)}
 							</div>
-							<span className='ml-auto text-lg text-nowrap'>{actual.actualRelativeTime < 60 ? 'Jetzt' : `${Math.round(actual.actualRelativeTime / 60)} min`}</span>
+							<span className='text-lg text-nowrap'>{actual.actualRelativeTime < 60 ? 'Jetzt' : `${Math.round(actual.actualRelativeTime / 60)} min`}</span>
 						</Link>
 					);
 				})
