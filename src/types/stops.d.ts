@@ -3,7 +3,7 @@ interface StopList {
 }
 
 interface StopListStop {
-	category: 'bus';
+	category: 'bus' | 'other';
 	id: string;
 	latitude: number;
 	longitude: number;
@@ -34,7 +34,7 @@ interface Actual {
 	routeId: string;
 	status: string;
 	tripId: string;
-	vehicleId: string;
+	vehicleId?: string;
 }
 
 interface GeneralAlert {

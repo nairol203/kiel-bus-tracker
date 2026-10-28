@@ -1,5 +1,7 @@
 'use server';
 
+import { DepartureResponseSchema, StopResponseSchema, TripPassageResponseSchema } from './schemas';
+
 export async function getAllStops(): Promise<StopList | undefined> {
 	try {
 		const res = await fetch(
@@ -18,9 +20,11 @@ export async function getAllStops(): Promise<StopList | undefined> {
 			throw new Error(`Request for ${res.url} failed with status code ${res.status} ${res.statusText}`);
 		}
 
-		const data: StopList = await res.json();
+		const rawData: StopList = await res.json();
 
-		return data;
+		const parsed = StopResponseSchema.parse(rawData);
+
+		return parsed;
 	} catch (error) {
 		console.error(error);
 	}
@@ -49,9 +53,11 @@ export async function getStopData({ stopId, routeId, direction }: { stopId: stri
 			throw new Error(`Request for ${res.url} failed with status code ${res.status} ${res.statusText}`);
 		}
 
-		const data: KVGStops = await res.json();
+		const rawData: KVGStops = await res.json();
 
-		return data;
+		const parsed = DepartureResponseSchema.parse(rawData);
+
+		return parsed;
 	} catch (error) {
 		console.error(error);
 	}
@@ -72,9 +78,11 @@ export async function getTripInfo(tripId: string): Promise<StopInfo | undefined>
 			throw new Error(`Request for ${res.url} failed with status code ${res.status} ${res.statusText}`);
 		}
 
-		const data: StopInfo = await res.json();
+		const rawData: StopInfo = await res.json();
 
-		return data;
+		const parsed = TripPassageResponseSchema.parse(rawData);
+
+		return parsed;
 	} catch (error) {
 		console.error(error);
 	}
