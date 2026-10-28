@@ -7,7 +7,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { getStopData } from '../lib/kvg';
 import { GeneralAlerts, RouteAlerts } from './Alerts';
 import DirectionFilter from './DirectionFilter';
-import HealthIndicator from './HealthIndicator';
 import KVGTable from './KVGTable';
 import RouteFilter from './RouteFilter';
 
@@ -19,11 +18,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 	const routeId = searchParams.get('routeId');
 	const direction = searchParams.get('direction');
 
-	const {
-		data: busStop,
-		isError,
-		isPaused,
-	} = useQuery({
+	const { data: busStop, isError } = useQuery({
 		queryKey: ['stopData', stopId],
 		queryFn: async (): ReturnType<typeof getStopData> => {
 			const res = await fetch(`/api/departures/${stopId}`);
@@ -51,12 +46,9 @@ export default function Departures({ stopId }: { stopId: string }) {
 	if (!busStop) {
 		return (
 			<div className='bg-surface border-border mt-4 grid rounded border shadow'>
-				<div className='bg-primary/10 border-border flex flex-col justify-between gap-2 rounded-t border-b p-4'>
-					<div className='flex justify-between gap-2'>
-						<div className='skeleton h-7 w-64 rounded-md' />
-						<div className='skeleton h-7 w-7 rounded-md' />
-					</div>
-					<div className='skeleton h-4 w-24 rounded-md' />
+				<div className='bg-primary/10 border-border flex justify-between gap-2 rounded-t border-b p-4'>
+					<div className='skeleton h-7 w-40 rounded-md' />
+					<div className='skeleton h-7 w-7 rounded-md' />
 				</div>
 				<div className='border-border bg-surface-hover/30 grid grid-cols-2 gap-2 border-b p-2 md:flex'>
 					<div className='skeleton h-10 rounded-md md:w-28' />
@@ -91,18 +83,15 @@ export default function Departures({ stopId }: { stopId: string }) {
 
 	return (
 		<div className='bg-surface border-border mt-4 grid rounded border shadow'>
-			<div className='bg-primary/10 border-border flex flex-col justify-between gap-2 rounded-t border-b p-4'>
-				<div className='flex justify-between gap-2'>
-					<h2 className='font-bold'>Abfahrten von {busStop.stopName}</h2>
-					<button
-						onClick={toggleFavourites}
-						title={isFavourite ? 'Von Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
-						aria-label={isFavourite ? 'Von Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
-					>
-						<Star className={`${isFavourite && 'fill-primary text-primary'} h-5 w-5`} />
-					</button>
-				</div>
-				<HealthIndicator isError={isError} isPaused={isPaused} />
+			<div className='bg-primary/10 border-border flex justify-between gap-2 rounded-t border-b p-4'>
+				<h2 className='font-bold'>{busStop.stopName}</h2>
+				<button
+					onClick={toggleFavourites}
+					title={isFavourite ? 'Von Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
+					aria-label={isFavourite ? 'Von Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
+				>
+					<Star className={`${isFavourite && 'fill-primary text-primary'} h-5 w-5`} />
+				</button>
 			</div>
 			{(busStop.actual.length > 1 || !!routeId || !!direction) && (
 				<div className='border-border bg-surface-hover/30 grid grid-cols-2 gap-2 border-b p-2 md:flex'>
