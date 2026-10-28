@@ -55,7 +55,7 @@ export const RouteSchema = z.object({
 
 export const StopPassageResponseSchema = z.object({
 	actual: z.array(StopPassageSchema),
-	directions: z.array(z.any()),
+	directions: z.array(z.unknown()),
 	firstPassageTime: z.number(),
 	generalAlerts: z.array(GeneralAlertSchema),
 	lastPassageTime: z.number(),
