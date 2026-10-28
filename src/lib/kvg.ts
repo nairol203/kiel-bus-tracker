@@ -26,12 +26,10 @@ export async function getStops() {
 	return parsed.stops;
 }
 
-export async function getStopDepartures({ stopId, routeId, direction }: { stopId: string; routeId?: string | null; direction?: string | null }) {
+export async function getStopDepartures(stopId: string) {
 	const endpoint = new URL('/internetservice/services/passageInfo/stopPassages/stop', BASE_URL);
 
 	endpoint.searchParams.set('stop', stopId);
-	if (direction) endpoint.searchParams.set('direction', direction);
-	if (routeId) endpoint.searchParams.set('routeId', routeId);
 
 	const res = await fetch(endpoint.toString());
 

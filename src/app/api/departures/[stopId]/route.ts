@@ -8,12 +8,8 @@ type RouteContext = {
 export async function GET(request: Request, context: RouteContext) {
 	const { stopId } = await context.params;
 
-	const { searchParams } = new URL(request.url);
-	const routeId = searchParams.get('routeId');
-	const direction = searchParams.get('direction');
-
 	try {
-		const data = await getStopDepartures({ stopId, routeId, direction });
+		const data = await getStopDepartures(stopId);
 		return NextResponse.json(data);
 	} catch (error) {
 		console.error('Error fetching departures:', error);
