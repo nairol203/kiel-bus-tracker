@@ -9,6 +9,7 @@ export async function getAllStops(): Promise<StopList | undefined> {
 				headers: {
 					'Content-Type': 'application/json',
 				},
+				next: { revalidate: 86400 },
 			},
 		);
 
