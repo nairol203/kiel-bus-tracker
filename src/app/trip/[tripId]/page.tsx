@@ -1,5 +1,5 @@
 import Trip from '@/components/Trip';
-import { getTripInfo } from '@/lib/kvg';
+import { getTripPassages } from '@/lib/kvg';
 import { Metadata } from 'next';
 
 type Props = {
@@ -9,9 +9,9 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { tripId } = await params;
 
-	const data = await getTripInfo(tripId);
+	const data = await getTripPassages(tripId);
 
-	if (!data || !data.routeName || !data.directionText) return {};
+	if (!data.routeName || !data.directionText) return {};
 
 	return {
 		title: `${data.routeName} ${data.directionText}`,

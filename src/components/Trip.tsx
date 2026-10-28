@@ -1,6 +1,6 @@
 'use client';
 
-import { getTripInfo } from '@/lib/kvg';
+import type { TripPassages } from '@/lib/schemas';
 import { useQuery } from '@tanstack/react-query';
 import { AlertCircle, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -10,7 +10,7 @@ export default function Trip({ tripId }: { tripId: string }) {
 	const router = useRouter();
 	const { data: tripInfo, isError } = useQuery({
 		queryKey: ['tripInfo', tripId],
-		queryFn: async (): ReturnType<typeof getTripInfo> => {
+		queryFn: async (): Promise<TripPassages> => {
 			const res = await fetch(`/api/trip/${tripId}`);
 			if (!res.ok) throw new Error('Failed to fetch trips');
 			return res.json();

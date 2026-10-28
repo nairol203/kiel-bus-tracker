@@ -1,15 +1,13 @@
+import { Stop } from '@/lib/schemas';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-type Stop = {
-	name: string;
-	shortName: string;
-};
+type FavouriteStop = Pick<Stop, 'name' | 'shortName'>;
 
 type FavouritesState = {
-	favouriteStops: Stop[];
-	addFavouriteStop: (stop: Stop) => void;
-	removeFavouriteStop: (stop: Stop) => void;
+	favouriteStops: FavouriteStop[];
+	addFavouriteStop: (stop: FavouriteStop) => void;
+	removeFavouriteStop: (stop: FavouriteStop) => void;
 };
 
 export const useFavouritesStore = create(

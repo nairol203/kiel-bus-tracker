@@ -1,5 +1,11 @@
 import z from 'zod';
 
+export type Stop = z.infer<typeof StopSchema>;
+export type GeneralAlert = z.infer<typeof GeneralAlertSchema>;
+export type RouteAlert = z.infer<typeof RouteAlertSchema>;
+export type StopDepartures = z.infer<typeof StopPassageResponseSchema>;
+export type TripPassages = z.infer<typeof TripPassageResponseSchema>;
+
 export const StopSchema = z.object({
 	category: z.literal(['bus', 'other']),
 	id: z.string(),
@@ -13,9 +19,9 @@ export const StopResponseSchema = z.object({
 	stops: z.array(StopSchema),
 });
 
-export const DepartureSchema = z.object({
+export const StopPassageSchema = z.object({
 	actualRelativeTime: z.number(),
-	acutalTime: z.string().optional(),
+	actualTime: z.string().optional(),
 	direction: z.string(),
 	mixedTime: z.string(),
 	passageid: z.string(),
@@ -47,13 +53,13 @@ export const RouteSchema = z.object({
 	shortName: z.string(),
 });
 
-export const DepartureResponseSchema = z.object({
-	actual: z.array(DepartureSchema),
+export const StopPassageResponseSchema = z.object({
+	actual: z.array(StopPassageSchema),
 	directions: z.array(z.any()),
 	firstPassageTime: z.number(),
 	generalAlerts: z.array(GeneralAlertSchema),
 	lastPassageTime: z.number(),
-	old: z.array(DepartureSchema),
+	old: z.array(StopPassageSchema),
 	routes: z.array(RouteSchema),
 	stopName: z.string(),
 	stopShortName: z.string(),
@@ -73,7 +79,7 @@ export const TripPassageSchema = z.object({
 	stop_seq_num: z.string(),
 });
 
-export const OldTripPassageSchema = z.object({
+export const PastTripPassageSchema = z.object({
 	actualTime: z.string(),
 	status: z.literal('DEPARTED'),
 	stop: TripPassageStopSchema,
@@ -82,7 +88,7 @@ export const OldTripPassageSchema = z.object({
 
 export const TripPassageResponseSchema = z.object({
 	actual: z.array(TripPassageSchema),
-	directionText: z.string(),
-	old: z.array(OldTripPassageSchema),
-	routeName: z.string(),
+	directionText: z.string().optional(),
+	old: z.array(PastTripPassageSchema),
+	routeName: z.string().optional(),
 });

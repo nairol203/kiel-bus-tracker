@@ -1,10 +1,10 @@
 'use client';
 
+import { StopDepartures } from '@/lib/schemas';
 import { useFavouritesStore } from '@/stores/useFavouritesStore';
 import { useQuery } from '@tanstack/react-query';
 import { AlertCircle, Star } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { getStopData } from '../lib/kvg';
 import { GeneralAlerts, RouteAlerts } from './Alerts';
 import DirectionFilter from './DirectionFilter';
 import KVGTable from './KVGTable';
@@ -20,7 +20,7 @@ export default function Departures({ stopId }: { stopId: string }) {
 
 	const { data: busStop, isError } = useQuery({
 		queryKey: ['stopData', stopId],
-		queryFn: async (): ReturnType<typeof getStopData> => {
+		queryFn: async (): Promise<StopDepartures> => {
 			const res = await fetch(`/api/departures/${stopId}`);
 			if (!res.ok) throw new Error('Failed to fetch departures');
 			return res.json();

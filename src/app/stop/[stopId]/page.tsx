@@ -1,6 +1,6 @@
 import Departures from '@/components/Departures';
 import Searchbar from '@/components/Searchbar';
-import { getAllStops } from '@/lib/kvg';
+import { getStops } from '@/lib/kvg';
 import { Metadata } from 'next';
 
 type Props = {
@@ -10,8 +10,8 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { stopId } = await params;
 
-	const data = await getAllStops();
-	const stop = data?.stops.find((stop) => stop.shortName == stopId);
+	const data = await getStops();
+	const stop = data.find((stop) => stop.shortName == stopId);
 
 	if (!stop) return {};
 

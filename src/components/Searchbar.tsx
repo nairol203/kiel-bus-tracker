@@ -1,6 +1,6 @@
 'use client';
 
-import { getAllStops } from '@/lib/kvg';
+import { Stop } from '@/lib/schemas';
 import { useSearchStore } from '@/stores/useSearchStore';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
@@ -13,19 +13,17 @@ export default function Searchbar() {
 	const router = useRouter();
 
 	const [query, setQuery] = useState('');
-	const [selectedStop, setSelectedStop] = useState<StopListStop | null>(null);
+	const [selectedStop, setSelectedStop] = useState<Stop | null>(null);
 	const { addSearchedStop } = useSearchStore();
 
-	const { data, isLoading } = useQuery({
+	const { data: stops = [], isLoading } = useQuery({
 		queryKey: ['stops'],
-		queryFn: async (): ReturnType<typeof getAllStops> => {
+		queryFn: async (): Promise<Stop[]> => {
 			const res = await fetch('/api/stops');
 			if (!res.ok) throw new Error('Failed to fetch stops');
 			return res.json();
 		},
 	});
-
-	const stops = data?.stops || [];
 
 	const fuse = new Fuse(stops, {
 		keys: ['name'],
@@ -35,7 +33,7 @@ export default function Searchbar() {
 	const result = fuse.search(query.trim());
 	const filteredStops = result.map((item) => item.item).slice(0, 5);
 
-	function updateQuery(selectedStop: StopListStop) {
+	function updateQuery(selectedStop: Stop) {
 		router.push(`/stop/${selectedStop.shortName}`);
 	}
 
@@ -48,7 +46,10 @@ export default function Searchbar() {
 				setSelectedStop(value);
 				if (value) {
 					updateQuery(value);
-					addSearchedStop(value);
+					addSearchedStop({
+						name: value.name,
+						shortName: value.shortName,
+					});
 				}
 			}}
 		>

@@ -1,4 +1,4 @@
-import { getTripInfo } from '@/lib/kvg';
+import { getTripPassages } from '@/lib/kvg';
 import { NextResponse } from 'next/server';
 
 type RouteContext = {
@@ -9,7 +9,7 @@ export async function GET(request: Request, context: RouteContext) {
 	const { tripId } = await context.params;
 
 	try {
-		const data = await getTripInfo(tripId);
+		const data = await getTripPassages(tripId);
 		return NextResponse.json(data);
 	} catch (error) {
 		console.error('Error fetching trip info:', error);

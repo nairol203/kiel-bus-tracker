@@ -13,11 +13,11 @@ export default function LastSearched() {
 		<>
 			<h2 className='text-muted mt-4 text-base'>Zuletzt gesucht</h2>
 			<div className='bg-surface/40 border-border/60 divide-border/40 grid divide-y rounded border'>
-				{lastSearches.map((stop, index) => (
+				{lastSearches.map((stop) => (
 					<Link
 						className='group md:hover:bg-surface-hover flex items-center gap-3 p-3 font-medium transition duration-200 first:rounded-t last:rounded-b'
 						href={`/stop/${stop.shortName}`}
-						key={`${index}_${stop.id}`}
+						key={stop.shortName}
 					>
 						<History className='text-muted h-5 w-5 shrink-0' />
 						{stop.name}

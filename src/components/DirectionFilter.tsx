@@ -1,7 +1,8 @@
+import { StopDepartures } from '@/lib/schemas';
 import { Select } from '@headlessui/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-export default function DirectionFilter({ stop }: { stop: KVGStops }) {
+export default function DirectionFilter({ stop }: { stop: StopDepartures }) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();

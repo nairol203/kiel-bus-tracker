@@ -1,5 +1,6 @@
 'use client';
 
+import { StopDepartures } from '@/lib/schemas';
 import Link from 'next/link';
 
 function getDelayMinutes(plannedTime: string, actualTime?: string) {
@@ -19,7 +20,7 @@ function getDelayMinutes(plannedTime: string, actualTime?: string) {
 	return totalActual - totalPlanned;
 }
 
-export default function KVGTable({ data, direction, routeId }: { data: KVGStops; routeId?: string | null; direction?: string | null }) {
+export default function KVGTable({ data, direction, routeId }: { data: StopDepartures; routeId?: string | null; direction?: string | null }) {
 	return (
 		<div className='divide-border divide-y'>
 			{data.actual.length ? (

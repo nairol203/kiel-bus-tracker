@@ -1,4 +1,4 @@
-import { getStopData } from '@/lib/kvg';
+import { getStopDepartures } from '@/lib/kvg';
 import { NextResponse } from 'next/server';
 
 type RouteContext = {
@@ -13,7 +13,7 @@ export async function GET(request: Request, context: RouteContext) {
 	const direction = searchParams.get('direction');
 
 	try {
-		const data = await getStopData({ stopId, routeId, direction });
+		const data = await getStopDepartures({ stopId, routeId, direction });
 		return NextResponse.json(data);
 	} catch (error) {
 		console.error('Error fetching departures:', error);
