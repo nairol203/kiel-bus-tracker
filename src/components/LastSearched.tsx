@@ -1,11 +1,13 @@
 'use client';
 
-import { useSearchStore } from '@/stores/useSearchStore';
+import { useSearchHistory } from '@/hooks/useSearchHistory';
 import { ChevronRight, History } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LastSearched() {
-	const { lastSearches } = useSearchStore();
+	const { lastSearches } = useSearchHistory();
+
+	console.log(lastSearches);
 
 	if (!!!lastSearches.length) return null;
 

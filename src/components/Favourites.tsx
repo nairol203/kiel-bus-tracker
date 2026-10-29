@@ -1,11 +1,11 @@
 'use client';
 
-import { useFavouritesStore } from '@/stores/useFavouritesStore';
+import { useFavourites } from '@/hooks/useFavourites';
 import { ChevronRight, Star } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Favourites() {
-	const { favouriteStops } = useFavouritesStore();
+	const { favouriteStops } = useFavourites();
 
 	if (!!!favouriteStops.length) return null;
 

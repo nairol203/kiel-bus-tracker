@@ -1,7 +1,7 @@
 'use client';
 
+import { useFavourites } from '@/hooks/useFavourites';
 import { StopDepartures } from '@/lib/schemas';
-import { useFavouritesStore } from '@/stores/useFavouritesStore';
 import { useQuery } from '@tanstack/react-query';
 import { AlertCircle, Star } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -13,7 +13,7 @@ import RouteFilter from './RouteFilter';
 export default function Departures({ stopId }: { stopId: string }) {
 	const searchParams = useSearchParams();
 	const router = useRouter();
-	const { favouriteStops, addFavouriteStop, removeFavouriteStop } = useFavouritesStore();
+	const { favouriteStops, addFavouriteStop, removeFavouriteStop } = useFavourites();
 
 	const routeId = searchParams.get('routeId');
 	const direction = searchParams.get('direction');

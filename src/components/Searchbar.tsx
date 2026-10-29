@@ -1,7 +1,7 @@
 'use client';
 
+import { useSearchHistory } from '@/hooks/useSearchHistory';
 import { Stop } from '@/lib/schemas';
-import { useSearchStore } from '@/stores/useSearchStore';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
@@ -14,7 +14,7 @@ export default function Searchbar() {
 
 	const [query, setQuery] = useState('');
 	const [selectedStop, setSelectedStop] = useState<Stop | null>(null);
-	const { addSearchedStop } = useSearchStore();
+	const { addSearchedStop } = useSearchHistory();
 
 	const { data: stops = [], isLoading } = useQuery({
 		queryKey: ['stops'],
