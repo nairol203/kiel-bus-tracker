@@ -88,7 +88,7 @@ export default function Trip({ tripId, modal }: { tripId: string; modal: boolean
 
 	return (
 		<>
-			<div className='border-border flex items-center justify-between border-b px-4 py-3'>
+			<header className={`border-border flex items-center justify-between border-b px-4 py-3 ${modal ? 'bg-surface/80 sticky top-0 z-20 backdrop-blur-md' : ''}`}>
 				<div className='flex items-center gap-3'>
 					{tripInfo.routeName && <div className='bg-primary rounded-xl px-3 py-1 font-bold text-white shadow'>{tripInfo.routeName}</div>}
 					<h1 className='text-text text-xl font-bold'>{tripInfo.directionText}</h1>
@@ -96,7 +96,7 @@ export default function Trip({ tripId, modal }: { tripId: string; modal: boolean
 				<button onClick={() => router.back()} className='bg-background hover:bg-surface-hover text-muted hover:text-text border-border rounded-full border p-2 shadow'>
 					{modal ? <X className='h-5 w-5' /> : <ArrowLeft className='h-5 w-5' />}
 				</button>
-			</div>
+			</header>
 
 			<div className='p-6'>
 				<div className='relative'>
