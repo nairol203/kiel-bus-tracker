@@ -74,14 +74,7 @@ export const TripPassageStopSchema = z.object({
 export const TripPassageSchema = z.object({
 	actualTime: z.string().optional(),
 	plannedTime: z.string().optional(),
-	status: z.literal(['STOPPING', 'PREDICTED', 'PLANNED']),
-	stop: TripPassageStopSchema,
-	stop_seq_num: z.string(),
-});
-
-export const PastTripPassageSchema = z.object({
-	actualTime: z.string(),
-	status: z.literal('DEPARTED'),
+	status: z.literal(['STOPPING', 'PREDICTED', 'PLANNED', 'DEPARTED']),
 	stop: TripPassageStopSchema,
 	stop_seq_num: z.string(),
 });
@@ -89,6 +82,6 @@ export const PastTripPassageSchema = z.object({
 export const TripPassageResponseSchema = z.object({
 	actual: z.array(TripPassageSchema),
 	directionText: z.string().optional(),
-	old: z.array(PastTripPassageSchema),
+	old: z.array(TripPassageSchema),
 	routeName: z.string().optional(),
 });
