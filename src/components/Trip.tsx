@@ -3,7 +3,6 @@
 import type { TripPassages } from '@/lib/schemas';
 import { useQuery } from '@tanstack/react-query';
 import { AlertCircle, ArrowLeft, X } from 'lucide-react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function Trip({ tripId, modal }: { tripId: string; modal: boolean }) {
@@ -40,14 +39,14 @@ export default function Trip({ tripId, modal }: { tripId: string; modal: boolean
 						<div className='skeleton h-7 w-48 rounded-md' />
 					</div>
 					<button onClick={() => router.back()} className='bg-background hover:bg-surface-hover text-muted border-border rounded-full border p-2 shadow'>
-						<ArrowLeft className='h-5 w-5' />
+						{modal ? <X className='h-5 w-5' /> : <ArrowLeft className='h-5 w-5' />}
 					</button>
 				</div>
 				<div className='p-6'>
 					<div className='relative'>
 						<div className='bg-border absolute top-2 bottom-2 left-1.75 z-0 w-0.5' />
 						<div className='relative z-10 space-y-6'>
-							{[...Array(6)].map((_, i) => {
+							{[...Array(10)].map((_, i) => {
 								const isPast = i < 2;
 								const isNextStop = i === 2;
 
@@ -129,14 +128,11 @@ export default function Trip({ tripId, modal }: { tripId: string; modal: boolean
 										</div>
 										<div className='flex flex-1 items-start justify-between gap-4'>
 											<div>
-												<Link
-													href={`/stop/${passage.stop.shortName || passage.stop.id}`}
-													className={`block font-medium hover:underline ${
-														isNextStop ? 'text-primary text-lg font-bold' : isLast ? 'text-text font-bold' : 'text-text'
-													}`}
+												<span
+													className={`block font-medium ${isNextStop ? 'text-primary text-lg font-bold' : isLast ? 'text-text font-bold' : 'text-text'}`}
 												>
 													{passage.stop.name}
-												</Link>
+												</span>
 												{isNextStop && <p className='text-primary mt-1 text-[10px] font-bold tracking-widest uppercase'>Nächster Halt</p>}
 											</div>
 											<div className='flex flex-col items-end'>
