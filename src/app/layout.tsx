@@ -1,5 +1,6 @@
 import React from 'react';
 import './globals.css';
+import Searchbar from '@/components/Searchbar';
 import ThemeToggle from '@/components/ThemeToggle';
 import { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
@@ -48,7 +49,10 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
 									<ThemeToggle />
 								</div>
 							</header>
-							<main className='mx-auto mb-6 max-w-3xl pt-6'>{children}</main>
+							<main className='mx-auto mb-6 grid max-w-3xl gap-4 px-2 pt-6'>
+								<Searchbar />
+								{children}
+							</main>
 						</div>
 						<footer className='bg-surface text-muted border-border border-t shadow'>
 							<div className='mx-auto grid max-w-3xl gap-4 p-6 text-center text-sm md:flex md:justify-between md:text-start'>

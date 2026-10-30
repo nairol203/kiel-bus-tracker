@@ -1,5 +1,4 @@
 import Departures from '@/components/Departures';
-import Searchbar from '@/components/Searchbar';
 import { getStops } from '@/lib/kvg';
 import { Metadata } from 'next';
 
@@ -25,10 +24,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-	return (
-		<div className='mx-2'>
-			<Searchbar />
-			<Departures stopId={(await params).stopId} />
-		</div>
-	);
+	return <Departures stopId={(await params).stopId} />;
 }

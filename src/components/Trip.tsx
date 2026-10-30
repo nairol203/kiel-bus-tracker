@@ -2,7 +2,7 @@
 
 import type { TripPassages } from '@/lib/schemas';
 import { useQuery } from '@tanstack/react-query';
-import { AlertCircle, ArrowLeft, X } from 'lucide-react';
+import { AlertCircle, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function Trip({ tripId, modal }: { tripId: string; modal: boolean }) {
@@ -33,14 +33,16 @@ export default function Trip({ tripId, modal }: { tripId: string; modal: boolean
 	if (!tripInfo) {
 		return (
 			<>
-				<div className='border-border bg-surface flex items-center justify-between border-b p-4'>
+				<div className={`border-border bg-primary/10 flex items-center justify-between border-b ${modal ? 'sticky top-0 z-20 px-4 py-3 backdrop-blur-md' : 'p-4'}`}>
 					<div className='flex items-center space-x-3'>
 						<div className='skeleton h-8 w-12 rounded-xl' />
 						<div className='skeleton h-7 w-48 rounded-md' />
 					</div>
-					<button onClick={() => router.back()} className='bg-background hover:bg-surface-hover text-muted border-border rounded-full border p-2 shadow'>
-						{modal ? <X className='h-5 w-5' /> : <ArrowLeft className='h-5 w-5' />}
-					</button>
+					{modal && (
+						<button onClick={() => router.back()} className='bg-background hover:bg-surface-hover text-muted border-border rounded-full border p-2 shadow'>
+							<X className='h-5 w-5' />
+						</button>
+					)}
 				</div>
 				<div className='p-6'>
 					<div className='relative'>
@@ -88,14 +90,16 @@ export default function Trip({ tripId, modal }: { tripId: string; modal: boolean
 
 	return (
 		<>
-			<header className={`border-border flex items-center justify-between border-b px-4 py-3 ${modal ? 'bg-surface/80 sticky top-0 z-20 backdrop-blur-md' : ''}`}>
+			<header className={`border-border bg-primary/10 flex items-center justify-between border-b ${modal ? 'sticky top-0 z-20 px-4 py-3 backdrop-blur-md' : 'p-4'}`}>
 				<div className='flex items-center gap-3'>
 					{tripInfo.routeName && <div className='bg-primary rounded-xl px-3 py-1 font-bold text-white shadow'>{tripInfo.routeName}</div>}
 					<h1 className='text-text text-xl font-bold'>{tripInfo.directionText}</h1>
 				</div>
-				<button onClick={() => router.back()} className='bg-background hover:bg-surface-hover text-muted hover:text-text border-border rounded-full border p-2 shadow'>
-					{modal ? <X className='h-5 w-5' /> : <ArrowLeft className='h-5 w-5' />}
-				</button>
+				{modal && (
+					<button onClick={() => router.back()} className='bg-background hover:bg-surface-hover text-muted hover:text-text border-border rounded-full border p-2 shadow'>
+						<X className='h-5 w-5' />
+					</button>
+				)}
 			</header>
 
 			<div className='p-6'>

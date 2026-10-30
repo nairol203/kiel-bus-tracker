@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params }: Props) {
 	return (
-		<div className='bg-surface border-border mx-2 mb-12 rounded border shadow'>
+		<div className='bg-surface border-border mb-12 rounded border shadow'>
 			<Trip tripId={(await params).tripId} modal={false} />
 		</div>
 	);

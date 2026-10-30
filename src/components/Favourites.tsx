@@ -10,8 +10,8 @@ export default function Favourites() {
 	if (!!!favouriteStops.length) return null;
 
 	return (
-		<>
-			<h2 className='text-muted mt-4 text-base'>Favoriten</h2>
+		<div className='grid gap-1'>
+			<h2 className='text-muted text-base'>Favoriten</h2>
 			<div className='bg-surface/40 border-border/60 divide-border/40 grid divide-y rounded border'>
 				{favouriteStops.map((stop) => (
 					<Link
@@ -25,6 +25,6 @@ export default function Favourites() {
 					</Link>
 				))}
 			</div>
-		</>
+		</div>
 	);
 }
