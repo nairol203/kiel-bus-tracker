@@ -88,3 +88,7 @@
 		@apply text-base;
 	}
 }
+
+body:has(dialog:modal[open]) {
+	overflow: hidden;
+}
