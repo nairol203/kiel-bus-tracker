@@ -88,7 +88,7 @@ export default function Trip({ tripId, modal }: { tripId: string; modal: boolean
 
 	return (
 		<>
-			<div className='border-border flex items-center justify-between border-b p-4'>
+			<div className='border-border flex items-center justify-between border-b px-4 py-3'>
 				<div className='flex items-center gap-3'>
 					{tripInfo.routeName && <div className='bg-primary rounded-xl px-3 py-1 font-bold text-white shadow'>{tripInfo.routeName}</div>}
 					<h1 className='text-text text-xl font-bold'>{tripInfo.directionText}</h1>
