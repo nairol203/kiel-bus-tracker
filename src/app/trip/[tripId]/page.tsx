@@ -19,5 +19,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-	return <Trip tripId={(await params).tripId} />;
+	return (
+		<div className='bg-surface border-border mx-2 mb-12 rounded border shadow'>
+			<Trip tripId={(await params).tripId} modal={false} />
+		</div>
+	);
 }

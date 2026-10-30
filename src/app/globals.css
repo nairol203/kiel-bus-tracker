@@ -88,3 +88,12 @@
 		@apply text-base;
 	}
 }
+/* 
+dialog:modal {
+	max-width: 100vw;
+	max-height: 100vh;
+} */
+
+body:has(dialog[open]) {
+	overflow: hidden;
+}
